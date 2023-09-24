@@ -21,6 +21,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".EndingScreen"
+            android:exported="false" />
         <activity android:name=".MainGameActivity"
             android:exported="false" />
     </application>
