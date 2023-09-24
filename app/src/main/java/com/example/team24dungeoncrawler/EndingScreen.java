@@ -13,6 +13,5 @@ public class EndingScreen extends AppCompatActivity {
         setContentView(R.layout.ending_screen);
 
         name = getIntent().getStringExtra("name");
-
     }
 }
