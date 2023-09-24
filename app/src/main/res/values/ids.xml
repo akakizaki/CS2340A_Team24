@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="editTextInput" type="id" />
+    <item name="buttonValidate" type="id" />
+    <item name="difficultySpinner" type="id" />
+</resources>
