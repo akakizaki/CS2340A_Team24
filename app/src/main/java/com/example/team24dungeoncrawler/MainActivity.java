@@ -42,13 +42,12 @@ public class MainActivity extends AppCompatActivity {
                     // Input is valid, instantiate the Player class with the name and difficulty
                     player = new Player(inputText, selectedDifficulty);
                     Toast.makeText(MainActivity.this,
-                            "Player created with name: " + player.getName()
-                                    + ", Difficulty: " + selectedDifficulty,
+                            "Player created with name: " + player.getName() +
+                                    ", Difficulty: " + selectedDifficulty,
                             Toast.LENGTH_SHORT).show();
                 } else {
                     // Input is invalid
-                    Toast.makeText(MainActivity.this, "Input is invalid",
-                            Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MainActivity.this, "Input is invalid", Toast.LENGTH_SHORT).show();
                 }
             }
         });
