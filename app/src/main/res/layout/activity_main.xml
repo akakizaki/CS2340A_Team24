@@ -80,6 +80,7 @@
             android:layout_weight="1"
             android:text="Character 3" />
     </RadioGroup>
+
     <Button
         android:id="@+id/buttonValidate"
         android:layout_width="wrap_content"
