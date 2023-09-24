@@ -36,9 +36,8 @@ public class MainActivity extends AppCompatActivity {
                 // Get the text from the EditText and selected difficulty from Spinner
                 String inputText = textInput.getText().toString();
                 String selectedDifficulty = difficultySpinner.getSelectedItem().toString();
-
                 // Check if the input is not null and has no leading/trailing whitespace
-                if (inputText != null && !inputText.trim().isEmpty()) {
+                if (inputText != null && !(inputText.charAt(0) == ' ' || inputText.charAt(inputText.length()-1) == ' ')) {
                     // Input is valid, instantiate the Player class with the name and difficulty
                     player = new Player(inputText, selectedDifficulty);
                     Toast.makeText(MainActivity.this,
