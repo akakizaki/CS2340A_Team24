@@ -30,24 +30,18 @@ public class MainGameActivity extends AppCompatActivity {
 
 
         // Get difficulty selected from config screen and display it
-        double gameDifficulty = getIntent().getDoubleExtra("difficulty", 1);
+        String gameDifficulty = getIntent().getStringExtra("difficulty");
         TextView difficulty = findViewById(R.id.difficulty);
-        if (gameDifficulty == 1.0) {
-            difficulty.setText("Difficulty: " + "Easy");
-        } else if (gameDifficulty == 1.5) {
-            difficulty.setText("Difficulty: " + "Medium");
-        } else if (gameDifficulty == 2.0) {
-            difficulty.setText("Difficulty: " + "Hard");
-        }
+        difficulty.setText("Difficulty: " + gameDifficulty);
 
 
         // Display health.
         TextView health = findViewById(R.id.health);
-        if (gameDifficulty == 1.0) {
+        if (gameDifficulty.equals("Easy")) {
             health.setText("Health: " + "100");
-        } else if (gameDifficulty == 1.5) {
+        } else if (gameDifficulty.equals("Medium")) {
             health.setText("Health: " + "75");
-        } else if (gameDifficulty == 2.0) {
+        } else if (gameDifficulty.equals("Hard")) {
             health.setText("Health: " + "50");
         }
 

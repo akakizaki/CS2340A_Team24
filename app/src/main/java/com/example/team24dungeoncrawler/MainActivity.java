@@ -39,10 +39,9 @@ public class MainActivity extends AppCompatActivity {
                 // Get the text from the EditText and selected difficulty from Spinner
                 String inputText = textInput.getText().toString();
                 selectedDifficulty = difficultySpinner.getSelectedItem().toString();
-                //Intent i = new Intent(MainActivity.this, )
 
                 // Check if the input is not null and has no leading/trailing whitespace
-                if (inputText != null && !inputText.trim().isEmpty()) {
+                if (inputText != null && !(inputText.trim().isEmpty())) {
                     // Input is valid, instantiate the Player class with the name and difficulty
                     player = new Player(inputText, selectedDifficulty);
                     startGame(v);
@@ -50,6 +49,7 @@ public class MainActivity extends AppCompatActivity {
                 } else {
                     // Input is invalid
                     Toast.makeText(MainActivity.this, "Input is invalid", Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(MainActivity.this, selectedDifficulty, Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -57,8 +57,8 @@ public class MainActivity extends AppCompatActivity {
 
     public void startGame(View view) {
         Intent game = new Intent(this, MainGameActivity.class);
-        game.putExtra("Difficulty", selectedDifficulty);
-        game.putExtra("Name", player.getName());
+        game.putExtra("difficulty", selectedDifficulty);
+        game.putExtra("name", player.getName());
         //game.putExtra("Character Number", characterNumber);
         startActivity(game);
         finish();
