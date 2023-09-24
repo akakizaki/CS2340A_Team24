@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -15,6 +16,7 @@ public class MainActivity extends AppCompatActivity {
 
     private Player player;
     private String selectedDifficulty;
+    private double characterNumber;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,7 +41,14 @@ public class MainActivity extends AppCompatActivity {
                 // Get the text from the EditText and selected difficulty from Spinner
                 String inputText = textInput.getText().toString();
                 selectedDifficulty = difficultySpinner.getSelectedItem().toString();
-
+                RadioGroup characterRadioGroup = findViewById(R.id.characterSelect);
+                if (characterRadioGroup.getCheckedRadioButtonId() == R.id.character1) {
+                    characterNumber = 1;
+                } else if (characterRadioGroup.getCheckedRadioButtonId() == R.id.character2) {
+                    characterNumber = 2;
+                } else if (characterRadioGroup.getCheckedRadioButtonId() == R.id.character3) {
+                    characterNumber = 3;
+                }
                 // Check if the input is not null and has no leading/trailing whitespace
                 if (inputText != null && !(inputText.trim().isEmpty())) {
                     // Input is valid, instantiate the Player class with the name and difficulty
@@ -59,7 +68,7 @@ public class MainActivity extends AppCompatActivity {
         Intent game = new Intent(this, MainGameActivity.class);
         game.putExtra("difficulty", selectedDifficulty);
         game.putExtra("name", player.getName());
-        //game.putExtra("Character Number", characterNumber);
+        game.putExtra("characterNumber", characterNumber);
         startActivity(game);
         finish();
     }
