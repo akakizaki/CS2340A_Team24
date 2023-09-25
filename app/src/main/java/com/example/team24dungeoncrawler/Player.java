@@ -1,5 +1,5 @@
 package com.example.team24dungeoncrawler;
-public class Player {
+    public class Player {
     private String name;
     private int health;
     private String direction;
@@ -18,10 +18,6 @@ public class Player {
             case "Easy":
                 this.health = 150;
                 this.damageMultiplier = 0.8;
-                break;
-            case "Medium":
-                this.health = 100;
-                this.damageMultiplier = 1.0;
                 break;
             case "Hard":
                 this.health = 50;
