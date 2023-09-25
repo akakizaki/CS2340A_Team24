@@ -1,4 +1,5 @@
 package com.example.cs2340fr;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
@@ -10,16 +11,17 @@ public class WelcomeActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_welcome);
     }
-    /*
+
 
 
     public void startGame(View view) {
-        // Add code to start your game here, e.g., start a new activity.
+        Intent intent = new Intent(this, MainActivity.class);
+       startActivity(intent);
     }
 
     public void exitGame(View view) {
-        // Add code to exit the game here.
-        finish(); // Close the WelcomeActivity.
+        finishAffinity();
+
     }
-    */
+
 }
