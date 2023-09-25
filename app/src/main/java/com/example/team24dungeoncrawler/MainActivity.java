@@ -57,8 +57,8 @@ public class MainActivity extends AppCompatActivity {
 
                 } else {
                     // Input is invalid
-                    Toast.makeText(MainActivity.this, "Input is invalid", Toast.LENGTH_SHORT).show();
-                    //Toast.makeText(MainActivity.this, selectedDifficulty, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MainActivity.this,
+                            "Input is invalid", Toast.LENGTH_SHORT).show();
                 }
             }
         });
