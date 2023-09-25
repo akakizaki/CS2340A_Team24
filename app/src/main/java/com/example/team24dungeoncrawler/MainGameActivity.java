@@ -11,7 +11,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 
 public class MainGameActivity extends AppCompatActivity {
-    RelativeLayout mainGameLayout;
+    private RelativeLayout mainGameLayout;
     private String name;
 
 
