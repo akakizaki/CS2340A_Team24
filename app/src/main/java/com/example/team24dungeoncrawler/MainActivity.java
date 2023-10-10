@@ -4,12 +4,16 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
@@ -59,8 +63,6 @@ public class MainActivity extends AppCompatActivity {
                     // Input is invalid
                     Toast.makeText(MainActivity.this,
                             "Input is invalid", Toast.LENGTH_SHORT).show();
-                    //Toast.makeText(MainActivity.this, selectedDifficulty,
-                    // Toast.LENGTH_SHORT).show();
                 }
             }
         });
