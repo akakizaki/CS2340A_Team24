@@ -14,7 +14,7 @@ public class Player {
     private List<Attempt> attemptHistory;
 
 
-    public Player(String name, String difficulty) {
+    private Player(String name, String difficulty) {
         this.name = name;
         this.direction = "";
         this.speed = 0;
@@ -42,7 +42,7 @@ public class Player {
             break;
         }
     }
-    static Player getInstance(String name, String difficulty) {
+    public static Player getInstance(String name, String difficulty) {
         if (instance == null) {
             instance = new Player(name, difficulty);
         }
@@ -60,6 +60,11 @@ public class Player {
     public int getScore() {
         return score;
     }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
     public void setScore(int score) {
         this.score = score;
     }
