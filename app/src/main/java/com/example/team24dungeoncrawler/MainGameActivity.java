@@ -66,6 +66,8 @@ public class MainGameActivity extends AppCompatActivity {
 
         //switch screen to ending screen when button is clicked
         endButton.setOnClickListener(v -> {
+            LeaderBoard leaderboard = LeaderBoard.getInstance();
+            leaderboard.addAttempt(new Attempt(name, currentScore));
             Intent endgame = new Intent(this, EndingScreen.class);
             endgame.putExtra("Name", name);
             endgame.putExtra("Score", currentScore);
@@ -96,8 +98,7 @@ public class MainGameActivity extends AppCompatActivity {
         scoreHandler.postDelayed(scoreRunnable, 1000);
 
 // Add the attempt to the leaderboard
-        LeaderBoard leaderboard = LeaderBoard.getInstance();
-        leaderboard.addAttempt(new Attempt(name, currentScore));
+
     }
 }
 
