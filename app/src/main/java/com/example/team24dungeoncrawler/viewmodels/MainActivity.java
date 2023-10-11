@@ -55,7 +55,8 @@ public class MainActivity extends AppCompatActivity {
                 // Check if the input is not null and has no leading/trailing whitespace
                 if (inputText != null && !(inputText.trim().isEmpty())) {
                     // Input is valid, instantiate the Player class with the name and difficulty
-                    player = new Player(inputText, selectedDifficulty);
+                    player = Player.getInstance(inputText, selectedDifficulty);
+                    player.setName(inputText);
                     startGame(v);
 
                 } else {
