@@ -1,4 +1,4 @@
-package com.example.team24dungeoncrawler;
+package com.example.team24dungeoncrawler.model;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,4 +1,4 @@
-package com.example.team24dungeoncrawler;
+package com.example.team24dungeoncrawler.viewmodels;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,6 +9,11 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.team24dungeoncrawler.R;
+import com.example.team24dungeoncrawler.model.Attempt;
+import com.example.team24dungeoncrawler.viewmodels.EndingScreen;
+import com.example.team24dungeoncrawler.model.LeaderBoard;
 
 
 public class MainGameActivity extends AppCompatActivity {

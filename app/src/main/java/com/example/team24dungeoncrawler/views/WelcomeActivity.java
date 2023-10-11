@@ -1,9 +1,12 @@
-package com.example.team24dungeoncrawler;
+package com.example.team24dungeoncrawler.views;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
 import android.app.Activity;
+
+import com.example.team24dungeoncrawler.R;
+import com.example.team24dungeoncrawler.viewmodels.MainActivity;
 
 public class WelcomeActivity extends Activity {
     @Override
