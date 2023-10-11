@@ -73,11 +73,11 @@ public class MainGameActivity extends AppCompatActivity {
         endButton.setOnClickListener(v -> {
             LeaderBoard leaderboard = LeaderBoard.getInstance();
             leaderboard.addAttempt(new Attempt(name, currentScore));
-            Intent endgame = new Intent(this, Game2activity.class);
+            Intent endgame = new Intent(this, Game3activity.class);
             endgame.putExtra("Name", name);
             endgame.putExtra("Score", currentScore);
             startActivity(endgame);
-            finish();
+            //finish();
         });
     }
     private void startScoreUpdate() {
