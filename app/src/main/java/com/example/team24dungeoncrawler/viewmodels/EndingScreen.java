@@ -17,6 +17,8 @@ import com.example.team24dungeoncrawler.R;
 import com.example.team24dungeoncrawler.model.Attempt;
 import com.example.team24dungeoncrawler.model.LeaderBoard;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 
@@ -36,8 +38,8 @@ public class EndingScreen extends AppCompatActivity {
 
         // Retrieve the leaderboard and display the top attempts
         LeaderBoard leaderboard = LeaderBoard.getInstance();
+        Attempt recentAttempt = leaderboard.getRecentAttempt();
         List<Attempt> topAttempts = leaderboard.getTopAttempts(5); // Adjust the number of attempts you want to display
-
 
 
         RecyclerView recyclerView = findViewById(R.id.leaderboardRecyclerView);
@@ -46,6 +48,12 @@ public class EndingScreen extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager((this)));
         recyclerView.setAdapter(adapter);
         Button restartButton = findViewById(R.id.restartButton);
+
+        TextView textView = findViewById(R.id.textView);
+        String recentAttemptString = "Last Attempt:\n" + recentAttempt.getPlayerName() + "\n"
+                + recentAttempt.getScore() + "\n"
+                + recentAttempt.getTimestamp();
+        textView.setText(recentAttemptString);
 
         // Set a click listener for the restart button
         restartButton.setOnClickListener(new View.OnClickListener() {
@@ -78,6 +86,7 @@ public class EndingScreen extends AppCompatActivity {
             Attempt item = data.get(position);
             holder.nameTextView.setText(item.getPlayerName());
             holder.scoreTextView.setText(String.valueOf(item.getScore()));
+            holder.datetimeTextView.setText(item.getTimestamp());
         }
 
         @Override
@@ -88,11 +97,13 @@ public class EndingScreen extends AppCompatActivity {
         public class ViewHolder extends RecyclerView.ViewHolder {
             TextView nameTextView;
             TextView scoreTextView;
+            TextView datetimeTextView;
 
             public ViewHolder(@NonNull View itemView) {
                 super(itemView);
                 nameTextView = itemView.findViewById(R.id.nameTextView);
                 scoreTextView = itemView.findViewById(R.id.scoreTextView);
+                datetimeTextView = itemView.findViewById(R.id.datetimetextView);
             }
         }
     }

@@ -7,16 +7,24 @@
 
     <TextView
         android:id="@+id/nameTextView"
-        android:layout_width="0dp"
+        android:layout_width="401dp"
+        android:layout_height="match_parent"
         android:layout_weight="1"
-        android:layout_height="wrap_content"
         android:padding="8dp"
         android:textSize="16sp" />
 
     <TextView
         android:id="@+id/scoreTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="82dp"
+        android:layout_height="match_parent"
         android:padding="8dp"
         android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/datetimetextView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:text="TextView" />
+
 </LinearLayout>
