@@ -87,5 +87,13 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:text="Start Game" />
+    <FrameLayout
+        android:id="@+id/scoreContainer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top|right"
+        android:padding="16dp"/>
+
+
 
 </LinearLayout>

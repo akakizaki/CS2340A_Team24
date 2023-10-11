@@ -2,6 +2,7 @@ package com.example.team24dungeoncrawler;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -13,6 +14,8 @@ import androidx.appcompat.app.AppCompatActivity;
 public class MainGameActivity extends AppCompatActivity {
     private RelativeLayout mainGameLayout;
     private String name;
+    private TextView scoreTextView;
+    private int currentScore = 30;
 
 
     @Override
@@ -55,14 +58,47 @@ public class MainGameActivity extends AppCompatActivity {
         } else if (characterNumber == 3) {
             characterImage.setImageResource(R.drawable.sprite3);
         }
+        //initialize scoretextview
+        scoreTextView = findViewById(R.id.scoreTextView);
+
+        // Start updating the score
+        startScoreUpdate();
 
         //switch screen to ending screen when button is clicked
         endButton.setOnClickListener(v -> {
+            LeaderBoard leaderboard = LeaderBoard.getInstance();
+            leaderboard.addAttempt(new Attempt(name, currentScore));
             Intent endgame = new Intent(this, EndingScreen.class);
-            endgame.putExtra("name", name);
+            endgame.putExtra("Name", name);
+            endgame.putExtra("Score", currentScore);
             startActivity(endgame);
             finish();
         });
+    }
+    private void startScoreUpdate() {
+        Handler scoreHandler = new Handler();
+        Runnable scoreRunnable = new Runnable() {
+            @Override
+            public void run() {
+                currentScore -= 1; // Decrease by 1 points per second
+                // Ensure the score doesn't go below 0
+                if (currentScore < 0) {
+                    currentScore = 0;
+                }
+
+                // Update the score display
+                scoreTextView.setText("Score " + currentScore);
+
+                // Repeat the score update every second
+                scoreHandler.postDelayed(this, 1000);
+            }
+        };
+
+        // Start the score update
+        scoreHandler.postDelayed(scoreRunnable, 1000);
+
+// Add the attempt to the leaderboard
+
     }
 }
 
