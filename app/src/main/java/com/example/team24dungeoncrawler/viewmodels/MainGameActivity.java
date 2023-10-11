@@ -12,7 +12,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.team24dungeoncrawler.R;
 import com.example.team24dungeoncrawler.model.Attempt;
-import com.example.team24dungeoncrawler.viewmodels.EndingScreen;
 import com.example.team24dungeoncrawler.model.LeaderBoard;
 
 
@@ -101,9 +100,6 @@ public class MainGameActivity extends AppCompatActivity {
 
         // Start the score update
         scoreHandler.postDelayed(scoreRunnable, 1000);
-
-// Add the attempt to the leaderboard
-
     }
 }
 
