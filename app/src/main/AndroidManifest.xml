@@ -27,6 +27,8 @@
             android:exported="false" />
         <activity android:name=".viewmodels.MainActivity"
             android:exported="false" />
+        <activity android:name=".viewmodels.Game2activity"
+            android:exported="false" />
     </application>
 
 </manifest>
