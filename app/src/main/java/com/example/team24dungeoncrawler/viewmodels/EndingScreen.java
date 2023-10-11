@@ -1,11 +1,10 @@
-package com.example.team24dungeoncrawler;
+package com.example.team24dungeoncrawler.viewmodels;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -14,7 +13,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.util.ArrayList;
+import com.example.team24dungeoncrawler.R;
+import com.example.team24dungeoncrawler.model.Attempt;
+import com.example.team24dungeoncrawler.model.LeaderBoard;
+
 import java.util.List;
 
 

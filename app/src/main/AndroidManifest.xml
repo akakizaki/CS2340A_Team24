@@ -13,7 +13,7 @@
         android:theme="@style/Theme.Team24DungeonCrawler"
         tools:targetApi="31">
         <activity
-            android:name=".WelcomeActivity"
+            android:name=".views.WelcomeActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -21,11 +21,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".EndingScreen"
+        <activity android:name=".viewmodels.EndingScreen"
             android:exported="false" />
-        <activity android:name=".MainGameActivity"
+        <activity android:name=".viewmodels.MainGameActivity"
             android:exported="false" />
-        <activity android:name=".MainActivity"
+        <activity android:name=".viewmodels.MainActivity"
             android:exported="false" />
     </application>
 
