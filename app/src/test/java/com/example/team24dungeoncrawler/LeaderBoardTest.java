@@ -21,7 +21,7 @@ public class LeaderBoardTest {
         attempt1 = new Attempt("Player1", 100);
         attempt2 = new Attempt("Player2", 150);
     }
-
+//test for order
     @Test
     public void testTopAttemptsDescendingOrder() {
         // Clear attempts first
@@ -46,7 +46,7 @@ public class LeaderBoardTest {
             assertTrue("Scores are not in descending order", previousScore >= currentScore);
         }
     }
-
+//test for attempts
     @Test
     public void testAddAttempt() {
         // Add an attempt to the leaderboard
