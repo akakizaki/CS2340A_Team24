@@ -25,11 +25,75 @@
     android:entries="@array/difficulty_levels"
     android:prompt="@string/select_difficulty" />
 
-    <Button
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_gravity="center"
-    android:text="Validate"
-    android:id="@+id/buttonValidate" />
 
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="136dp"
+        android:orientation="horizontal">
+
+        <ImageButton
+            android:id="@+id/imageButton"
+            android:layout_width="123dp"
+            android:layout_height="116dp"
+            android:scaleType="fitCenter"
+            app:srcCompat="@drawable/sprite1" />
+
+        <ImageButton
+            android:id="@+id/imageButton2"
+            android:layout_width="123dp"
+            android:layout_height="116dp"
+            android:scaleType="fitCenter"
+            app:srcCompat="@drawable/sprite2" />
+
+        <ImageButton
+            android:id="@+id/imageButton3"
+            android:layout_width="123dp"
+            android:layout_height="116dp"
+            android:scaleType="fitCenter"
+            app:srcCompat="@drawable/sprite3" />
     </LinearLayout>
+
+    <RadioGroup
+        android:id="@+id/characterSelect"
+        android:layout_width="369dp"
+        android:layout_height="66dp"
+        android:orientation="horizontal" >
+
+        <RadioButton
+            android:id="@+id/character1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Character 1" />
+
+        <RadioButton
+            android:id="@+id/character2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Character 2" />
+
+        <RadioButton
+            android:id="@+id/character3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Character 3" />
+    </RadioGroup>
+
+    <Button
+        android:id="@+id/buttonValidate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="Start Game" />
+    <FrameLayout
+        android:id="@+id/scoreContainer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top|right"
+        android:padding="16dp"/>
+
+
+
+</LinearLayout>

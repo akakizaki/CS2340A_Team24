@@ -1,17 +1,26 @@
 package com.example.team24dungeoncrawler;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.FrameLayout;
+import android.widget.RadioGroup;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
 
     private Player player;
+    private String selectedDifficulty;
+    private double characterNumber;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,20 +44,36 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 // Get the text from the EditText and selected difficulty from Spinner
                 String inputText = textInput.getText().toString();
-                String selectedDifficulty = difficultySpinner.getSelectedItem().toString();
+                selectedDifficulty = difficultySpinner.getSelectedItem().toString();
+                RadioGroup characterRadioGroup = findViewById(R.id.characterSelect);
+                if (characterRadioGroup.getCheckedRadioButtonId() == R.id.character1) {
+                    characterNumber = 1;
+                } else if (characterRadioGroup.getCheckedRadioButtonId() == R.id.character2) {
+                    characterNumber = 2;
+                } else if (characterRadioGroup.getCheckedRadioButtonId() == R.id.character3) {
+                    characterNumber = 3;
+                }
                 // Check if the input is not null and has no leading/trailing whitespace
-                if (inputText != null && !(inputText.charAt(0) == ' ' || inputText.charAt(inputText.length()-1) == ' ')) {
+                if (inputText != null && !(inputText.trim().isEmpty())) {
                     // Input is valid, instantiate the Player class with the name and difficulty
                     player = new Player(inputText, selectedDifficulty);
-                    Toast.makeText(MainActivity.this,
-                            "Player created with name: " + player.getName() +
-                                    ", Difficulty: " + selectedDifficulty,
-                            Toast.LENGTH_SHORT).show();
+                    startGame(v);
+
                 } else {
                     // Input is invalid
-                    Toast.makeText(MainActivity.this, "Input is invalid", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MainActivity.this,
+                            "Input is invalid", Toast.LENGTH_SHORT).show();
                 }
             }
         });
+    }
+
+    public void startGame(View view) {
+        Intent game = new Intent(this, MainGameActivity.class);
+        game.putExtra("difficulty", selectedDifficulty);
+        game.putExtra("name", player.getName());
+        game.putExtra("characterNumber", characterNumber);
+        startActivity(game);
+        finish();
     }
 }
