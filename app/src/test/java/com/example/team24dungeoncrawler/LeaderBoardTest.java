@@ -17,7 +17,7 @@ public class LeaderBoardTest {
         leaderBoard = LeaderBoard.getInstance();
         leaderBoard.clearAttempts();
 
-        // Create two example attempts
+        // Create two example attempt
         attempt1 = new Attempt("Player1", 100);
         attempt2 = new Attempt("Player2", 150);
     }
