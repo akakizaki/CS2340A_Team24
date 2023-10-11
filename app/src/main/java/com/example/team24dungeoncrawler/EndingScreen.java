@@ -1,10 +1,12 @@
 package com.example.team24dungeoncrawler;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -41,6 +43,18 @@ public class EndingScreen extends AppCompatActivity {
 
         recyclerView.setLayoutManager(new LinearLayoutManager((this)));
         recyclerView.setAdapter(adapter);
+        Button restartButton = findViewById(R.id.restartButton);
+
+        // Set a click listener for the restart button
+        restartButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // Create an Intent to navigate back to the MainActivity
+                Intent intent = new Intent(EndingScreen.this, MainActivity.class);
+                startActivity(intent);
+            }
+        });
+
     }
 
     private class LeaderBoardAdapter extends RecyclerView.Adapter<LeaderBoardAdapter.ViewHolder> {
