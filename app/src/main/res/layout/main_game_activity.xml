@@ -6,7 +6,28 @@
     android:layout_height="match_parent"
     android:id="@+id/mainGameLayout"
     tools:context=".viewmodels.MainGameActivity"
-    android:background="@drawable/dungeon">
+    >
+
+    <ImageView
+        android:layout_width="208dp"
+        android:layout_height="243dp"
+        android:layout_marginStart="130dp"
+        android:layout_marginTop="27dp"
+        app:srcCompat="@drawable/map1" />
+
+    <ImageView
+        android:layout_width="208dp"
+        android:layout_height="243dp"
+        android:layout_marginStart="130dp"
+        android:layout_marginTop="230dp"
+        app:srcCompat="@drawable/map2" />
+
+    <ImageView
+        android:layout_width="208dp"
+        android:layout_height="243dp"
+        android:layout_marginStart="130dp"
+        android:layout_marginTop="400dp"
+        app:srcCompat="@drawable/map3" />
 
     <Button
         android:id="@+id/exitButton"
@@ -16,10 +37,10 @@
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginStart="150dp"
-        android:layout_marginTop="582dp"
-        android:layout_marginEnd="151dp"
-        android:layout_marginBottom="74dp"
+        android:layout_marginStart="157dp"
+        android:layout_marginTop="592dp"
+        android:layout_marginEnd="144dp"
+        android:layout_marginBottom="64dp"
         android:text="Next Game" />
 
     <ImageView
