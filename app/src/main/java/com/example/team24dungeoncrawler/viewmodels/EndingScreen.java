@@ -16,13 +16,12 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.team24dungeoncrawler.R;
 import com.example.team24dungeoncrawler.model.Attempt;
 import com.example.team24dungeoncrawler.model.LeaderBoard;
-
 import java.util.List;
 
 
 public class EndingScreen extends AppCompatActivity {
-    String name;
-    int score;
+    private String name;
+    private int score;
 
 
     @Override
@@ -36,8 +35,10 @@ public class EndingScreen extends AppCompatActivity {
 
         // Retrieve the leaderboard and display the top attempts
         LeaderBoard leaderboard = LeaderBoard.getInstance();
-        List<Attempt> topAttempts = leaderboard.getTopAttempts(5); // Adjust the number of attempts you want to display
+        Attempt recentAttempt = leaderboard.getRecentAttempt();
 
+        // Adjust the number of attempts you want to display
+        List<Attempt> topAttempts = leaderboard.getTopAttempts(5);
 
 
         RecyclerView recyclerView = findViewById(R.id.leaderboardRecyclerView);
@@ -46,6 +47,12 @@ public class EndingScreen extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager((this)));
         recyclerView.setAdapter(adapter);
         Button restartButton = findViewById(R.id.restartButton);
+
+        TextView textView = findViewById(R.id.textView);
+        String recentAttemptString = "Last Attempt:\n" + recentAttempt.getPlayerName() + "\n"
+                + recentAttempt.getScore() + "\n"
+                + recentAttempt.getTimestamp();
+        textView.setText(recentAttemptString);
 
         // Set a click listener for the restart button
         restartButton.setOnClickListener(new View.OnClickListener() {
@@ -69,7 +76,8 @@ public class EndingScreen extends AppCompatActivity {
         @NonNull
         @Override
         public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.row_item, parent, false);
+            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.row_item, parent,
+                    false);
             return new ViewHolder(view);
         }
 
@@ -78,6 +86,7 @@ public class EndingScreen extends AppCompatActivity {
             Attempt item = data.get(position);
             holder.nameTextView.setText(item.getPlayerName());
             holder.scoreTextView.setText(String.valueOf(item.getScore()));
+            holder.datetimeTextView.setText(item.getTimestamp());
         }
 
         @Override
@@ -86,13 +95,16 @@ public class EndingScreen extends AppCompatActivity {
         }
 
         public class ViewHolder extends RecyclerView.ViewHolder {
-            TextView nameTextView;
-            TextView scoreTextView;
+            private TextView nameTextView;
+            private TextView scoreTextView;
+
+            private TextView datetimeTextView;
 
             public ViewHolder(@NonNull View itemView) {
                 super(itemView);
                 nameTextView = itemView.findViewById(R.id.nameTextView);
                 scoreTextView = itemView.findViewById(R.id.scoreTextView);
+                datetimeTextView = itemView.findViewById(R.id.datetimetextView);
             }
         }
     }

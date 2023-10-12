@@ -31,6 +31,10 @@ public class LeaderBoard {
         attempts.add(attempt);
     }
 
+    public Attempt getRecentAttempt() {
+        return attempts.get(attempts.size() - 1);
+    }
+
     public List<Attempt> getAllAttempts() {
         return attempts;
     }

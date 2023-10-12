@@ -1,15 +1,18 @@
 package com.example.team24dungeoncrawler.model;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class Attempt {
     private String playerName;
     private int score;
-    private Date timestamp;
+    private String timestamp;
 
     public Attempt(String playerName, int score) {
         this.playerName = playerName;
         this.score = score;
-        this.timestamp = new Date(); // Set the timestamp to the current time
+        SimpleDateFormat sdf = new SimpleDateFormat("'Date\n'dd-MM-yyyy '\nTime\n'HH:mm:ss z");
+        String currentDateAndTime = sdf.format(new Date());
+        this.timestamp = currentDateAndTime;
     }
 
     public String getPlayerName() {
@@ -20,7 +23,7 @@ public class Attempt {
         return score;
     }
 
-    public Date getTimestamp() {
+    public String getTimestamp() {
         return timestamp;
     }
 
