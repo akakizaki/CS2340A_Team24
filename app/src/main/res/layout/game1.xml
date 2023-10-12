@@ -1,33 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/mainGameLayout"
+    android:id="@+id/game1"
     tools:context=".viewmodels.MainGameActivity"
-    >
-
-    <ImageView
-        android:layout_width="208dp"
-        android:layout_height="243dp"
-        android:layout_marginStart="130dp"
-        android:layout_marginTop="27dp"
-        app:srcCompat="@drawable/map1" />
-
-    <ImageView
-        android:layout_width="208dp"
-        android:layout_height="243dp"
-        android:layout_marginStart="130dp"
-        android:layout_marginTop="230dp"
-        app:srcCompat="@drawable/map2" />
-
-    <ImageView
-        android:layout_width="208dp"
-        android:layout_height="243dp"
-        android:layout_marginStart="130dp"
-        android:layout_marginTop="400dp"
-        app:srcCompat="@drawable/map3" />
+    android:background="@drawable/dungeon">
 
     <Button
         android:id="@+id/exitButton"
@@ -37,11 +17,11 @@
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginStart="157dp"
-        android:layout_marginTop="592dp"
-        android:layout_marginEnd="144dp"
-        android:layout_marginBottom="64dp"
-        android:text="Next Game" />
+        android:layout_marginStart="150dp"
+        android:layout_marginTop="582dp"
+        android:layout_marginEnd="151dp"
+        android:layout_marginBottom="74dp"
+        android:text="Next game screen2" />
 
     <ImageView
         android:id="@+id/characterImage"
@@ -84,15 +64,5 @@
         android:layout_marginEnd="318dp"
         android:layout_marginBottom="648dp"
         android:text="Health:" />
-    <TextView
-        android:id="@+id/scoreTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="true"
-        android:text="Score: 0"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        android:padding="8dp" />
 
 </RelativeLayout>
