@@ -65,5 +65,16 @@ public class LeaderboardTest2 {
         assertEquals(2, leaderBoard.getAllAttempts().size());
         assertTrue(leaderBoard.getAllAttempts().contains(attempt2));
     }
+    @Test
+    public void testClearAttempts() {
+       //add attempts
+        leaderBoard.addAttempt(attempt1);
+        leaderBoard.addAttempt(attempt2);
+
+        leaderBoard.clearAttempts();
+
+        //should be empty now
+        assertEquals(0, leaderBoard.getAllAttempts().size());
+    }
 
 }
