@@ -77,7 +77,7 @@ public class MainGameActivity extends AppCompatActivity {
             endgame.putExtra("Name", name);
             endgame.putExtra("Score", currentScore);
             startActivity(endgame);
-            //finish();
+            finish();
         });
     }
     private void startScoreUpdate() {
