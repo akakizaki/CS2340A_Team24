@@ -1,0 +1,36 @@
+package com.example.team24dungeoncrawler;
+
+import static org.junit.Assert.*;
+import org.junit.Test;
+
+public class AttemptTest {
+
+    @Test
+    public void testAttemptCreation() {
+        String playerName = "Alice";
+        int score = 100;
+
+        Attempt attempt = new Attempt(playerName, score);
+
+        // Check if the player name is set correctly
+        assertEquals(playerName, attempt.getPlayerName());
+
+        // Check if the score is set correctly
+        assertEquals(score, attempt.getScore());
+
+        // Check if the timestamp is not null
+        assertNotNull(attempt.getTimestamp());
+    }
+
+    @Test
+    public void testTimestampFormat() {
+        String playerName = "Bob";
+        int score = 200;
+
+        Attempt attempt = new Attempt(playerName, score);
+
+        // Check if the timestamp follows the expected format
+        String timestamp = attempt.getTimestamp();
+        assertTrue(timestamp.matches("Date\n\\d{2}-\\d{2}-\\d{4}\nTime\n\\d{2}:\\d{2}:\\d{2} [A-Z]{2}"));
+    }
+}
