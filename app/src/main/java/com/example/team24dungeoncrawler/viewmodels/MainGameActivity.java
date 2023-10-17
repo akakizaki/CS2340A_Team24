@@ -70,13 +70,20 @@ public class MainGameActivity extends AppCompatActivity {
 
         //switch screen to ending screen when button is clicked
         endButton.setOnClickListener(v -> {
-            LeaderBoard leaderboard = LeaderBoard.getInstance();
-            leaderboard.addAttempt(new Attempt(name, currentScore));
-            Intent endgame = new Intent(this, EndingScreen.class);
-            endgame.putExtra("Name", name);
-            endgame.putExtra("Score", currentScore);
-            startActivity(endgame);
+            Intent game = new Intent(this, Game2activity.class);
+            game.putExtra("difficulty", gameDifficulty);
+            game.putExtra("name", name);
+            game.putExtra("characterNumber", characterNumber);
+            game.putExtra("score", currentScore);
+            startActivity(game);
             finish();
+            //LeaderBoard leaderboard = LeaderBoard.getInstance();
+            //leaderboard.addAttempt(new Attempt(name, currentScore));
+            //Intent endgame = new Intent(this, EndingScreen.class);
+            //endgame.putExtra("Name", name);
+            //endgame.putExtra("Score", currentScore);
+            //startActivity(endgame);
+            //finish();
         });
     }
     private void startScoreUpdate() {
