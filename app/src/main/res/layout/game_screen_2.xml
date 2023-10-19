@@ -12,22 +12,8 @@
         android:layout_width="208dp"
         android:layout_height="243dp"
         android:layout_marginStart="130dp"
-        android:layout_marginTop="27dp"
-        app:srcCompat="@drawable/map1" />
-
-    <ImageView
-        android:layout_width="208dp"
-        android:layout_height="243dp"
-        android:layout_marginStart="130dp"
         android:layout_marginTop="230dp"
         app:srcCompat="@drawable/map2" />
-
-    <ImageView
-        android:layout_width="208dp"
-        android:layout_height="243dp"
-        android:layout_marginStart="130dp"
-        android:layout_marginTop="400dp"
-        app:srcCompat="@drawable/map3" />
 
     <Button
         android:id="@+id/exitButton"
@@ -41,7 +27,7 @@
         android:layout_marginTop="592dp"
         android:layout_marginEnd="144dp"
         android:layout_marginBottom="64dp"
-        android:text="Next Game" />
+        android:text="Next Map" />
 
     <ImageView
         android:id="@+id/characterImage"

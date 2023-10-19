@@ -29,7 +29,7 @@ public class EndingScreen extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.ending_screen);
 
-        name = getIntent().getStringExtra("name");
+        name = getIntent().getStringExtra("Name");
         score = getIntent().getIntExtra("Score", 0);
 
 
