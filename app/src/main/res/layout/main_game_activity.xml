@@ -6,14 +6,10 @@
     android:layout_height="match_parent"
     android:id="@+id/mainGameLayout"
     tools:context=".viewmodels.MainGameActivity"
+    android:background="@drawable/map1"
     >
 
-    <ImageView
-        android:layout_width="208dp"
-        android:layout_height="243dp"
-        android:layout_marginStart="130dp"
-        android:layout_marginTop="27dp"
-        app:srcCompat="@drawable/map1" />
+
 
     <Button
         android:id="@+id/exitButton"

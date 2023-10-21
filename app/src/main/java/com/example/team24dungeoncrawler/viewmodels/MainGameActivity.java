@@ -7,6 +7,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -15,7 +16,7 @@ import com.example.team24dungeoncrawler.model.Attempt;
 import com.example.team24dungeoncrawler.model.LeaderBoard;
 
 
-public class MainGameActivity extends AppCompatActivity {
+public class MainGameActivity extends AppCompatActivity  {
     private RelativeLayout mainGameLayout;
     private String name;
     private TextView scoreTextView;
@@ -108,5 +109,8 @@ public class MainGameActivity extends AppCompatActivity {
         // Start the score update
         scoreHandler.postDelayed(scoreRunnable, 1000);
     }
+
+//    @Override
+//    public boolean
 }
 
