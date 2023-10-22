@@ -27,28 +27,28 @@
 
 
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="367dp"
         android:layout_height="136dp"
         android:orientation="horizontal">
 
         <ImageButton
             android:id="@+id/imageButton"
             android:layout_width="123dp"
-            android:layout_height="116dp"
+            android:layout_height="110dp"
             android:scaleType="fitCenter"
             app:srcCompat="@drawable/sprite1" />
 
         <ImageButton
             android:id="@+id/imageButton2"
             android:layout_width="123dp"
-            android:layout_height="116dp"
+            android:layout_height="110dp"
             android:scaleType="fitCenter"
             app:srcCompat="@drawable/sprite2" />
 
         <ImageButton
             android:id="@+id/imageButton3"
             android:layout_width="123dp"
-            android:layout_height="116dp"
+            android:layout_height="113dp"
             android:scaleType="fitCenter"
             app:srcCompat="@drawable/sprite3" />
     </LinearLayout>

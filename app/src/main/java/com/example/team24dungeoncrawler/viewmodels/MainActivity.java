@@ -11,7 +11,6 @@ import android.widget.EditText;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.Toast;
-
 import com.example.team24dungeoncrawler.R;
 import com.example.team24dungeoncrawler.model.Player;
 

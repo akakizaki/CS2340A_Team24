@@ -1,5 +1,4 @@
 package com.example.team24dungeoncrawler.model;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,6 +8,10 @@ public class Player {
     private String direction;
     private int speed;
     private int score;
+    private int row;
+    private int col;
+
+
     private double damageMultiplier;
     private static Player instance;
     private List<Attempt> attemptHistory;
@@ -24,24 +27,25 @@ public class Player {
 
         // Set health and damageMultiplier based on the selected difficulty
         switch (difficulty) {
-        case "Easy":
-            this.health = 150;
-            this.damageMultiplier = 0.8;
-            break;
-        case "Medium":
-            this.health = 100;
-            this.damageMultiplier = 1.0;
-            break;
-        case "Hard":
-            this.health = 50;
-            this.damageMultiplier = 1.2;
-            break;
-        default:
-            this.health = 100; // Default values for invalid difficulty
-            this.damageMultiplier = 1.0;
-            break;
+            case "Easy":
+                this.health = 150;
+                this.damageMultiplier = 0.8;
+                break;
+            case "Medium":
+                this.health = 100;
+                this.damageMultiplier = 1.0;
+                break;
+            case "Hard":
+                this.health = 50;
+                this.damageMultiplier = 1.2;
+                break;
+            default:
+                this.health = 100; // Default values for invalid difficulty
+                this.damageMultiplier = 1.0;
+                break;
         }
     }
+
     public static Player getInstance(String name, String difficulty) {
         if (instance == null) {
             instance = new Player(name, difficulty);
@@ -49,16 +53,33 @@ public class Player {
         return instance;
     }
 
-    // Getter and setter methods for the attributes
+
     public String getName() {
         return name;
     }
+
     public int getSpeed() {
         return speed;
     }
 
     public int getScore() {
         return score;
+    }
+
+    public int getRow() {
+        return row;
+    }
+
+    public int getCol() {
+        return col;
+    }
+
+    public void setCol(int col) {
+        this.col = col;
+    }
+
+    public void setRow(int row) {
+        this.row = row;
     }
 
     public void setName(String name) {
@@ -68,8 +89,11 @@ public class Player {
     public void setScore(int score) {
         this.score = score;
     }
+
     public double getDamageMultiplier() {
         return damageMultiplier;
-    }
 
+
+    }
 }
+

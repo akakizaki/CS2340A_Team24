@@ -8,12 +8,30 @@
     tools:context=".viewmodels.MainGameActivity"
     >
 
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true">
+        <GridLayout
+            android:id="@+id/tilemapGrid"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:columnCount="20"
+            android:rowCount="8">
+        </GridLayout>
+    </RelativeLayout>
+
+
+
+    <!-- Character Image -->
     <ImageView
-        android:layout_width="208dp"
-        android:layout_height="243dp"
-        android:layout_marginStart="130dp"
-        android:layout_marginTop="230dp"
-        app:srcCompat="@drawable/map2" />
+        android:id="@+id/characterImage"
+        android:layout_width="16dp"
+        android:layout_height="16dp"
+        android:layout_centerInParent="true"
+        app:srcCompat="@drawable/sprite1" />
+
 
     <Button
         android:id="@+id/exitButton"
@@ -27,19 +45,9 @@
         android:layout_marginTop="592dp"
         android:layout_marginEnd="144dp"
         android:layout_marginBottom="64dp"
-        android:text="Next Map" />
+        android:text="Next Game" />
 
-    <ImageView
-        android:id="@+id/characterImage"
-        android:layout_width="115dp"
-        android:layout_height="99dp"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginStart="147dp"
-        android:layout_marginTop="278dp"
-        android:layout_marginEnd="149dp"
-        app:srcCompat="@drawable/sprite1" />
+
 
     <TextView
         android:id="@+id/name"
@@ -80,5 +88,6 @@
         android:textSize="18sp"
         android:textStyle="bold"
         android:padding="8dp" />
+
 
 </RelativeLayout>
