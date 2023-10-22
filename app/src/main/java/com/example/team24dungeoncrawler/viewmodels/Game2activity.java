@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.widget.Button;
+import android.widget.GridLayout;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -19,6 +20,8 @@ public class Game2activity extends AppCompatActivity {
     private int currentScore;
 
     private TextView scoreTextView;
+    int tilemap2[][];
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,6 +29,39 @@ public class Game2activity extends AppCompatActivity {
         setContentView(R.layout.game_screen_2);
         mainGameLayout = findViewById(R.id.mainGameLayout);
         Button nextButton = findViewById(R.id.exitButton);
+        tilemap2 = new int[][]{
+                {0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 4},
+                {0, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 4},
+                {0, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 4},
+                {0, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 3},
+                {0, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 3},
+                {0, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 4},
+                {0, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 4},
+                {0, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5}
+        };
+        GridLayout tilemapGrid = findViewById(R.id.tilemapGrid);
+        for (int row = 0; row < tilemap2.length; row++) {
+            for (int col = 0; col < tilemap2[row].length; col++) {
+                int tileType = tilemap2[row][col];
+                ImageView tileView = new ImageView(this);
+                // Set the background resource based on tileType
+                if (tileType == 0) {
+                    tileView.setBackgroundResource(R.drawable.left_wall_tile);
+                } else if (tileType == 1) {
+                    tileView.setBackgroundResource(R.drawable.top_wall_tile);
+                } else if (tileType == 2) {
+                    tileView.setBackgroundResource(R.drawable.floor_tile);
+                } else if (tileType == 3) {
+                    tileView.setBackgroundResource(R.drawable.exit_tile);
+                } else if (tileType == 4) {
+                    tileView.setBackgroundResource(R.drawable.right_wall_tile);
+                } else if (tileType == 5) {
+                    tileView.setBackgroundResource(R.drawable.bottom_wall_tile);
+                }
+                tilemapGrid.addView(tileView);
+            }
+
+        }
 
         // Display player Name.
         name = getIntent().getStringExtra("name");
