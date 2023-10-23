@@ -24,6 +24,8 @@ public class Player {
         this.score = 0;
         this.attemptHistory = new ArrayList<>();
         this.score = 0;
+        this.row = 3;
+        this.col = 1;
 
         // Set health and damageMultiplier based on the selected difficulty
         switch (difficulty) {
