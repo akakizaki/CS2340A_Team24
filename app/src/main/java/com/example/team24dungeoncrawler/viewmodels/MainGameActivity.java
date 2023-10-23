@@ -162,8 +162,11 @@ public class MainGameActivity extends AppCompatActivity {
                 finish();
             }
         }
+        //collision(newRow, newCol);
         return true;
     }
+
+
 
 
     //other methods
