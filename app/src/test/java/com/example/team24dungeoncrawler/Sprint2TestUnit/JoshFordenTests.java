@@ -1,4 +1,4 @@
-package com.example.team24dungeoncrawler;
+package com.example.team24dungeoncrawler.Sprint2TestUnit;
 
 import org.junit.Test;
 

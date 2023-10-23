@@ -29,7 +29,7 @@ public class MainGameActivity extends AppCompatActivity {
     private double characterNumber;
 
 
-    int tilemap[][];
+    int[][] tilemap;
 
 
     @Override
