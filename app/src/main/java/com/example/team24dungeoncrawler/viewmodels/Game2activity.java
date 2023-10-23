@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.KeyEvent;
-import android.widget.Button;
 import android.widget.GridLayout;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -142,18 +141,18 @@ public class Game2activity extends AppCompatActivity {
         int newCol = player.getCol();
 
         switch (keyCode) {
-            case KeyEvent.KEYCODE_W:
-                newRow -= 1;
-                break;
-            case KeyEvent.KEYCODE_A:
-                newCol -= 1;
-                break;
-            case KeyEvent.KEYCODE_S:
-                newRow += 1;
-                break;
-            case KeyEvent.KEYCODE_D:
-                newCol += 1;
-                break;
+        case KeyEvent.KEYCODE_W:
+            newRow -= 1;
+            break;
+        case KeyEvent.KEYCODE_A:
+            newCol -= 1;
+            break;
+        case KeyEvent.KEYCODE_S:
+            newRow += 1;
+            break;
+        case KeyEvent.KEYCODE_D:
+            newCol += 1;
+            break;
         }
 
         // Check if the new position is within the bounds of the tilemap

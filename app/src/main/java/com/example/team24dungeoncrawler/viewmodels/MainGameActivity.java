@@ -125,18 +125,18 @@ public class MainGameActivity extends AppCompatActivity {
         int newCol = player.getCol();
 
         switch (keyCode) {
-            case KeyEvent.KEYCODE_W:
-                newRow -= 1;
-                break;
-            case KeyEvent.KEYCODE_A:
-                newCol -= 1;
-                break;
-            case KeyEvent.KEYCODE_S:
-                newRow += 1;
-                break;
-            case KeyEvent.KEYCODE_D:
-                newCol += 1;
-                break;
+        case KeyEvent.KEYCODE_W:
+            newRow -= 1;
+            break;
+        case KeyEvent.KEYCODE_A:
+            newCol -= 1;
+            break;
+        case KeyEvent.KEYCODE_S:
+            newRow += 1;
+            break;
+        case KeyEvent.KEYCODE_D:
+            newCol += 1;
+            break;
         }
 
         // Check if the new position is within the bounds of the tilemap
