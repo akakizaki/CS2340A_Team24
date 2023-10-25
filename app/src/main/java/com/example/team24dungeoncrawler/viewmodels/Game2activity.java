@@ -13,6 +13,12 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.team24dungeoncrawler.R;
+import com.example.team24dungeoncrawler.model.ExitStrategy;
+import com.example.team24dungeoncrawler.model.MoveDownStrategy;
+import com.example.team24dungeoncrawler.model.MoveLeftStrategy;
+import com.example.team24dungeoncrawler.model.MoveRightStrategy;
+import com.example.team24dungeoncrawler.model.MoveUpStrategy;
+import com.example.team24dungeoncrawler.model.MovementStrategy;
 import com.example.team24dungeoncrawler.model.Player;
 import com.example.team24dungeoncrawler.model.PlayerView;
 
@@ -138,45 +144,32 @@ public class Game2activity extends AppCompatActivity {
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-        int newRow = player.getRow();
-        int newCol = player.getCol();
-
+        MovementStrategy movementStrategy;
         switch (keyCode) {
             case KeyEvent.KEYCODE_W:
-                newRow -= 1;
+                movementStrategy = new MoveUpStrategy();
                 break;
             case KeyEvent.KEYCODE_A:
-                newCol -= 1;
+                movementStrategy = new MoveLeftStrategy();
                 break;
             case KeyEvent.KEYCODE_S:
-                newRow += 1;
+                movementStrategy = new MoveDownStrategy();
                 break;
             case KeyEvent.KEYCODE_D:
-                newCol += 1;
+                movementStrategy = new MoveRightStrategy();
                 break;
+            default:
+                movementStrategy = null;
         }
 
-        // Check if the new position is within the bounds of the tilemap
-        if (newRow >= 0 && newRow < tilemap2.length && newCol >= 0 && newCol < tilemap2[0].length) {
-            int newTileType = tilemap2[newRow][newCol];
-
-            // floor tile
-            if (newTileType == 2) {
-                // Update the player's position
-                player.setRow(newRow);
-                player.setCol(newCol);
-                // Update the player view's position on the grid
-                playerView.updatePosition(newRow, newCol);
-
-                //exit tile
-            } else if (newTileType == 3) {
-                Intent game = new Intent(this, Game3activity.class);
-                game.putExtra("difficulty", gameDifficulty);
-                game.putExtra("name", name);
-                game.putExtra("characterNumber", characterNumber);
-                game.putExtra("score", currentScore);
-                startActivity(game);
-                finish();
+        if (movementStrategy != null) {
+            movementStrategy.move(player, keyCode, tilemap2);
+            playerView.updatePosition(player.getRow(), player.getCol());
+            int newTileType = tilemap2[player.getRow()][player.getCol()];
+            if (newTileType == 3) {
+                movementStrategy = new ExitStrategy(this, gameDifficulty, name,
+                        characterNumber, currentScore);
+                movementStrategy.move(player, keyCode, tilemap2);
             }
         }
         return true;
