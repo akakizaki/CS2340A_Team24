@@ -126,6 +126,7 @@ public class MainGameActivity extends AppCompatActivity {
         MovementStrategy movementStrategy;
         switch (keyCode) {
         case KeyEvent.KEYCODE_W:
+
             movementStrategy = new MoveUpStrategy();
             break;
         case KeyEvent.KEYCODE_A:
@@ -151,8 +152,11 @@ public class MainGameActivity extends AppCompatActivity {
                 movementStrategy.move(player, keyCode, tilemap);
             }
         }
+        //collision(newRow, newCol);
         return true;
     }
+
+
 
 
     //other methods

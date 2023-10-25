@@ -37,4 +37,19 @@ public class playerTest {
         assertEquals(2, player.getCol());
     }
 
+    @Test
+    public void testSetRowAndColNegativeValue() {
+        player.setRow(-2);
+        player.setCol(-3);
+        assertEquals(-2, player.getRow());
+        assertEquals(-3, player.getCol());
+    }
+
+    @Test
+    public void testTryToGetNewInstance() {
+        Player player2 = Player.getInstance("John", "notACorrectDifficulty");
+        assertEquals(0.8, player2.getDamageMultiplier(), 0.001);
+    }
+
+
 }

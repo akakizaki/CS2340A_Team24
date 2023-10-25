@@ -64,6 +64,10 @@ public class Player {
         return speed;
     }
 
+    public int getHealth() {
+        return health;
+    }
+
     public int getScore() {
         return score;
     }
