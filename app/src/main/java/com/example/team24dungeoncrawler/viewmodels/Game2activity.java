@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.KeyEvent;
-import android.widget.Button;
 import android.widget.GridLayout;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -146,6 +145,7 @@ public class Game2activity extends AppCompatActivity {
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         MovementStrategy movementStrategy;
         switch (keyCode) {
+
             case KeyEvent.KEYCODE_W:
                 movementStrategy = new MoveUpStrategy();
                 break;
@@ -160,6 +160,7 @@ public class Game2activity extends AppCompatActivity {
                 break;
             default:
                 movementStrategy = null;
+
         }
 
         if (movementStrategy != null) {

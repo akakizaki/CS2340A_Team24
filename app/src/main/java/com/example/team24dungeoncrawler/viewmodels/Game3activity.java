@@ -140,6 +140,7 @@ public class Game3activity extends AppCompatActivity {
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         MovementStrategy movementStrategy;
         switch (keyCode) {
+
             case KeyEvent.KEYCODE_W:
                 movementStrategy = new MoveUpStrategy();
                 break;
@@ -154,6 +155,7 @@ public class Game3activity extends AppCompatActivity {
                 break;
             default:
                 movementStrategy = null;
+
         }
 
         if (movementStrategy != null) {
