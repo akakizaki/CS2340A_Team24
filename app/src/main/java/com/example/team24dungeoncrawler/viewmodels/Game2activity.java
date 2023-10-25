@@ -1,6 +1,5 @@
 package com.example.team24dungeoncrawler.viewmodels;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.KeyEvent;
@@ -22,13 +21,13 @@ import com.example.team24dungeoncrawler.model.Player;
 import com.example.team24dungeoncrawler.model.PlayerView;
 
 public class Game2activity extends AppCompatActivity {
-    RelativeLayout mainGameLayout;
+    private RelativeLayout mainGameLayout;
     private String name;
 
     private int currentScore;
 
     private TextView scoreTextView;
-    int tilemap2[][];
+    private int[][] tilemap2;
 
     private Player player;
     private PlayerView playerView;
@@ -145,22 +144,20 @@ public class Game2activity extends AppCompatActivity {
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         MovementStrategy movementStrategy;
         switch (keyCode) {
-
-            case KeyEvent.KEYCODE_W:
-                movementStrategy = new MoveUpStrategy();
-                break;
-            case KeyEvent.KEYCODE_A:
-                movementStrategy = new MoveLeftStrategy();
-                break;
-            case KeyEvent.KEYCODE_S:
-                movementStrategy = new MoveDownStrategy();
-                break;
-            case KeyEvent.KEYCODE_D:
-                movementStrategy = new MoveRightStrategy();
-                break;
-            default:
-                movementStrategy = null;
-
+        case KeyEvent.KEYCODE_W:
+            movementStrategy = new MoveUpStrategy();
+            break;
+        case KeyEvent.KEYCODE_A:
+            movementStrategy = new MoveLeftStrategy();
+            break;
+        case KeyEvent.KEYCODE_S:
+            movementStrategy = new MoveDownStrategy();
+            break;
+        case KeyEvent.KEYCODE_D:
+            movementStrategy = new MoveRightStrategy();
+            break;
+        default:
+            movementStrategy = null;
         }
 
         if (movementStrategy != null) {
