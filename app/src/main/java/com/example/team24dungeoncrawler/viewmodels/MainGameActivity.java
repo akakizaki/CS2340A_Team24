@@ -1,10 +1,8 @@
 package com.example.team24dungeoncrawler.viewmodels;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.KeyEvent;
-import android.widget.Button;
 import android.widget.GridLayout;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -14,6 +12,12 @@ import androidx.appcompat.app.AppCompatActivity;
 
 
 import com.example.team24dungeoncrawler.R;
+import com.example.team24dungeoncrawler.model.ExitStrategy;
+import com.example.team24dungeoncrawler.model.MoveDownStrategy;
+import com.example.team24dungeoncrawler.model.MoveLeftStrategy;
+import com.example.team24dungeoncrawler.model.MoveRightStrategy;
+import com.example.team24dungeoncrawler.model.MoveUpStrategy;
+import com.example.team24dungeoncrawler.model.MovementStrategy;
 import com.example.team24dungeoncrawler.model.Player;
 import com.example.team24dungeoncrawler.model.PlayerView;
 
@@ -24,13 +28,10 @@ public class MainGameActivity extends AppCompatActivity {
     private TextView scoreTextView;
     private PlayerView playerView;
     private int currentScore = 30;
-
     private String gameDifficulty;
     private double characterNumber;
-
-
-    int[][] tilemap;
-
+    private MovementStrategy movementStrategy;
+    private int[][] tilemap;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,6 +85,10 @@ public class MainGameActivity extends AppCompatActivity {
 
         player = Player.getInstance(name, String.valueOf(difficulty));
         playerView = new PlayerView(this); // Create a new PlayerView
+        if (player.getCol() != 1 && player.getRow() != 3) {
+            player.setRow(3);
+            player.setCol(1);
+        }
         playerView.updatePosition(player.getRow(), player.getCol()); // Set the initial position
 
 
@@ -109,11 +114,8 @@ public class MainGameActivity extends AppCompatActivity {
         }
         //initialize scoretextview
         scoreTextView = findViewById(R.id.scoreTextView);
-
-
+        //add player to tilemap
         tilemapGrid.addView(playerView);
-
-
         // Start updating the score
         startScoreUpdate();
 
@@ -121,45 +123,33 @@ public class MainGameActivity extends AppCompatActivity {
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-        int newRow = player.getRow();
-        int newCol = player.getCol();
-
+        MovementStrategy movementStrategy;
         switch (keyCode) {
         case KeyEvent.KEYCODE_W:
-            newRow -= 1;
+
+            movementStrategy = new MoveUpStrategy();
             break;
         case KeyEvent.KEYCODE_A:
-            newCol -= 1;
+            movementStrategy = new MoveLeftStrategy();
             break;
         case KeyEvent.KEYCODE_S:
-            newRow += 1;
+            movementStrategy = new MoveDownStrategy();
             break;
         case KeyEvent.KEYCODE_D:
-            newCol += 1;
+            movementStrategy = new MoveRightStrategy();
             break;
+        default:
+            movementStrategy = null;
         }
 
-        // Check if the new position is within the bounds of the tilemap
-        if (newRow >= 0 && newRow < tilemap.length && newCol >= 0 && newCol < tilemap[0].length) {
-            int newTileType = tilemap[newRow][newCol];
-
-            // floor tile
-            if (newTileType == 2) {
-                // Update the player's position
-                player.setRow(newRow);
-                player.setCol(newCol);
-                // Update the player view's position on the grid
-                playerView.updatePosition(newRow, newCol);
-
-                //exit tile
-            } else if (newTileType == 3) {
-                Intent game = new Intent(this, Game2activity.class);
-                game.putExtra("difficulty", gameDifficulty);
-                game.putExtra("name", name);
-                game.putExtra("characterNumber", characterNumber);
-                game.putExtra("score", currentScore);
-                startActivity(game);
-                finish();
+        if (movementStrategy != null) {
+            movementStrategy.move(player, keyCode, tilemap);
+            playerView.updatePosition(player.getRow(), player.getCol());
+            int newTileType = tilemap[player.getRow()][player.getCol()];
+            if (newTileType == 3) {
+                movementStrategy = new ExitStrategy(this, gameDifficulty, name,
+                        characterNumber, currentScore);
+                movementStrategy.move(player, keyCode, tilemap);
             }
         }
         //collision(newRow, newCol);
