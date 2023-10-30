@@ -18,7 +18,7 @@
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:columnCount="20"
-            android:rowCount="8">
+            android:rowCount="20">
 
         </GridLayout>
     </RelativeLayout>
