@@ -12,6 +12,9 @@ import androidx.appcompat.app.AppCompatActivity;
 
 
 import com.example.team24dungeoncrawler.R;
+import com.example.team24dungeoncrawler.model.Enemy;
+import com.example.team24dungeoncrawler.model.EnemyFactory;
+import com.example.team24dungeoncrawler.model.EnemyView;
 import com.example.team24dungeoncrawler.model.ExitStrategy;
 import com.example.team24dungeoncrawler.model.MoveDownStrategy;
 import com.example.team24dungeoncrawler.model.MoveLeftStrategy;
@@ -47,10 +50,23 @@ public class MainGameActivity extends AppCompatActivity {
                 {0, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 3},
                 {0, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 4},
                 {0, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 4},
+                {0, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 4},
+                {0, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 4},
+                {0, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 4},
+                {0, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 4},
+                {0, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 4},
+                {0, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 4},
+                {0, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 4},
+                {0, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 4},
+                {0, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 4},
+                {0, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 4},
+                {0, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 4},
+                {0, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 4},
                 {0, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5}
         };
         GridLayout tilemapGrid = findViewById(R.id.tilemapGrid);
-        for (int row = 0; row < tilemap.length; row++) {
+        int row;
+        for (row = 0; row < tilemap.length; row++) {
             for (int col = 0; col < tilemap[row].length; col++) {
                 int tileType = tilemap[row][col];
                 ImageView tileView = new ImageView(this);
@@ -70,8 +86,8 @@ public class MainGameActivity extends AppCompatActivity {
                 }
                 tilemapGrid.addView(tileView);
             }
-
         }
+
 
         // Display player Name.
         name = getIntent().getStringExtra("name");
@@ -90,6 +106,15 @@ public class MainGameActivity extends AppCompatActivity {
             player.setCol(1);
         }
         playerView.updatePosition(player.getRow(), player.getCol()); // Set the initial position
+
+        Enemy skeleton = EnemyFactory.createEnemy(1);
+        Enemy vampire = EnemyFactory.createEnemy(2);
+        EnemyView vampireView = new EnemyView(this);
+        EnemyView skeletonView = new EnemyView(this);
+        skeletonView.updatePosition(skeleton.getRow(), skeleton.getColumn());
+        skeletonView.setImageResource(R.drawable.skeleton);
+        vampireView.updatePosition(vampire.getRow(), vampire.getColumn());
+        vampireView.setImageResource(R.drawable.vampire);
 
 
         // Display health.
@@ -116,6 +141,8 @@ public class MainGameActivity extends AppCompatActivity {
         scoreTextView = findViewById(R.id.scoreTextView);
         //add player to tilemap
         tilemapGrid.addView(playerView);
+        tilemapGrid.addView(skeletonView);
+        tilemapGrid.addView(vampireView);
         // Start updating the score
         startScoreUpdate();
 
@@ -152,11 +179,8 @@ public class MainGameActivity extends AppCompatActivity {
                 movementStrategy.move(player, keyCode, tilemap);
             }
         }
-        //collision(newRow, newCol);
         return true;
     }
-
-
 
 
     //other methods
