@@ -6,7 +6,7 @@ public class Zombie extends Enemy {
     private int column;
 
     public Zombie() {
-        super(3, 15, 6, 2);
+        super(3, 15, 15, 15);
     }
     @Override
     public void move() {

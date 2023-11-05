@@ -6,7 +6,7 @@ public class Ghost extends Enemy{
     private int column;
 
     public Ghost() {
-        super(3, 5, 2, 4);
+        super(3, 5, 12, 5);
     }
     @Override
     public void move() {
