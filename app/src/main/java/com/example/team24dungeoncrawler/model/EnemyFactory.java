@@ -7,6 +7,10 @@ public class EnemyFactory {
             return new Skeleton();
         case 2:
             return new Vampire();
+        case 3:
+            return new Ghost();
+        case 4:
+            return new Zombie();
         default:
             return null;
         }
