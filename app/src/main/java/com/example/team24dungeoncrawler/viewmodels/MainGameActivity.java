@@ -2,6 +2,7 @@ package com.example.team24dungeoncrawler.viewmodels;
 
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.widget.GridLayout;
 import android.widget.ImageView;
@@ -23,6 +24,11 @@ import com.example.team24dungeoncrawler.model.MoveUpStrategy;
 import com.example.team24dungeoncrawler.model.MovementStrategy;
 import com.example.team24dungeoncrawler.model.Player;
 import com.example.team24dungeoncrawler.model.PlayerView;
+import com.example.team24dungeoncrawler.model.Skeleton;
+import com.example.team24dungeoncrawler.model.Vampire;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class MainGameActivity extends AppCompatActivity {
     private RelativeLayout mainGameLayout;
@@ -35,12 +41,23 @@ public class MainGameActivity extends AppCompatActivity {
     private double characterNumber;
     private MovementStrategy movementStrategy;
     private int[][] tilemap;
+    private final Handler handler = new Handler();
+    private static final int ENEMY_MOVEMENT_INTERVAL = 1000;
+    private Enemy vampire;
+    private Enemy skeleton;
+    private Enemy ghost;
+    private Enemy zombie;
+    private EnemyView ghostView;
+    private EnemyView zombieView;
+    private EnemyView skeletonView;
+    private EnemyView vampireView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_game_activity);
         mainGameLayout = findViewById(R.id.mainGameLayout);
+
 
         tilemap = new int[][]{
                 {0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 4},
@@ -107,15 +124,27 @@ public class MainGameActivity extends AppCompatActivity {
         }
         playerView.updatePosition(player.getRow(), player.getCol()); // Set the initial position
 
-        Enemy skeleton = EnemyFactory.createEnemy(1);
-        Enemy vampire = EnemyFactory.createEnemy(2);
-        EnemyView vampireView = new EnemyView(this);
-        EnemyView skeletonView = new EnemyView(this);
+        skeleton = EnemyFactory.createEnemy(1, 1,1,1,1);
+        skeletonView = new EnemyView(this);
         skeletonView.updatePosition(skeleton.getRow(), skeleton.getColumn());
         skeletonView.setImageResource(R.drawable.skeleton);
+
+        vampire = EnemyFactory.createEnemy(2,2,2,3,1);
+        vampireView = new EnemyView(this);
         vampireView.updatePosition(vampire.getRow(), vampire.getColumn());
         vampireView.setImageResource(R.drawable.vampire);
 
+        ghost = EnemyFactory.createEnemy(3, 2,5,4,4);
+        ghostView = new EnemyView(this);
+        ghostView.updatePosition(ghost.getRow(), ghost.getColumn());
+        ghostView.setImageResource(R.drawable.vampire);
+
+        zombie = EnemyFactory.createEnemy(4, 2,5,7,4);
+        zombieView = new EnemyView(this);
+        zombieView.updatePosition(zombie.getRow(), zombie.getColumn());
+        zombieView.setImageResource(R.drawable.vampire);
+
+        handler.postDelayed(enemyMovementRunnable, ENEMY_MOVEMENT_INTERVAL);
 
         // Display health.
         TextView health = findViewById(R.id.health);
@@ -142,11 +171,58 @@ public class MainGameActivity extends AppCompatActivity {
         //add player to tilemap
         tilemapGrid.addView(playerView);
         tilemapGrid.addView(skeletonView);
+        Log.d("skeletoTILE", "done");
         tilemapGrid.addView(vampireView);
+        Log.d("vamptoTILE", "done");
+        tilemapGrid.addView(ghostView);
+        Log.d("ghosttoTILE","done");
+        tilemapGrid.addView(zombieView);
+        Log.d("zombtoTILE","done");
         // Start updating the score
         startScoreUpdate();
 
     }
+
+    private Runnable enemyMovementRunnable = new Runnable() {
+
+        @Override
+        public void run() {
+            synchronized (this) {
+                if (skeleton != null) {
+                    skeleton.move();
+                    skeletonView.updatePosition(skeleton.getRow(), skeleton.getColumn());
+                } else {
+                    Log.d("movement", "null");
+                }
+
+                if (vampire != null) {
+                    vampire.move();
+                    vampireView.updatePosition(vampire.getRow(), vampire.getColumn());
+                } else {
+                    Log.d("movement", "null");
+                }
+
+                if (ghost != null) {
+                    ghost.move();
+                    ghostView.updatePosition(ghost.getRow(), ghost.getColumn());
+                } else {
+                    Log.d("movement", "null");
+                }
+
+                if (zombie != null) {
+                    zombie.move();
+                    zombieView.updatePosition(zombie.getRow(), zombie.getColumn());
+                } else {
+                    Log.d("movement", "null");
+                }
+            }
+
+            // Schedule the next movement
+            handler.postDelayed(this, ENEMY_MOVEMENT_INTERVAL);
+        }
+    };
+
+
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {

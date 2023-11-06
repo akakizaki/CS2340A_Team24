@@ -1,6 +1,7 @@
 package com.example.team24dungeoncrawler.model;
 
 import android.content.Context;
+import android.util.Log;
 import android.widget.GridLayout;
 
 public class EnemyView extends androidx.appcompat.widget.AppCompatImageView {
@@ -14,5 +15,6 @@ public class EnemyView extends androidx.appcompat.widget.AppCompatImageView {
         params.rowSpec = GridLayout.spec(row);
         params.columnSpec = GridLayout.spec(col);
         setLayoutParams(params);
+        invalidate();
     }
 }
