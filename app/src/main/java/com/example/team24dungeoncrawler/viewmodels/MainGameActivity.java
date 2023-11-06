@@ -134,15 +134,15 @@ public class MainGameActivity extends AppCompatActivity {
         vampireView.updatePosition(vampire.getRow(), vampire.getColumn());
         vampireView.setImageResource(R.drawable.vampire);
 
-        ghost = EnemyFactory.createEnemy(3, 2,5,4,4);
+        ghost = EnemyFactory.createEnemy(3, 1,5,6,6);
         ghostView = new EnemyView(this);
         ghostView.updatePosition(ghost.getRow(), ghost.getColumn());
-        ghostView.setImageResource(R.drawable.vampire);
+        ghostView.setImageResource(R.drawable.ghost);
 
-        zombie = EnemyFactory.createEnemy(4, 2,5,7,4);
+        zombie = EnemyFactory.createEnemy(4, 2,5,10,10);
         zombieView = new EnemyView(this);
         zombieView.updatePosition(zombie.getRow(), zombie.getColumn());
-        zombieView.setImageResource(R.drawable.vampire);
+        zombieView.setImageResource(R.drawable.zombie);
 
         handler.postDelayed(enemyMovementRunnable, ENEMY_MOVEMENT_INTERVAL);
 
