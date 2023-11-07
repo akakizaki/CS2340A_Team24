@@ -3,6 +3,7 @@ package com.example.team24dungeoncrawler.viewmodels;
 
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.widget.GridLayout;
 import android.widget.ImageView;
@@ -12,6 +13,8 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.team24dungeoncrawler.R;
+import com.example.team24dungeoncrawler.model.Enemy;
+import com.example.team24dungeoncrawler.model.EnemyFactory;
 import com.example.team24dungeoncrawler.model.ExitStrategy;
 import com.example.team24dungeoncrawler.model.MoveDownStrategy;
 import com.example.team24dungeoncrawler.model.MoveLeftStrategy;
@@ -36,6 +39,10 @@ public class Game3activity extends AppCompatActivity {
     private String gameDifficulty;
     private final Handler handler = new Handler();
     private static final int ENEMY_MOVEMENT_INTERVAL = 1000;
+    private Enemy skeleton;
+    private Enemy zombie;
+    private EnemyView zombieView;
+    private EnemyView skeletonView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -110,6 +117,19 @@ public class Game3activity extends AppCompatActivity {
 
         player = Player.getInstance(name, String.valueOf(gameDifficulty));
         playerView = new PlayerView(this); // Create a new PlayerView
+
+        skeleton = EnemyFactory.createEnemy(1, 1,1,1,1);
+        skeletonView = new EnemyView(this);
+        skeletonView.updatePosition(skeleton.getRow(), skeleton.getColumn());
+        skeletonView.setImageResource(R.drawable.skeleton);
+
+        zombie = EnemyFactory.createEnemy(4, 2,5,4,4);
+        zombieView = new EnemyView(this);
+        zombieView.updatePosition(zombie.getRow(), zombie.getColumn());
+        zombieView.setImageResource(R.drawable.zombie);
+
+        handler.postDelayed(enemyMovementRunnable, ENEMY_MOVEMENT_INTERVAL);
+
         if (getIntent().hasExtra("exitPositionRow") && getIntent().hasExtra("exitPositionCol")) {
             int exitPositionRow = getIntent().getIntExtra("exitPositionRow", 0);
             int exitPositionCol = getIntent().getIntExtra("exitPositionCol", 0);
@@ -135,6 +155,10 @@ public class Game3activity extends AppCompatActivity {
         }
 
         tilemapGrid.addView(playerView);
+        tilemapGrid.addView(skeletonView);
+        Log.d("skeleton TILE", "done");
+        tilemapGrid.addView(zombieView);
+        Log.d("zombie TILE", "done");
 
         //Get score from previous screen
         currentScore = getIntent().getIntExtra("score", 0);
@@ -179,6 +203,31 @@ public class Game3activity extends AppCompatActivity {
         }
         return true;
     }
+
+    private Runnable enemyMovementRunnable = new Runnable() {
+
+        @Override
+        public void run() {
+            synchronized (this) {
+                if (skeleton != null) {
+                    skeleton.move();
+                    skeletonView.updatePosition(skeleton.getRow(), skeleton.getColumn());
+                } else {
+                    Log.d("movement", "null");
+                }
+
+                if (zombie != null) {
+                    zombie.move();
+                    zombieView.updatePosition(zombie.getRow(), zombie.getColumn());
+                } else {
+                    Log.d("movement", "null");
+                }
+            }
+
+            // Schedule the next movement
+            handler.postDelayed(this, ENEMY_MOVEMENT_INTERVAL);
+        }
+    };
 
     private void startScoreUpdate() {
         Handler scoreHandler = new Handler();
