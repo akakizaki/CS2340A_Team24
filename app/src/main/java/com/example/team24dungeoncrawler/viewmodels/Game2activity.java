@@ -11,6 +11,8 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.team24dungeoncrawler.R;
+import com.example.team24dungeoncrawler.model.Enemy;
+import com.example.team24dungeoncrawler.model.EnemyFactory;
 import com.example.team24dungeoncrawler.model.ExitStrategy;
 import com.example.team24dungeoncrawler.model.MoveDownStrategy;
 import com.example.team24dungeoncrawler.model.MoveLeftStrategy;
@@ -124,6 +126,20 @@ public class Game2activity extends AppCompatActivity {
             player.setCol(1);
         }
 
+        //Create Zombie and Ghost Enemies
+        Enemy ghost = EnemyFactory.createEnemy(3);
+        Enemy zombie = EnemyFactory.createEnemy(4);
+        EnemyView ghostView = new EnemyView(this);
+        EnemyView zombieView = new EnemyView(this);
+
+        ghostView.updatePosition(ghost.getRow(), ghost.getColumn());
+        ghostView.setImageResource(R.drawable.ghost);
+
+        zombieView.updatePosition(zombie.getRow(), zombie.getColumn());
+        zombieView.setImageResource(R.drawable.zombie);
+
+
+
         // Get characterNumber and display sprite accordingly
         characterNumber = getIntent().getDoubleExtra("characterNumber", 1);
         //ImageView characterImage = findViewById(R.id.characterImage);
@@ -138,8 +154,10 @@ public class Game2activity extends AppCompatActivity {
         //initialize scoretextview
         scoreTextView = findViewById(R.id.scoreTextView);
 
-
+        //add player and enemies to tileMap
         tilemapGrid.addView(playerView);
+        tilemapGrid.addView(ghostView);
+        tilemapGrid.addView(zombieView);
 
         //Get score from previous screen
         currentScore = getIntent().getIntExtra("score", 0);
