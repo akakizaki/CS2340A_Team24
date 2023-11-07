@@ -43,12 +43,14 @@ public class MainGameActivity extends AppCompatActivity {
     private int[][] tilemap;
     private final Handler handler = new Handler();
     private static final int ENEMY_MOVEMENT_INTERVAL = 1000;
+
     private Enemy vampire;
     private Enemy skeleton;
     private Enemy ghost;
     private Enemy zombie;
     private EnemyView ghostView;
     private EnemyView zombieView;
+
     private EnemyView skeletonView;
     private EnemyView vampireView;
 
@@ -129,6 +131,7 @@ public class MainGameActivity extends AppCompatActivity {
         skeletonView.updatePosition(skeleton.getRow(), skeleton.getColumn());
         skeletonView.setImageResource(R.drawable.skeleton);
 
+
         vampire = EnemyFactory.createEnemy(2,2,2,3,1);
         vampireView = new EnemyView(this);
         vampireView.updatePosition(vampire.getRow(), vampire.getColumn());
@@ -143,6 +146,7 @@ public class MainGameActivity extends AppCompatActivity {
         zombieView = new EnemyView(this);
         zombieView.updatePosition(zombie.getRow(), zombie.getColumn());
         zombieView.setImageResource(R.drawable.zombie);
+
 
         handler.postDelayed(enemyMovementRunnable, ENEMY_MOVEMENT_INTERVAL);
 
@@ -172,12 +176,15 @@ public class MainGameActivity extends AppCompatActivity {
         tilemapGrid.addView(playerView);
         tilemapGrid.addView(skeletonView);
         Log.d("skeletoTILE", "done");
+
+
         tilemapGrid.addView(vampireView);
         Log.d("vamptoTILE", "done");
         tilemapGrid.addView(ghostView);
         Log.d("ghosttoTILE","done");
         tilemapGrid.addView(zombieView);
         Log.d("zombtoTILE","done");
+      
         // Start updating the score
         startScoreUpdate();
 
@@ -215,6 +222,7 @@ public class MainGameActivity extends AppCompatActivity {
                 } else {
                     Log.d("movement", "null");
                 }
+
             }
 
             // Schedule the next movement
