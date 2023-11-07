@@ -20,11 +20,7 @@ public class EnemyFactory {
             case 1:
                 return new Skeleton(movementSpeed, damage, row, column);
             case 2:
-                return new Vampire(movementSpeed, damage, row, column);
-            case 3:
-                return new Ghost(movementSpeed, damage, row, column);
-            case 4:
-                return new Zombie(movementSpeed, damage, row, column);
+                return new Vampire();
             default:
                 return null;
 >>>>>>> main

@@ -42,14 +42,8 @@ public class MainGameActivity extends AppCompatActivity {
     private int[][] tilemap;
     private final Handler handler = new Handler();
     private static final int ENEMY_MOVEMENT_INTERVAL = 1000;
-
-    private Enemy vampire;
+    private Vampire vampire;
     private Enemy skeleton;
-    private Enemy ghost;
-    private Enemy zombie;
-    private EnemyView ghostView;
-    private EnemyView zombieView;
-
     private EnemyView skeletonView;
     private EnemyView vampireView;
 
@@ -130,23 +124,10 @@ public class MainGameActivity extends AppCompatActivity {
         skeletonView.updatePosition(skeleton.getRow(), skeleton.getColumn());
         skeletonView.setImageResource(R.drawable.skeleton);
 
-
-        vampire = EnemyFactory.createEnemy(2,2,2,3,1);
+        Enemy vampire = EnemyFactory.createEnemy();
         vampireView = new EnemyView(this);
         vampireView.updatePosition(vampire.getRow(), vampire.getColumn());
         vampireView.setImageResource(R.drawable.vampire);
-
-        ghost = EnemyFactory.createEnemy(3, 1,5,6,6);
-        ghostView = new EnemyView(this);
-        ghostView.updatePosition(ghost.getRow(), ghost.getColumn());
-        ghostView.setImageResource(R.drawable.ghost);
-
-        zombie = EnemyFactory.createEnemy(4, 2,5,10,10);
-        zombieView = new EnemyView(this);
-        zombieView.updatePosition(zombie.getRow(), zombie.getColumn());
-        zombieView.setImageResource(R.drawable.zombie);
-
-
         handler.postDelayed(enemyMovementRunnable, ENEMY_MOVEMENT_INTERVAL);
 
         // Display health.
@@ -175,15 +156,7 @@ public class MainGameActivity extends AppCompatActivity {
         tilemapGrid.addView(playerView);
         tilemapGrid.addView(skeletonView);
         Log.d("skeletoTILE", "done");
-
-
-        tilemapGrid.addView(vampireView);
-        Log.d("vamptoTILE", "done");
-        tilemapGrid.addView(ghostView);
-        Log.d("ghosttoTILE","done");
-        tilemapGrid.addView(zombieView);
-        Log.d("zombtoTILE","done");
-      
+        //tilemapGrid.addView(vampireView);
         // Start updating the score
         startScoreUpdate();
 
@@ -200,28 +173,6 @@ public class MainGameActivity extends AppCompatActivity {
                 } else {
                     Log.d("movement", "null");
                 }
-
-                if (vampire != null) {
-                    vampire.move();
-                    vampireView.updatePosition(vampire.getRow(), vampire.getColumn());
-                } else {
-                    Log.d("movement", "null");
-                }
-
-                if (ghost != null) {
-                    ghost.move();
-                    ghostView.updatePosition(ghost.getRow(), ghost.getColumn());
-                } else {
-                    Log.d("movement", "null");
-                }
-
-                if (zombie != null) {
-                    zombie.move();
-                    zombieView.updatePosition(zombie.getRow(), zombie.getColumn());
-                } else {
-                    Log.d("movement", "null");
-                }
-
             }
 
             // Schedule the next movement
