@@ -2,6 +2,7 @@ package com.example.team24dungeoncrawler.viewmodels;
 
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.widget.GridLayout;
 import android.widget.ImageView;
@@ -35,6 +36,12 @@ public class Game2activity extends AppCompatActivity {
     private PlayerView playerView;
     private double characterNumber;
     private String gameDifficulty;
+    private Enemy ghost;
+    private Enemy zombie;
+    private EnemyView ghostView;
+    private EnemyView zombieView;
+    private final Handler handler = new Handler();
+    private static final int ENEMY_MOVEMENT_INTERVAL = 1000;
 
 
 
@@ -127,16 +134,18 @@ public class Game2activity extends AppCompatActivity {
         }
 
         //Create Zombie and Ghost Enemies
-        Enemy ghost = EnemyFactory.createEnemy(3);
-        Enemy zombie = EnemyFactory.createEnemy(4);
-        EnemyView ghostView = new EnemyView(this);
-        EnemyView zombieView = new EnemyView(this);
+        ghost = EnemyFactory.createEnemy(3, 1,5,6,6);
+        zombie = EnemyFactory.createEnemy(4, 2,5,4,4);
+        ghostView = new EnemyView(this);
+        zombieView = new EnemyView(this);
 
         ghostView.updatePosition(ghost.getRow(), ghost.getColumn());
         ghostView.setImageResource(R.drawable.ghost);
 
         zombieView.updatePosition(zombie.getRow(), zombie.getColumn());
         zombieView.setImageResource(R.drawable.zombie);
+
+        handler.postDelayed(enemyMovementRunnable, ENEMY_MOVEMENT_INTERVAL);
 
 
 
@@ -169,6 +178,32 @@ public class Game2activity extends AppCompatActivity {
         startScoreUpdate();
 
     }
+    private Runnable enemyMovementRunnable = new Runnable() {
+
+        @Override
+        public void run() {
+            synchronized (this) {
+                if (ghost != null) {
+                    ghost.move();
+                    ghostView.updatePosition(ghost.getRow(), ghost.getColumn());
+                } else {
+                    Log.d("movement", "null");
+                }
+
+                if (zombie != null) {
+                    zombie.move();
+                    zombieView.updatePosition(zombie.getRow(), zombie.getColumn());
+                } else {
+                    Log.d("movement", "null");
+                }
+
+            }
+
+            // Schedule the next movement
+            handler.postDelayed(this, ENEMY_MOVEMENT_INTERVAL);
+        }
+    };
+
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {

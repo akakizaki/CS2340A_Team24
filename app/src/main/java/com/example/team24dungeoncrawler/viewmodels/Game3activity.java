@@ -34,6 +34,8 @@ public class Game3activity extends AppCompatActivity {
     private PlayerView playerView;
     private double characterNumber;
     private String gameDifficulty;
+    private final Handler handler = new Handler();
+    private static final int ENEMY_MOVEMENT_INTERVAL = 1000;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
