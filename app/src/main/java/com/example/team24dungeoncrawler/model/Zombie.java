@@ -15,6 +15,7 @@ public class Zombie extends Enemy{
         this.movementSpeed = movementSpeed;
         lastMoveTime = System.currentTimeMillis();
     }
+    
     @Override
     public void move() {
         //super.move();
@@ -26,4 +27,5 @@ public class Zombie extends Enemy{
             super.setRow(currentRow);
         }
     }
+
 }

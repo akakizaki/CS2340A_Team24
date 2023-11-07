@@ -16,10 +16,13 @@ public class Ghost extends Enemy{
         lastMoveTime = System.currentTimeMillis();
         this.movementSpeed = movementSpeed;
         // super(3, 5, 12, 5);
+
     }
+  
     @Override
     public void move() {
         //movement
+
         long currentTime = System.currentTimeMillis();
         if (currentTime - lastMoveTime >= 1000) { //check if 1 second has passed
             lastMoveTime = currentTime;
@@ -27,5 +30,6 @@ public class Ghost extends Enemy{
             currentCol -= movementSpeed; //move 1 tile down
             super.setColumn(currentCol);
         }
+
     }
 }
