@@ -27,7 +27,7 @@ public class Ghost extends Enemy{
         if (currentTime - lastMoveTime >= 1000) { //check if 1 second has passed
             lastMoveTime = currentTime;
             int currentCol = super.getColumn();
-            currentCol -= movementSpeed; //move 1 tile down
+            currentCol -= 1; //move 1 tile down
             super.setColumn(currentCol);
         }
 
