@@ -1,4 +1,4 @@
-package com.example.team24dungeoncrawler;
+package com.example.team24dungeoncrawler.Sprint3TestUnit;
 import org.junit.Test;
 
 import com.example.team24dungeoncrawler.model.Player;
@@ -8,7 +8,7 @@ import static org.junit.Assert.*;
 import android.view.KeyEvent;
 
 
-public class MainGameActvityTest {
+public class MainGameActivityTest {
     // Simulate a key press event (e.g., KEYCODE_D for the 'D' key):
     KeyEvent keyPressEvent = new KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_D);
 
@@ -37,7 +37,7 @@ public class MainGameActvityTest {
     public void testMoveUp() {
         // Create an instance of MainGameActivity
         MainGameActivity gameActivity = new MainGameActivity();
-        Player player = Player.getInstance();
+        Player player = Player.getInstance("player", "hard");
 
         // Set the player's initial position
         player.setRow(3);
