@@ -25,6 +25,7 @@ import com.example.team24dungeoncrawler.model.Player;
 import com.example.team24dungeoncrawler.model.PlayerView;
 import com.example.team24dungeoncrawler.model.Skeleton;
 import com.example.team24dungeoncrawler.model.Vampire;
+import com.example.team24dungeoncrawler.viewmodels.EnemyView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,8 +46,6 @@ public class MainGameActivity extends AppCompatActivity {
 
     private Enemy vampire;
     private Enemy skeleton;
-    private Enemy ghost;
-    private Enemy zombie;
     private EnemyView ghostView;
     private EnemyView zombieView;
 
@@ -131,20 +130,10 @@ public class MainGameActivity extends AppCompatActivity {
         skeletonView.setImageResource(R.drawable.skeleton);
 
 
-        vampire = EnemyFactory.createEnemy(2,2,2,3,1);
+        vampire = EnemyFactory.createEnemy(2,2,2,6,1);
         vampireView = new EnemyView(this);
         vampireView.updatePosition(vampire.getRow(), vampire.getColumn());
         vampireView.setImageResource(R.drawable.vampire);
-
-        ghost = EnemyFactory.createEnemy(3, 1,5,6,6);
-        ghostView = new EnemyView(this);
-        ghostView.updatePosition(ghost.getRow(), ghost.getColumn());
-        ghostView.setImageResource(R.drawable.ghost);
-
-        zombie = EnemyFactory.createEnemy(4, 2,5,10,10);
-        zombieView = new EnemyView(this);
-        zombieView.updatePosition(zombie.getRow(), zombie.getColumn());
-        zombieView.setImageResource(R.drawable.zombie);
 
 
         handler.postDelayed(enemyMovementRunnable, ENEMY_MOVEMENT_INTERVAL);
@@ -173,16 +162,12 @@ public class MainGameActivity extends AppCompatActivity {
         scoreTextView = findViewById(R.id.scoreTextView);
         //add player to tilemap
         tilemapGrid.addView(playerView);
+
         tilemapGrid.addView(skeletonView);
         Log.d("skeletoTILE", "done");
 
-
         tilemapGrid.addView(vampireView);
         Log.d("vamptoTILE", "done");
-        tilemapGrid.addView(ghostView);
-        Log.d("ghosttoTILE","done");
-        tilemapGrid.addView(zombieView);
-        Log.d("zombtoTILE","done");
       
         // Start updating the score
         startScoreUpdate();
@@ -207,21 +192,6 @@ public class MainGameActivity extends AppCompatActivity {
                 } else {
                     Log.d("movement", "null");
                 }
-
-                if (ghost != null) {
-                    ghost.move();
-                    ghostView.updatePosition(ghost.getRow(), ghost.getColumn());
-                } else {
-                    Log.d("movement", "null");
-                }
-
-                if (zombie != null) {
-                    zombie.move();
-                    zombieView.updatePosition(zombie.getRow(), zombie.getColumn());
-                } else {
-                    Log.d("movement", "null");
-                }
-
             }
 
             // Schedule the next movement
