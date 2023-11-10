@@ -1,5 +1,6 @@
 package com.example.team24dungeoncrawler.viewmodels;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -242,7 +243,15 @@ public class MainGameActivity extends AppCompatActivity {
         Runnable scoreRunnable = new Runnable() {
             @Override
             public void run() {
-                currentScore -= 1; // Decrease by 1 points per second
+                player.decreaseHealth(); // Decrease player health
+                // Check if player health is zero or below
+                if (player.getHealth() <= 0) {
+                    // Player has died, navigate to the game over screen
+                    gameOver();
+                    return; // Stop further updates
+                }
+
+                currentScore -= 1; // Decrease by 1 point per second
                 // Ensure the score doesn't go below 0
                 if (currentScore < 0) {
                     currentScore = 0;
@@ -258,6 +267,18 @@ public class MainGameActivity extends AppCompatActivity {
 
         // Start the score update
         scoreHandler.postDelayed(scoreRunnable, 1000);
+    }
+
+    private void gameOver() {
+        // You can create an Intent to navigate to the game over screen
+        Intent gameOverIntent = new Intent(MainGameActivity.this, EndingScreen.class);
+        // Pass any necessary data to the game over screen using extras
+        // For example, you might want to pass the player's final score
+        gameOverIntent.putExtra("finalScore", currentScore);
+        startActivity(gameOverIntent);
+
+        // Finish the current activity to prevent the player from returning to the game
+        finish();
     }
 
 }
