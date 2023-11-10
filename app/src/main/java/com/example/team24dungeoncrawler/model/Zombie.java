@@ -1,6 +1,6 @@
 package com.example.team24dungeoncrawler.model;
 
-public class Zombie extends Enemy{
+public class Zombie extends Enemy {
     private int row;
     private int column;
     private int direction;
