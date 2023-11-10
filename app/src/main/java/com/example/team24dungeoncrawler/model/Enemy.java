@@ -35,4 +35,8 @@ public abstract class Enemy {
     public void setColumn(int column) {
         this.column = column;
     }
+
+    public int getMovementSpeed() {
+        return this.movementSpeed;
+    }
 }

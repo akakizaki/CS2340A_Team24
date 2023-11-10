@@ -134,8 +134,11 @@ public class Game2activity extends AppCompatActivity {
         }
 
         //Create Zombie and Ghost Enemies
-        ghost = EnemyFactory.createEnemy(3, 1,5,6,6);
-        ghostView = new EnemyView(this);
+        Enemy ghost = EnemyFactory.createEnemy(3, 1, 2, 12, 13);
+        Enemy zombie = EnemyFactory.createEnemy(4, 2, 3, 5, 11);
+        EnemyView ghostView = new EnemyView(this);
+        EnemyView zombieView = new EnemyView(this);
+
         ghostView.updatePosition(ghost.getRow(), ghost.getColumn());
         ghostView.setImageResource(R.drawable.ghost);
 

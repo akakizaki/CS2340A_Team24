@@ -23,7 +23,7 @@ public class Zombie extends Enemy {
         if (currentTime - lastMoveTime >= 1000) { //check if 1 second has passed
             lastMoveTime = currentTime;
             int currentRow = super.getRow();
-            currentRow += 1; //move 1 tile down
+            currentRow += movementSpeed; //move down by movementSpeed
             super.setRow(currentRow);
         }
     }
