@@ -13,7 +13,7 @@ public class Skeleton extends Enemy {
     private long lastMoveTime;
     private Enemy enemy;
     private MainActivity mainActivity;
-    private static final int MAX_ROWS = 18;
+    private static final int MAX_ROWS = 19;
     private boolean movingDown = true;
 
 

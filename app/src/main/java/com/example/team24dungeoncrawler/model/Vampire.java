@@ -15,7 +15,7 @@ public class Vampire extends Enemy {
 
     private long lastMoveTime;
     private boolean movingRight = true;
-    private  static final int MAX_COL = 18;
+    private  static final int MAX_COL = 19;
 
     public Vampire(int movementSpeed, int damage, int row, int column) {
         super(movementSpeed, damage, row, column);
