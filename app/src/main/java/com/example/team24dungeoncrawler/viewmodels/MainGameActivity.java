@@ -125,29 +125,27 @@ public class MainGameActivity extends AppCompatActivity {
         }
         playerView.updatePosition(player.getRow(), player.getCol()); // Set the initial position
 
-        skeleton = EnemyFactory.createEnemy(1, 1,1,1,1);
+        skeleton = EnemyFactory.createEnemy(1, 1,10,1,1); // multiplied damage by 10 to have more noticable affect on health
         skeletonView = new EnemyView(this);
         skeletonView.updatePosition(skeleton.getRow(), skeleton.getColumn());
         skeletonView.setImageResource(R.drawable.skeleton);
+        player.addObserver(skeleton);
 
 
-        vampire = EnemyFactory.createEnemy(2,2,2,6,1);
+        vampire = EnemyFactory.createEnemy(2,2,20,6,1); // multiplied damage by 10 to have more noticable affect on health
         vampireView = new EnemyView(this);
         vampireView.updatePosition(vampire.getRow(), vampire.getColumn());
         vampireView.setImageResource(R.drawable.vampire);
+        player.addObserver(vampire);
 
 
         handler.postDelayed(enemyMovementRunnable, ENEMY_MOVEMENT_INTERVAL);
 
         // Display health.
         TextView health = findViewById(R.id.health);
-        if (gameDifficulty.equals("Easy")) {
-            health.setText("Health: " + "100");
-        } else if (gameDifficulty.equals("Medium")) {
-            health.setText("Health: " + "75");
-        } else if (gameDifficulty.equals("Hard")) {
-            health.setText("Health: " + "50");
-        }
+        health.setText("Health: " + player.getHealth());
+        // Update Health every quarter second
+        handler.postDelayed(healthRunnable, 250);
 
         // Get characterNumber and display sprite accordingly
         characterNumber = getIntent().getDoubleExtra("characterNumber", 1);
@@ -169,7 +167,7 @@ public class MainGameActivity extends AppCompatActivity {
 
         tilemapGrid.addView(vampireView);
         Log.d("vamptoTILE", "done");
-      
+
         // Start updating the score
         startScoreUpdate();
 
@@ -200,27 +198,34 @@ public class MainGameActivity extends AppCompatActivity {
         }
     };
 
-
+    private Runnable healthRunnable = new Runnable() {
+        @Override
+        public void run() {
+            TextView healthTextView = findViewById(R.id.health);
+            healthTextView.setText("Health: " + player.getHealth());
+            handler.postDelayed(this, 250);
+        }
+    };
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         MovementStrategy movementStrategy;
         switch (keyCode) {
-        case KeyEvent.KEYCODE_W:
+            case KeyEvent.KEYCODE_W:
 
-            movementStrategy = new MoveUpStrategy();
-            break;
-        case KeyEvent.KEYCODE_A:
-            movementStrategy = new MoveLeftStrategy();
-            break;
-        case KeyEvent.KEYCODE_S:
-            movementStrategy = new MoveDownStrategy();
-            break;
-        case KeyEvent.KEYCODE_D:
-            movementStrategy = new MoveRightStrategy();
-            break;
-        default:
-            movementStrategy = null;
+                movementStrategy = new MoveUpStrategy();
+                break;
+            case KeyEvent.KEYCODE_A:
+                movementStrategy = new MoveLeftStrategy();
+                break;
+            case KeyEvent.KEYCODE_S:
+                movementStrategy = new MoveDownStrategy();
+                break;
+            case KeyEvent.KEYCODE_D:
+                movementStrategy = new MoveRightStrategy();
+                break;
+            default:
+                movementStrategy = null;
         }
 
         if (movementStrategy != null) {
@@ -243,13 +248,13 @@ public class MainGameActivity extends AppCompatActivity {
         Runnable scoreRunnable = new Runnable() {
             @Override
             public void run() {
-//                player.decreaseHealth(); // Decrease player health
-//                // Check if player health is zero or below
-//                if (player.getHealth() <= 0) {
-//                    // Player has died, navigate to the game over screen
-//                    gameOver();
-//                    return; // Stop further updates
-//                }
+
+                // Check if player health is zero or below
+                if (player.getHealth() <= 0) {
+                    // Player has died, navigate to the game over screen
+                    gameOver();
+                    return; // Stop further updates
+                }
 
                 currentScore -= 1; // Decrease by 1 point per second
                 // Ensure the score doesn't go below 0

@@ -2,7 +2,7 @@ package com.example.team24dungeoncrawler.model;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Player {
+public class Player implements Observable {
     private String name;
     private int health;
     private String direction;
@@ -11,10 +11,10 @@ public class Player {
     private int row;
     private int col;
 
-
     private double damageMultiplier;
     private static Player instance;
     private List<Attempt> attemptHistory;
+    private List<EnemyObserver> enemyObserverList;
 
 
     private Player(String name, String difficulty) {
@@ -26,6 +26,7 @@ public class Player {
         this.score = 0;
         this.row = 3;
         this.col = 1;
+        enemyObserverList = new ArrayList<EnemyObserver>();
 
         // Set health and damageMultiplier based on the selected difficulty
         switch (difficulty) {
@@ -82,10 +83,12 @@ public class Player {
 
     public void setCol(int col) {
         this.col = col;
+        notifyObservers();
     }
 
     public void setRow(int row) {
         this.row = row;
+        notifyObservers();
     }
 
     public void setName(String name) {
@@ -108,6 +111,34 @@ public class Player {
         // Ensure health doesn't go below 0
         if (health < 0) {
             health = 0;
+        }
+    }
+
+    public void decreaseHealth(int damage) {
+        this.health -= damage;
+
+        // Ensure health doesn't go below 0
+        if (health < 0) {
+            health = 0;
+        }
+    }
+
+    @Override
+    public void addObserver(EnemyObserver observer) {
+        enemyObserverList.add(observer);
+    }
+
+    @Override
+    public void removeObserver(EnemyObserver observer) {
+        enemyObserverList.remove(observer);
+    }
+
+    public void removeObservers() {enemyObserverList = new ArrayList<EnemyObserver>(); }
+
+    @Override
+    public void notifyObservers() {
+        for (EnemyObserver enemy: enemyObserverList) {
+            enemy.update(this);
         }
     }
 }

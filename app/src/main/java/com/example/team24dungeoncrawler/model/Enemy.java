@@ -4,7 +4,7 @@ import android.util.Log;
 
 import java.util.Random;
 
-public abstract class Enemy {
+public abstract class Enemy implements EnemyObserver {
     private int movementSpeed;
     private int damage;
     private int row;
@@ -39,4 +39,6 @@ public abstract class Enemy {
     public int getMovementSpeed() {
         return this.movementSpeed;
     }
+
+    public int getDamage() {return this.damage; }
 }
