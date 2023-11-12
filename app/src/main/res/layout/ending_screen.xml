@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
@@ -5,6 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".viewmodels.EndingScreen"
     android:orientation="vertical">
+
 
     <TextView
         android:id="@+id/playerScoreTextView"
@@ -21,26 +23,23 @@
         android:layout_marginTop="8dp"
         android:layout_marginBottom="8dp"
         android:scrollbars="vertical" />
-
     <Button
         android:id="@+id/restartButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Restart"
-        android:layout_gravity="center" />
-
-    <TextView
-        android:id="@+id/textView2"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="You Won!"
-        android:layout_gravity="top|end"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp" />
+        android:layout_gravity="center"
+        />
 
     <TextView
         android:id="@+id/textView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="1" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="you Won! " />
 </LinearLayout>
