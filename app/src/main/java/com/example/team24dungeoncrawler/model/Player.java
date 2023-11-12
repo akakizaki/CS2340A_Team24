@@ -1,4 +1,6 @@
 package com.example.team24dungeoncrawler.model;
+import com.example.team24dungeoncrawler.viewmodels.GameState;
+
 import java.util.ArrayList;
 import java.util.List;
 
