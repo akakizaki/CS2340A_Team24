@@ -108,6 +108,18 @@ public class Game3activity extends AppCompatActivity {
 
         player = Player.getInstance(name, String.valueOf(gameDifficulty));
         playerView = new PlayerView(this); // Create a new PlayerView
+        if (getIntent().hasExtra("exitPositionRow") && getIntent().hasExtra("exitPositionCol")) {
+            int exitPositionRow = getIntent().getIntExtra("exitPositionRow", 0);
+            int exitPositionCol = getIntent().getIntExtra("exitPositionCol", 0);
+            playerView.updatePosition(exitPositionRow, exitPositionCol);
+            player.setRow(exitPositionRow);
+            player.setCol(exitPositionCol);
+        } else {
+            // Provide a default starting position if not coming from the first map.
+            playerView.updatePosition(3, 1);
+            player.setRow(3);
+            player.setCol(1);
+        }
 
         TextView health = findViewById(R.id.health);
         health.setText("Health: " + player.getHealth());
