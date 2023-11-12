@@ -1,4 +1,4 @@
-package com.example.team24dungeoncrawler.viewmodels;
+package com.example.team24dungeoncrawler.model;
 
 import android.content.Context;
 import android.widget.GridLayout;

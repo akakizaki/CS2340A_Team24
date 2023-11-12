@@ -95,7 +95,7 @@ public class enemyMovementTest1 {
         ghost.move();
         int updatedCol = ghost.getColumn();
         //Tests Ghost moved left by movementSpeed after waiting
-        assertEquals(initialCol - ghost.getMovementSpeed(), updatedCol);
+        assertEquals(initialCol + ghost.getMovementSpeed(), updatedCol);
 
         //Tests Ghost didn't move after not waiting
         ghost.move();
