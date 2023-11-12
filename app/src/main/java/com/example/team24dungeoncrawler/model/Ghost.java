@@ -31,10 +31,10 @@ public class Ghost extends Enemy{
             int currentCol = super.getColumn();
             int newCol = currentCol + this.movementSpeed;
             if (newCol > 0 && newCol < MAX_COL) {
-                super.setRow(newCol);
+                super.setColumn(newCol);
             } else {
                 movementSpeed = -movementSpeed;
-                super.setRow(currentCol + movementSpeed);
+                super.setColumn(currentCol + movementSpeed);
             }
         }
     }
