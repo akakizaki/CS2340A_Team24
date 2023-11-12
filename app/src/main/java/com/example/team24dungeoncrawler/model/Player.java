@@ -133,6 +133,8 @@ public class Player implements Observable {
         enemyObserverList.remove(observer);
     }
 
+    public void removeObservers() {enemyObserverList = new ArrayList<EnemyObserver>(); }
+
     @Override
     public void notifyObservers() {
         for (EnemyObserver enemy: enemyObserverList) {
