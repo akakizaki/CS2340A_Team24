@@ -16,7 +16,7 @@ import com.example.team24dungeoncrawler.R;
 import com.example.team24dungeoncrawler.model.Attempt;
 import com.example.team24dungeoncrawler.model.Enemy;
 import com.example.team24dungeoncrawler.model.EnemyFactory;
-import com.example.team24dungeoncrawler.model.EnemyView;
+import com.example.team24dungeoncrawler.viewmodels.EnemyView;
 import com.example.team24dungeoncrawler.model.ExitStrategy;
 import com.example.team24dungeoncrawler.model.LeaderBoard;
 import com.example.team24dungeoncrawler.model.MoveDownStrategy;
@@ -46,6 +46,8 @@ public class Game2activity extends AppCompatActivity {
     private EnemyView zombieView;
     private final Handler handler = new Handler();
     private static final int ENEMY_MOVEMENT_INTERVAL = 1000;
+
+    private boolean isGameOver = GameState.isGameOver();
 
 
 
@@ -181,6 +183,9 @@ public class Game2activity extends AppCompatActivity {
         startScoreUpdate();
 
     }
+
+
+
     private Runnable enemyMovementRunnable = new Runnable() {
 
         @Override
@@ -280,14 +285,20 @@ public class Game2activity extends AppCompatActivity {
     }
 
     private void gameOver() {
-        LeaderBoard leaderboard = LeaderBoard.getInstance();
-        leaderboard.addAttempt(new Attempt(name, currentScore));
-        Intent gameOverIntent = new Intent(Game2activity.this, EndingScreen.class);
-        gameOverIntent.putExtra("Name", name);
-        gameOverIntent.putExtra("Score", currentScore);
-        player.removeObservers();
-        Game2activity.this.startActivity(gameOverIntent);
-        Game2activity.this.finish();
+        if (!GameState.isGameOver()) {
+            GameState.setGameOver(true);
+
+            LeaderBoard leaderboard = LeaderBoard.getInstance();
+            leaderboard.addAttempt(new Attempt(name, currentScore));
+
+            Intent gameOverIntent = new Intent(Game2activity.this, EndingScreen.class);
+            gameOverIntent.putExtra("Name", name);
+            gameOverIntent.putExtra("Score", currentScore);
+
+            player.removeObservers();
+            Game2activity.this.startActivity(gameOverIntent);
+            Game2activity.this.finish();
+        }
     }
 
 

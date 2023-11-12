@@ -111,6 +111,7 @@ public class Player implements Observable {
         this.score = 0;
         this.row = 3;
         this.col = 1;
+        GameState.setGameOver(false);
 
         // Reset health and damageMultiplier based on the selected difficulty
         switch (difficulty) {
