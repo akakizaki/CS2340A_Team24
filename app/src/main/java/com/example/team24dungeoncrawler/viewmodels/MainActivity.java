@@ -68,6 +68,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void startGame(View view) {
+        player.reset(player.getName(), selectedDifficulty);
         Intent game = new Intent(this, MainGameActivity.class);
         game.putExtra("difficulty", selectedDifficulty);
         game.putExtra("name", player.getName());
