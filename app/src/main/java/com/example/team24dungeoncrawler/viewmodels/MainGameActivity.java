@@ -23,12 +23,7 @@ import com.example.team24dungeoncrawler.model.MoveUpStrategy;
 import com.example.team24dungeoncrawler.model.MovementStrategy;
 import com.example.team24dungeoncrawler.model.Player;
 import com.example.team24dungeoncrawler.model.PlayerView;
-import com.example.team24dungeoncrawler.model.Skeleton;
-import com.example.team24dungeoncrawler.model.Vampire;
-import com.example.team24dungeoncrawler.viewmodels.EnemyView;
 
-import java.util.ArrayList;
-import java.util.List;
 
 public class MainGameActivity extends AppCompatActivity {
     private RelativeLayout mainGameLayout;
@@ -124,13 +119,13 @@ public class MainGameActivity extends AppCompatActivity {
         }
         playerView.updatePosition(player.getRow(), player.getCol()); // Set the initial position
 
-        skeleton = EnemyFactory.createEnemy(1, 1,1,1,1);
+        skeleton = EnemyFactory.createEnemy(1, 1, 1, 1, 1);
         skeletonView = new EnemyView(this);
         skeletonView.updatePosition(skeleton.getRow(), skeleton.getColumn());
         skeletonView.setImageResource(R.drawable.skeleton);
 
 
-        vampire = EnemyFactory.createEnemy(2,2,2,6,1);
+        vampire = EnemyFactory.createEnemy(2, 2, 2, 6, 1);
         vampireView = new EnemyView(this);
         vampireView.updatePosition(vampire.getRow(), vampire.getColumn());
         vampireView.setImageResource(R.drawable.vampire);

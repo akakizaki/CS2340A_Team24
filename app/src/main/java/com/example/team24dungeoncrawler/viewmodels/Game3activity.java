@@ -118,12 +118,12 @@ public class Game3activity extends AppCompatActivity {
         player = Player.getInstance(name, String.valueOf(gameDifficulty));
         playerView = new PlayerView(this); // Create a new PlayerView
 
-        skeleton = EnemyFactory.createEnemy(1, 1,1,1,1);
+        skeleton = EnemyFactory.createEnemy(1, 1, 1, 1, 1);
         skeletonView = new EnemyView(this);
         skeletonView.updatePosition(skeleton.getRow(), skeleton.getColumn());
         skeletonView.setImageResource(R.drawable.skeleton);
 
-        zombie = EnemyFactory.createEnemy(4, 2,5,4,4);
+        zombie = EnemyFactory.createEnemy(4, 2, 5, 4, 4);
         zombieView = new EnemyView(this);
         zombieView.updatePosition(zombie.getRow(), zombie.getColumn());
         zombieView.setImageResource(R.drawable.zombie);

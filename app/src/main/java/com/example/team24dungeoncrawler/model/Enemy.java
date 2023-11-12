@@ -1,8 +1,5 @@
 package com.example.team24dungeoncrawler.model;
 
-import android.util.Log;
-
-import java.util.Random;
 
 public abstract class Enemy {
     private int movementSpeed;
@@ -12,10 +9,10 @@ public abstract class Enemy {
 
 
     public Enemy(int movementSpeed, int damage, int row, int column) {
-            this.movementSpeed = movementSpeed;
-            this.damage = damage;
-            this.row = row;
-            this.column = column;
+        this.movementSpeed = movementSpeed;
+        this.damage = damage;
+        this.row = row;
+        this.column = column;
     }
 
     public abstract void move();
