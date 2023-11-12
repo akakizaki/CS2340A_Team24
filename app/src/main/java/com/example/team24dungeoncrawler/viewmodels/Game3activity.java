@@ -23,7 +23,6 @@ import com.example.team24dungeoncrawler.model.MoveRightStrategy;
 import com.example.team24dungeoncrawler.model.MoveUpStrategy;
 import com.example.team24dungeoncrawler.model.MovementStrategy;
 import com.example.team24dungeoncrawler.model.Player;
-import com.example.team24dungeoncrawler.model.PlayerView;
 
 public class Game3activity extends AppCompatActivity {
     private RelativeLayout mainGameLayout;
