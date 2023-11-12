@@ -14,9 +14,11 @@ import androidx.appcompat.app.AppCompatActivity;
 
 
 import com.example.team24dungeoncrawler.R;
+import com.example.team24dungeoncrawler.model.Attempt;
 import com.example.team24dungeoncrawler.model.Enemy;
 import com.example.team24dungeoncrawler.model.EnemyFactory;
 import com.example.team24dungeoncrawler.model.ExitStrategy;
+import com.example.team24dungeoncrawler.model.LeaderBoard;
 import com.example.team24dungeoncrawler.model.MoveDownStrategy;
 import com.example.team24dungeoncrawler.model.MoveLeftStrategy;
 import com.example.team24dungeoncrawler.model.MoveRightStrategy;
@@ -24,12 +26,7 @@ import com.example.team24dungeoncrawler.model.MoveUpStrategy;
 import com.example.team24dungeoncrawler.model.MovementStrategy;
 import com.example.team24dungeoncrawler.model.Player;
 import com.example.team24dungeoncrawler.model.PlayerView;
-import com.example.team24dungeoncrawler.model.Skeleton;
-import com.example.team24dungeoncrawler.model.Vampire;
-import com.example.team24dungeoncrawler.viewmodels.EnemyView;
-
-import java.util.ArrayList;
-import java.util.List;
+import com.example.team24dungeoncrawler.model.EnemyView;
 
 public class MainGameActivity extends AppCompatActivity {
     private RelativeLayout mainGameLayout;
@@ -274,15 +271,14 @@ public class MainGameActivity extends AppCompatActivity {
     }
 
     private void gameOver() {
-        // You can create an Intent to navigate to the game over screen
+        LeaderBoard leaderboard = LeaderBoard.getInstance();
+        leaderboard.addAttempt(new Attempt(name, currentScore));
         Intent gameOverIntent = new Intent(MainGameActivity.this, EndingScreen.class);
-        // Pass any necessary data to the game over screen using extras
-        // For example, you might want to pass the player's final score
-        gameOverIntent.putExtra("finalScore", currentScore);
-        startActivity(gameOverIntent);
-
-        // Finish the current activity to prevent the player from returning to the game
-        finish();
+        gameOverIntent.putExtra("Name", name);
+        gameOverIntent.putExtra("Score", currentScore);
+        player.removeObservers();
+        MainGameActivity.this.startActivity(gameOverIntent);
+        MainGameActivity.this.finish();
     }
 
 }
