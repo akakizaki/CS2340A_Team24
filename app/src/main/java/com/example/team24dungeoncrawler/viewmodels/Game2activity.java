@@ -135,10 +135,10 @@ public class Game2activity extends AppCompatActivity {
         }
 
         //Create Zombie and Ghost Enemies
-        Enemy ghost = EnemyFactory.createEnemy(3, 1, 2, 12, 13);
-        Enemy zombie = EnemyFactory.createEnemy(4, 2, 3, 5, 11);
-        EnemyView ghostView = new EnemyView(this);
-        EnemyView zombieView = new EnemyView(this);
+        ghost = EnemyFactory.createEnemy(3, 1, 2, 12, 13);
+        zombie = EnemyFactory.createEnemy(4, 2, 3, 5, 11);
+        ghostView = new EnemyView(this);
+        zombieView = new EnemyView(this);
 
         ghostView.updatePosition(ghost.getRow(), ghost.getColumn());
         ghostView.setImageResource(R.drawable.ghost);
@@ -190,14 +190,14 @@ public class Game2activity extends AppCompatActivity {
                     ghost.move();
                     ghostView.updatePosition(ghost.getRow(), ghost.getColumn());
                 } else {
-                    Log.d("movement", "null");
+                    Log.d("ghost movement", "null");
                 }
 
                 if (zombie != null) {
                     zombie.move();
                     zombieView.updatePosition(zombie.getRow(), zombie.getColumn());
                 } else {
-                    Log.d("movement", "null");
+                    Log.d("zombie movement", "null");
                 }
 
             }
