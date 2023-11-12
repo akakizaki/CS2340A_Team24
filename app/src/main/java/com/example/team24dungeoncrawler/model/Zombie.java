@@ -26,25 +26,12 @@ public class Zombie extends Enemy {
         if (currentTime - lastMoveTime >= 1000) { //check if 1 second has passed
             lastMoveTime = currentTime;
             int currentRow = super.getRow();
-            int newRow;
-
-            if (movingDown) {
-                newRow = currentRow + 1; // move 1 tile down
-
-                if (isValidMove(newRow)) {
-                    super.setRow(newRow);
-                    Log.d("zombie move", "done");
-                } else {
-                    //reverse
-                    movingDown = false;
-                }
+            int newRow = currentRow + this.movementSpeed;
+            if (newRow > 0 && newRow < MAX_ROWS) {
+                super.setRow(newRow);
             } else {
-                newRow = currentRow - 1; // move 1 tile up
-                if (isValidMove(newRow)) {
-                    super.setRow(newRow);
-                } else {
-                    movingDown = true;
-                }
+                movementSpeed = -movementSpeed;
+                super.setRow(currentRow + movementSpeed);
             }
         }
     }
@@ -64,5 +51,4 @@ public class Zombie extends Enemy {
     private boolean isValidMove(int newRow) {
         return newRow >= 0 && newRow < MAX_ROWS;
     }
-
 }

@@ -25,29 +25,18 @@ public class Vampire extends Enemy {
     }
     @Override
     public void move() {
-       //super.move();
-      long currentTime = System.currentTimeMillis();
+        long currentTime = System.currentTimeMillis();
         if (currentTime - lastMoveTime >= 1000) { //check if 1 second has passed
             lastMoveTime = currentTime;
             int currentCol = super.getColumn();
-            int newCol;
-            if (movingRight) {
-                newCol = currentCol + 1;
-                if (isValidMove(newCol)) {
-                    super.setColumn(newCol);
-                    Log.d("vampire move", "done");
-                } else {
-                    movingRight = false;
-                }
+            int newCol = currentCol + movementSpeed;
+            if (newCol > 0 && newCol < MAX_COL) {
+                super.setColumn(newCol);
             } else {
-                newCol = currentCol - 1; // move 1 tile up
-                if (isValidMove(newCol)) {
-                    super.setColumn(newCol);
-                } else {
-                    movingRight = true;
-                }
+                movementSpeed = -movementSpeed;
+                super.setColumn(currentCol + movementSpeed);
             }
-          }
+       }
     }
 
     @Override
