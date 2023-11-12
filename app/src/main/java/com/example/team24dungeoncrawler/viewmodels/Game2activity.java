@@ -131,20 +131,19 @@ public class Game2activity extends AppCompatActivity {
         handler.postDelayed(healthRunnable, 250);
 
         //Create Zombie and Ghost Enemies
-        ghost = EnemyFactory.createEnemy(3, 1, 20, 12, 13);
-        zombie = EnemyFactory.createEnemy(4, 2, 30, 5, 11);
-        player.addObserver(ghost);
-        player.addObserver(zombie);
-        ghostView = new EnemyView(this);
-        zombieView = new EnemyView(this);
 
+        //Create Zombie Enemy
+        ghost = EnemyFactory.createEnemy(3, 1, 20, 12, 13);
+        ghostView = new EnemyView(this);
         ghostView.updatePosition(ghost.getRow(), ghost.getColumn());
         ghostView.setImageResource(R.drawable.ghost);
+        player.addObserver(ghost);
 
-        zombie = EnemyFactory.createEnemy(4, 2,5,4,4);
+        zombie = EnemyFactory.createEnemy(4, 2, 30, 5, 11);
         zombieView = new EnemyView(this);
         zombieView.updatePosition(zombie.getRow(), zombie.getColumn());
         zombieView.setImageResource(R.drawable.zombie);
+        player.addObserver(zombie);
 
         handler.postDelayed(enemyMovementRunnable, ENEMY_MOVEMENT_INTERVAL);
 
@@ -165,7 +164,9 @@ public class Game2activity extends AppCompatActivity {
         //add player and enemies to tileMap
         tilemapGrid.addView(playerView);
         tilemapGrid.addView(ghostView);
+        Log.d("ghost TILE", "done");
         tilemapGrid.addView(zombieView);
+        Log.d("zombie TILE", "done");
 
         //Get score from previous screen
         currentScore = getIntent().getIntExtra("score", 0);
