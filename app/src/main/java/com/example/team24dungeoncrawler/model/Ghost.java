@@ -29,26 +29,13 @@ public class Ghost extends Enemy{
         if (currentTime - lastMoveTime >= 1000) { //check if 1 second has passed
             lastMoveTime = currentTime;
             int currentCol = super.getColumn();
-            int newCol;
-            if (movingRight) {
-                newCol = currentCol + 1;
-                if (isValidMove(newCol)) {
-                    super.setColumn(newCol);
-                    Log.d("vampire move", "done");
-                } else {
-                    movingRight = false;
-                }
+            int newCol = currentCol + this.movementSpeed;
+            if (newCol > 0 && newCol < MAX_COL) {
+                super.setRow(newCol);
             } else {
-                newCol = currentCol - 1;
-                if (isValidMove(newCol)) {
-                    super.setColumn(newCol);
-                } else {
-                    movingRight = true;
-                }
+                movementSpeed = -movementSpeed;
+                super.setRow(currentCol + movementSpeed);
             }
         }
-    }
-    private boolean isValidMove(int newCol) {
-        return newCol >= 0 && newCol < MAX_COL;
     }
 }
