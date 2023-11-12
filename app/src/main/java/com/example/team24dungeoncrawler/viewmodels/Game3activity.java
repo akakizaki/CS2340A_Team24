@@ -241,7 +241,6 @@ public class Game3activity extends AppCompatActivity {
         Runnable scoreRunnable = new Runnable() {
             @Override
             public void run() {
-                player.decreaseHealth(); // Decrease player health
                 // Check if player health is zero or below
                 if (player.getHealth() <= 0) {
                     // Player has died, navigate to the game over screen
