@@ -26,7 +26,7 @@ import com.example.team24dungeoncrawler.model.MoveUpStrategy;
 import com.example.team24dungeoncrawler.model.MovementStrategy;
 import com.example.team24dungeoncrawler.model.Player;
 import com.example.team24dungeoncrawler.model.PlayerView;
-import com.example.team24dungeoncrawler.model.EnemyView;
+import com.example.team24dungeoncrawler.viewmodels.EnemyView;
 
 public class MainGameActivity extends AppCompatActivity {
     private RelativeLayout mainGameLayout;
@@ -49,6 +49,10 @@ public class MainGameActivity extends AppCompatActivity {
 
     private EnemyView skeletonView;
     private EnemyView vampireView;
+
+    private Handler scoreHandler = new Handler();
+
+    private boolean isGameOver = GameState.isGameOver();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -169,6 +173,12 @@ public class MainGameActivity extends AppCompatActivity {
         startScoreUpdate();
 
     }
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        handler.removeCallbacksAndMessages(null);
+        scoreHandler.removeCallbacksAndMessages(null);
+    }
 
     private Runnable enemyMovementRunnable = new Runnable() {
 
@@ -271,14 +281,17 @@ public class MainGameActivity extends AppCompatActivity {
     }
 
     private void gameOver() {
-        LeaderBoard leaderboard = LeaderBoard.getInstance();
-        leaderboard.addAttempt(new Attempt(name, currentScore));
-        Intent gameOverIntent = new Intent(MainGameActivity.this, EndingScreen.class);
-        gameOverIntent.putExtra("Name", name);
-        gameOverIntent.putExtra("Score", currentScore);
-        player.removeObservers();
-        MainGameActivity.this.startActivity(gameOverIntent);
-        MainGameActivity.this.finish();
+        if (!GameState.isGameOver()) {
+            GameState.setGameOver(true);
+            LeaderBoard leaderboard = LeaderBoard.getInstance();
+            leaderboard.addAttempt(new Attempt(name, currentScore));
+            Intent gameOverIntent = new Intent(MainGameActivity.this, EndingScreen.class);
+            gameOverIntent.putExtra("Name", name);
+            gameOverIntent.putExtra("Score", currentScore);
+            player.removeObservers();
+            MainGameActivity.this.startActivity(gameOverIntent);
+            MainGameActivity.this.finish();
+        }
     }
 
 }
