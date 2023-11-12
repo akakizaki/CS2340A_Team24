@@ -24,7 +24,12 @@ import com.example.team24dungeoncrawler.model.MoveUpStrategy;
 import com.example.team24dungeoncrawler.model.MovementStrategy;
 import com.example.team24dungeoncrawler.model.Player;
 import com.example.team24dungeoncrawler.model.PlayerView;
-import com.example.team24dungeoncrawler.model.EnemyView;
+import com.example.team24dungeoncrawler.model.Skeleton;
+import com.example.team24dungeoncrawler.model.Vampire;
+import com.example.team24dungeoncrawler.viewmodels.EnemyView;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class MainGameActivity extends AppCompatActivity {
     private RelativeLayout mainGameLayout;
