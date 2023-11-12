@@ -34,6 +34,7 @@ public class ExitStrategy implements MovementStrategy {
             game.putExtra("name", name);
             game.putExtra("characterNumber", characterNumber);
             game.putExtra("score", currentScore);
+            player.removeObservers();
             activity.startActivity(game);
             activity.finish();
         } else if (activity instanceof Game2activity) {
@@ -42,6 +43,7 @@ public class ExitStrategy implements MovementStrategy {
             game.putExtra("name", name);
             game.putExtra("characterNumber", characterNumber);
             game.putExtra("score", currentScore);
+            player.removeObservers();
             activity.startActivity(game);
             activity.finish();
         } else if (activity instanceof Game3activity) {
@@ -50,6 +52,7 @@ public class ExitStrategy implements MovementStrategy {
             Intent endgame = new Intent(activity, EndingScreen.class);
             endgame.putExtra("Name", name);
             endgame.putExtra("Score", currentScore);
+            player.removeObservers();
             activity.startActivity(endgame);
             activity.finish();
         }

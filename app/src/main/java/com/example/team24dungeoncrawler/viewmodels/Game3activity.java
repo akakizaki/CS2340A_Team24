@@ -106,28 +106,25 @@ public class Game3activity extends AppCompatActivity {
         TextView difficulty = findViewById(R.id.difficulty);
         difficulty.setText("Difficulty: " + gameDifficulty);
 
-        // Display health.
-        TextView health = findViewById(R.id.health);
-        if (gameDifficulty.equals("Easy")) {
-            health.setText("Health: " + "100");
-        } else if (gameDifficulty.equals("Medium")) {
-            health.setText("Health: " + "75");
-        } else if (gameDifficulty.equals("Hard")) {
-            health.setText("Health: " + "50");
-        }
-
         player = Player.getInstance(name, String.valueOf(gameDifficulty));
         playerView = new PlayerView(this); // Create a new PlayerView
 
-        skeleton = EnemyFactory.createEnemy(1, 1,1,1,1);
+        TextView health = findViewById(R.id.health);
+        health.setText("Health: " + player.getHealth());
+        // Update Health every quarter second
+        handler.postDelayed(healthRunnable, 250);
+
+        skeleton = EnemyFactory.createEnemy(1, 1,10,1,1);
         skeletonView = new EnemyView(this);
         skeletonView.updatePosition(skeleton.getRow(), skeleton.getColumn());
         skeletonView.setImageResource(R.drawable.skeleton);
+        player.addObserver(skeleton);
 
-        zombie = EnemyFactory.createEnemy(4, 2,5,4,4);
+        zombie = EnemyFactory.createEnemy(4, 2,50,4,4);
         zombieView = new EnemyView(this);
         zombieView.updatePosition(zombie.getRow(), zombie.getColumn());
         zombieView.setImageResource(R.drawable.zombie);
+        player.addObserver(zombie);
 
         handler.postDelayed(enemyMovementRunnable, ENEMY_MOVEMENT_INTERVAL);
 
@@ -227,6 +224,15 @@ public class Game3activity extends AppCompatActivity {
 
             // Schedule the next movement
             handler.postDelayed(this, ENEMY_MOVEMENT_INTERVAL);
+        }
+    };
+
+    private Runnable healthRunnable = new Runnable() {
+        @Override
+        public void run() {
+            TextView healthTextView = findViewById(R.id.health);
+            healthTextView.setText("Health: " + player.getHealth());
+            handler.postDelayed(this, 250);
         }
     };
 
