@@ -109,16 +109,6 @@ public class Game2activity extends AppCompatActivity {
         TextView difficulty = findViewById(R.id.difficulty);
         difficulty.setText("Difficulty: " + gameDifficulty);
 
-        // Display health.
-        TextView health = findViewById(R.id.health);
-        if (gameDifficulty.equals("Easy")) {
-            health.setText("Health: " + "100");
-        } else if (gameDifficulty.equals("Medium")) {
-            health.setText("Health: " + "75");
-        } else if (gameDifficulty.equals("Hard")) {
-            health.setText("Health: " + "50");
-        }
-
         player = Player.getInstance(name, String.valueOf(gameDifficulty));
         playerView = new PlayerView(this); // Create a new PlayerView
         if (getIntent().hasExtra("exitPositionRow") && getIntent().hasExtra("exitPositionCol")) {
@@ -133,6 +123,12 @@ public class Game2activity extends AppCompatActivity {
             player.setRow(3);
             player.setCol(1);
         }
+
+        // Display health.
+        TextView health = findViewById(R.id.health);
+        health.setText("Health: " + player.getHealth());
+        // Update Health every quarter second
+        handler.postDelayed(healthRunnable, 250);
 
         //Create Zombie and Ghost Enemies
         Enemy ghost = EnemyFactory.createEnemy(3, 1, 2, 12, 13);
@@ -149,8 +145,6 @@ public class Game2activity extends AppCompatActivity {
         zombieView.setImageResource(R.drawable.zombie);
 
         handler.postDelayed(enemyMovementRunnable, ENEMY_MOVEMENT_INTERVAL);
-
-
 
         // Get characterNumber and display sprite accordingly
         characterNumber = getIntent().getDoubleExtra("characterNumber", 1);
@@ -207,6 +201,14 @@ public class Game2activity extends AppCompatActivity {
         }
     };
 
+    private Runnable healthRunnable = new Runnable() {
+        @Override
+        public void run() {
+            TextView healthTextView = findViewById(R.id.health);
+            healthTextView.setText("Health: " + player.getHealth());
+            handler.postDelayed(this, 250);
+        }
+    };
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
