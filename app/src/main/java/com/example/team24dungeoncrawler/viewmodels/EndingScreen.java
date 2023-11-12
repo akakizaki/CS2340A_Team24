@@ -32,44 +32,49 @@ public class EndingScreen extends AppCompatActivity {
         name = getIntent().getStringExtra("Name");
         score = getIntent().getIntExtra("Score", 0);
 
+        // Retrieve the leaderboard and display the top attempts
+        LeaderBoard leaderboard = LeaderBoard.getInstance();
+        Attempt recentAttempt = leaderboard.getRecentAttempt();
+
+        // Adjust the number of attempts you want to display
+        List<Attempt> topAttempts = leaderboard.getTopAttempts(5);
+
+        RecyclerView recyclerView = findViewById(R.id.leaderboardRecyclerView);
+        LeaderBoardAdapter adapter = new LeaderBoardAdapter(topAttempts);
+
+        recyclerView.setLayoutManager(new LinearLayoutManager((this)));
+        recyclerView.setAdapter(adapter);
+
+        Button restartButton = findViewById(R.id.restartButton);
+
+        TextView textView = findViewById(R.id.textView);
+        String recentAttemptString = "Last Attempt:\n" + recentAttempt.getPlayerName() + "\n"
+                + recentAttempt.getScore() + "\n"
+                + recentAttempt.getTimestamp();
+        textView.setText(recentAttemptString);
+
         // Check if the player's health is 0
+        TextView textView2 = findViewById(R.id.textView2);
         if (Player.getInstance(name, "").getHealth() == 0) {
-            TextView textView = findViewById(R.id.textView);
-            textView.setText("Game Over"); // Set the text to "Game Over"
+            textView2.setText("GAME OVER! OH NO :("); // Set the text to "Game Over"
+            textView2.setTextSize(24);
         } else {
-            // Player is not dead, continue with the normal flow
-
-            // Retrieve the leaderboard and display the top attempts
-            LeaderBoard leaderboard = LeaderBoard.getInstance();
-            Attempt recentAttempt = leaderboard.getRecentAttempt();
-
-            // Adjust the number of attempts you want to display
-            List<Attempt> topAttempts = leaderboard.getTopAttempts(5);
-
-            RecyclerView recyclerView = findViewById(R.id.leaderboardRecyclerView);
-            LeaderBoardAdapter adapter = new LeaderBoardAdapter(topAttempts);
-
-            recyclerView.setLayoutManager(new LinearLayoutManager((this)));
-            recyclerView.setAdapter(adapter);
-
-            Button restartButton = findViewById(R.id.restartButton);
-
-            TextView textView = findViewById(R.id.textView);
-            String recentAttemptString = "Last Attempt:\n" + recentAttempt.getPlayerName() + "\n"
-                    + recentAttempt.getScore() + "\n"
-                    + recentAttempt.getTimestamp();
-            textView.setText(recentAttemptString);
-
-            // Set a click listener for the restart button
-            restartButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    // Create an Intent to navigate back to the MainActivity
-                    Intent intent = new Intent(EndingScreen.this, MainActivity.class);
-                    startActivity(intent);
-                }
-            });
+            textView2.setText("YOU WON! YAY! ");
+            textView2.setTextSize(24);
         }
+
+        // Set a click listener for the restart button
+        restartButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // Create an Intent to navigate back to the MainActivity
+                Intent intent = new Intent(EndingScreen.this, MainActivity.class);
+                startActivity(intent);
+            }
+        });
+
+
+
     }
 
     private class LeaderBoardAdapter extends RecyclerView.Adapter<LeaderBoardAdapter.ViewHolder> {
