@@ -114,15 +114,17 @@ public class Game3activity extends AppCompatActivity {
         // Update Health every quarter second
         handler.postDelayed(healthRunnable, 250);
 
-        skeleton = EnemyFactory.createEnemy(1, 1,1,1,1);
+        skeleton = EnemyFactory.createEnemy(1, 1,10,1,1);
         skeletonView = new EnemyView(this);
         skeletonView.updatePosition(skeleton.getRow(), skeleton.getColumn());
         skeletonView.setImageResource(R.drawable.skeleton);
+        player.addObserver(skeleton);
 
-        zombie = EnemyFactory.createEnemy(4, 2,5,4,4);
+        zombie = EnemyFactory.createEnemy(4, 2,50,4,4);
         zombieView = new EnemyView(this);
         zombieView.updatePosition(zombie.getRow(), zombie.getColumn());
         zombieView.setImageResource(R.drawable.zombie);
+        player.addObserver(zombie);
 
         handler.postDelayed(enemyMovementRunnable, ENEMY_MOVEMENT_INTERVAL);
 

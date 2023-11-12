@@ -131,8 +131,10 @@ public class Game2activity extends AppCompatActivity {
         handler.postDelayed(healthRunnable, 250);
 
         //Create Zombie and Ghost Enemies
-        ghost = EnemyFactory.createEnemy(3, 1, 2, 12, 13);
-        zombie = EnemyFactory.createEnemy(4, 2, 3, 5, 11);
+        ghost = EnemyFactory.createEnemy(3, 1, 20, 12, 13);
+        zombie = EnemyFactory.createEnemy(4, 2, 30, 5, 11);
+        player.addObserver(ghost);
+        player.addObserver(zombie);
         ghostView = new EnemyView(this);
         zombieView = new EnemyView(this);
 
