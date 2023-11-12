@@ -248,7 +248,6 @@ public class MainGameActivity extends AppCompatActivity {
         Runnable scoreRunnable = new Runnable() {
             @Override
             public void run() {
-
                 // Check if player health is zero or below
                 if (player.getHealth() <= 0) {
                     // Player has died, navigate to the game over screen
@@ -274,16 +273,16 @@ public class MainGameActivity extends AppCompatActivity {
         scoreHandler.postDelayed(scoreRunnable, 1000);
     }
 
-//    private void gameOver() {
-//        // You can create an Intent to navigate to the game over screen
-//        Intent gameOverIntent = new Intent(MainGameActivity.this, EndingScreen.class);
-//        // Pass any necessary data to the game over screen using extras
-//        // For example, you might want to pass the player's final score
-//        gameOverIntent.putExtra("finalScore", currentScore);
-//        startActivity(gameOverIntent);
-//
-//        // Finish the current activity to prevent the player from returning to the game
-//        finish();
-//    }
+    private void gameOver() {
+        // You can create an Intent to navigate to the game over screen
+        Intent gameOverIntent = new Intent(MainGameActivity.this, EndingScreen.class);
+        // Pass any necessary data to the game over screen using extras
+        // For example, you might want to pass the player's final score
+        gameOverIntent.putExtra("finalScore", currentScore);
+        startActivity(gameOverIntent);
+
+        // Finish the current activity to prevent the player from returning to the game
+        finish();
+    }
 
 }
