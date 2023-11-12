@@ -32,43 +32,43 @@ public class EndingScreen extends AppCompatActivity {
         name = getIntent().getStringExtra("Name");
         score = getIntent().getIntExtra("Score", 0);
 
-        // Check if the player's health is 0
-        if (Player.getInstance(name, "").getHealth() == 0) {
-            TextView textView = findViewById(R.id.textView);
-            textView.setText("Game Over"); // Set the text to "Game Over"
+        // Retrieve the leaderboard and display the top attempts
+        LeaderBoard leaderboard = LeaderBoard.getInstance();
+        Attempt recentAttempt = leaderboard.getRecentAttempt();
+
+        // Adjust the number of attempts you want to display
+        List<Attempt> topAttempts = leaderboard.getTopAttempts(5);
+
+        RecyclerView recyclerView = findViewById(R.id.leaderboardRecyclerView);
+        LeaderBoardAdapter adapter = new LeaderBoardAdapter(topAttempts);
+
+        recyclerView.setLayoutManager(new LinearLayoutManager((this)));
+        recyclerView.setAdapter(adapter);
+
+        Button restartButton = findViewById(R.id.restartButton);
+
+        TextView textView = findViewById(R.id.textView);
+        String recentAttemptString = "Last Attempt:\n" + recentAttempt.getPlayerName() + "\n"
+                + recentAttempt.getScore() + "\n"
+                + recentAttempt.getTimestamp();
+        textView.setText(recentAttemptString);
+
+        // Set a click listener for the restart button
+        restartButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // Create an Intent to navigate back to the MainActivity
+                Intent intent = new Intent(EndingScreen.this, MainActivity.class);
+                startActivity(intent);
+            }
+        });
+        TextView textView2 = findViewById(R.id.textView2);
+
+        // Check if the player won (modify this condition based on your win criteria)
+        if (score > 0 && Player.getInstance(name, "").getHealth() > 0) {
+            textView2.setText("You Won! Congrats!!!");
         } else {
-            // Player is not dead, continue with the normal flow
-
-            // Retrieve the leaderboard and display the top attempts
-            LeaderBoard leaderboard = LeaderBoard.getInstance();
-            Attempt recentAttempt = leaderboard.getRecentAttempt();
-
-            // Adjust the number of attempts you want to display
-            List<Attempt> topAttempts = leaderboard.getTopAttempts(5);
-
-            RecyclerView recyclerView = findViewById(R.id.leaderboardRecyclerView);
-            LeaderBoardAdapter adapter = new LeaderBoardAdapter(topAttempts);
-
-            recyclerView.setLayoutManager(new LinearLayoutManager((this)));
-            recyclerView.setAdapter(adapter);
-
-            Button restartButton = findViewById(R.id.restartButton);
-
-            TextView textView = findViewById(R.id.textView);
-            String recentAttemptString = "Last Attempt:\n" + recentAttempt.getPlayerName() + "\n"
-                    + recentAttempt.getScore() + "\n"
-                    + recentAttempt.getTimestamp();
-            textView.setText(recentAttemptString);
-
-            // Set a click listener for the restart button
-            restartButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    // Create an Intent to navigate back to the MainActivity
-                    Intent intent = new Intent(EndingScreen.this, MainActivity.class);
-                    startActivity(intent);
-                }
-            });
+            textView2.setText("Game Over. You lost :("); // Empty text if not a win
         }
     }
 
@@ -103,7 +103,6 @@ public class EndingScreen extends AppCompatActivity {
         public class ViewHolder extends RecyclerView.ViewHolder {
             private TextView nameTextView;
             private TextView scoreTextView;
-
             private TextView datetimeTextView;
 
             public ViewHolder(@NonNull View itemView) {

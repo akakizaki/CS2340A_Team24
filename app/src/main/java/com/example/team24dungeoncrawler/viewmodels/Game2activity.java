@@ -109,16 +109,6 @@ public class Game2activity extends AppCompatActivity {
         TextView difficulty = findViewById(R.id.difficulty);
         difficulty.setText("Difficulty: " + gameDifficulty);
 
-        // Display health.
-        TextView health = findViewById(R.id.health);
-        if (gameDifficulty.equals("Easy")) {
-            health.setText("Health: " + "100");
-        } else if (gameDifficulty.equals("Medium")) {
-            health.setText("Health: " + "75");
-        } else if (gameDifficulty.equals("Hard")) {
-            health.setText("Health: " + "50");
-        }
-
         player = Player.getInstance(name, String.valueOf(gameDifficulty));
         playerView = new PlayerView(this); // Create a new PlayerView
         if (getIntent().hasExtra("exitPositionRow") && getIntent().hasExtra("exitPositionCol")) {
@@ -134,9 +124,17 @@ public class Game2activity extends AppCompatActivity {
             player.setCol(1);
         }
 
+        // Display health.
+        TextView health = findViewById(R.id.health);
+        health.setText("Health: " + player.getHealth());
+        // Update Health every quarter second
+        handler.postDelayed(healthRunnable, 250);
+
         //Create Zombie and Ghost Enemies
-        ghost = EnemyFactory.createEnemy(3, 1, 2, 12, 13);
-        zombie = EnemyFactory.createEnemy(4, 2, 3, 5, 11);
+        ghost = EnemyFactory.createEnemy(3, 1, 20, 12, 13);
+        zombie = EnemyFactory.createEnemy(4, 2, 30, 5, 11);
+        player.addObserver(ghost);
+        player.addObserver(zombie);
         ghostView = new EnemyView(this);
         zombieView = new EnemyView(this);
 
@@ -149,8 +147,6 @@ public class Game2activity extends AppCompatActivity {
         zombieView.setImageResource(R.drawable.zombie);
 
         handler.postDelayed(enemyMovementRunnable, ENEMY_MOVEMENT_INTERVAL);
-
-
 
         // Get characterNumber and display sprite accordingly
         characterNumber = getIntent().getDoubleExtra("characterNumber", 1);
@@ -207,6 +203,14 @@ public class Game2activity extends AppCompatActivity {
         }
     };
 
+    private Runnable healthRunnable = new Runnable() {
+        @Override
+        public void run() {
+            TextView healthTextView = findViewById(R.id.health);
+            healthTextView.setText("Health: " + player.getHealth());
+            handler.postDelayed(this, 250);
+        }
+    };
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
@@ -246,7 +250,6 @@ public class Game2activity extends AppCompatActivity {
         Runnable scoreRunnable = new Runnable() {
             @Override
             public void run() {
-                player.decreaseHealth(); // Decrease player health
                 // Check if player health is zero or below
                 if (player.getHealth() <= 0) {
                     // Player has died, navigate to the game over screen
@@ -272,16 +275,16 @@ public class Game2activity extends AppCompatActivity {
         scoreHandler.postDelayed(scoreRunnable, 1000);
     }
 
-    private void gameOver() {
-        // You can create an Intent to navigate to the game over screen
-        Intent gameOverIntent = new Intent(Game2activity.this, EndingScreen.class);
-        // Pass any necessary data to the game over screen using extras
-        // For example, you might want to pass the player's final score
-        gameOverIntent.putExtra("finalScore", currentScore);
-        startActivity(gameOverIntent);
-
-        // Finish the current activity to prevent the player from returning to the game
-        finish();
-    }
+//    private void gameOver() {
+//        // You can create an Intent to navigate to the game over screen
+//        Intent gameOverIntent = new Intent(Game2activity.this, EndingScreen.class);
+//        // Pass any necessary data to the game over screen using extras
+//        // For example, you might want to pass the player's final score
+//        gameOverIntent.putExtra("finalScore", currentScore);
+//        startActivity(gameOverIntent);
+//
+//        // Finish the current activity to prevent the player from returning to the game
+//        finish();
+//    }
 
 }
