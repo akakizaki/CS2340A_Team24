@@ -1,6 +1,10 @@
+package com.example.team24dungeoncrawler.Sprint4TestUnit;
+
 import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
+
+import com.example.team24dungeoncrawler.model.Player;
 
 public class PlayerTest {
 
