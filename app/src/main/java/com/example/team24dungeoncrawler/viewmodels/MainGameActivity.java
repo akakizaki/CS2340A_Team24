@@ -219,21 +219,20 @@ public class MainGameActivity extends AppCompatActivity {
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         MovementStrategy movementStrategy;
         switch (keyCode) {
-            case KeyEvent.KEYCODE_W:
-
-                movementStrategy = new MoveUpStrategy();
-                break;
-            case KeyEvent.KEYCODE_A:
-                movementStrategy = new MoveLeftStrategy();
-                break;
-            case KeyEvent.KEYCODE_S:
-                movementStrategy = new MoveDownStrategy();
-                break;
-            case KeyEvent.KEYCODE_D:
-                movementStrategy = new MoveRightStrategy();
-                break;
-            default:
-                movementStrategy = null;
+        case KeyEvent.KEYCODE_W:
+            movementStrategy = new MoveUpStrategy();
+            break;
+        case KeyEvent.KEYCODE_A:
+            movementStrategy = new MoveLeftStrategy();
+            break;
+        case KeyEvent.KEYCODE_S:
+            movementStrategy = new MoveDownStrategy();
+            break;
+        case KeyEvent.KEYCODE_D:
+            movementStrategy = new MoveRightStrategy();
+            break;
+        default:
+            movementStrategy = null;
         }
 
         if (movementStrategy != null) {

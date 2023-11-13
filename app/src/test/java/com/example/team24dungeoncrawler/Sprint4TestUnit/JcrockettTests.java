@@ -9,7 +9,7 @@ import com.example.team24dungeoncrawler.model.Player;
 import org.junit.Before;
 import org.junit.Test;
 
-public class jcrockettTests {
+public class JcrockettTests {
     private Player player;
 
     private Enemy vampire;
