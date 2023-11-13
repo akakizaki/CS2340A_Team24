@@ -14,7 +14,7 @@ import org.junit.Test;
 
 //done by: Aya Kakizaki
 //test cases that tests skeleton's movement
-public class enemyMovementTest1 {
+public class EnemyMovementTest1 {
     @Test
     public void testMove() {
         Skeleton skeleton = new Skeleton(1, 10, 1, 1);

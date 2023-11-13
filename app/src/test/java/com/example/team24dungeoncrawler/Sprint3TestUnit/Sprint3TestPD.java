@@ -4,18 +4,11 @@ import com.example.team24dungeoncrawler.model.Player;
 import com.example.team24dungeoncrawler.viewmodels.MainGameActivity;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
-import static org.mockito.Mockito.*;
-
-import android.content.Context;
-import android.content.Intent;
 import android.view.KeyEvent;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.ArgumentCaptor;
-import org.mockito.Mockito;
+
 
 public class Sprint3TestPD {
 
@@ -36,7 +29,7 @@ public class Sprint3TestPD {
 
     @Test
     public void testScreenSwitch() {
-        assertEquals(player.getSpeed(),0);
+        assertEquals(player.getSpeed(), 0);
     }
 
 }

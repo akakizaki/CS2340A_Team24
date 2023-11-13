@@ -26,7 +26,6 @@ import com.example.team24dungeoncrawler.model.MoveUpStrategy;
 import com.example.team24dungeoncrawler.model.MovementStrategy;
 import com.example.team24dungeoncrawler.model.Player;
 import com.example.team24dungeoncrawler.model.PlayerView;
-import com.example.team24dungeoncrawler.viewmodels.EnemyView;
 
 public class MainGameActivity extends AppCompatActivity {
     private RelativeLayout mainGameLayout;
@@ -126,14 +125,16 @@ public class MainGameActivity extends AppCompatActivity {
         }
         playerView.updatePosition(player.getRow(), player.getCol()); // Set the initial position
 
-        skeleton = EnemyFactory.createEnemy(1, 1,10,1,1); // multiplied damage by 10 to have more noticable affect on health
+        skeleton = EnemyFactory.createEnemy(1, 1, 10, 1,
+                1); // multiplied damage by 10 to have more noticable affect on health
         skeletonView = new EnemyView(this);
         skeletonView.updatePosition(skeleton.getRow(), skeleton.getColumn());
         skeletonView.setImageResource(R.drawable.skeleton);
         player.addObserver(skeleton);
 
 
-        vampire = EnemyFactory.createEnemy(2,2,20,6,1); // multiplied damage by 10 to have more noticable affect on health
+        vampire = EnemyFactory.createEnemy(2, 2, 20, 6,
+                1); // multiplied damage by 10 to have more noticable affect on health
         vampireView = new EnemyView(this);
         vampireView.updatePosition(vampire.getRow(), vampire.getColumn());
         vampireView.setImageResource(R.drawable.vampire);
@@ -218,21 +219,20 @@ public class MainGameActivity extends AppCompatActivity {
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         MovementStrategy movementStrategy;
         switch (keyCode) {
-            case KeyEvent.KEYCODE_W:
-
-                movementStrategy = new MoveUpStrategy();
-                break;
-            case KeyEvent.KEYCODE_A:
-                movementStrategy = new MoveLeftStrategy();
-                break;
-            case KeyEvent.KEYCODE_S:
-                movementStrategy = new MoveDownStrategy();
-                break;
-            case KeyEvent.KEYCODE_D:
-                movementStrategy = new MoveRightStrategy();
-                break;
-            default:
-                movementStrategy = null;
+        case KeyEvent.KEYCODE_W:
+            movementStrategy = new MoveUpStrategy();
+            break;
+        case KeyEvent.KEYCODE_A:
+            movementStrategy = new MoveLeftStrategy();
+            break;
+        case KeyEvent.KEYCODE_S:
+            movementStrategy = new MoveDownStrategy();
+            break;
+        case KeyEvent.KEYCODE_D:
+            movementStrategy = new MoveRightStrategy();
+            break;
+        default:
+            movementStrategy = null;
         }
 
         if (movementStrategy != null) {

@@ -16,7 +16,6 @@ import com.example.team24dungeoncrawler.R;
 import com.example.team24dungeoncrawler.model.Attempt;
 import com.example.team24dungeoncrawler.model.Enemy;
 import com.example.team24dungeoncrawler.model.EnemyFactory;
-import com.example.team24dungeoncrawler.viewmodels.EnemyView;
 import com.example.team24dungeoncrawler.model.ExitStrategy;
 import com.example.team24dungeoncrawler.model.LeaderBoard;
 import com.example.team24dungeoncrawler.model.MoveDownStrategy;

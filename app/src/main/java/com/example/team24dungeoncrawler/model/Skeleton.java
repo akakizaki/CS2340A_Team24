@@ -1,10 +1,7 @@
 package com.example.team24dungeoncrawler.model;
 
-import android.util.Log;
-
 import com.example.team24dungeoncrawler.viewmodels.MainActivity;
 
-import java.util.Random;
 
 public class Skeleton extends Enemy {
     private int row;

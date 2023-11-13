@@ -1,9 +1,5 @@
 package com.example.team24dungeoncrawler.model;
 
-import android.util.Log;
-
-import java.util.Random;
-
 public abstract class Enemy implements EnemyObserver {
     private int movementSpeed;
     private int damage;
@@ -12,10 +8,10 @@ public abstract class Enemy implements EnemyObserver {
 
 
     public Enemy(int movementSpeed, int damage, int row, int column) {
-            this.movementSpeed = movementSpeed;
-            this.damage = damage;
-            this.row = row;
-            this.column = column;
+        this.movementSpeed = movementSpeed;
+        this.damage = damage;
+        this.row = row;
+        this.column = column;
     }
 
     public abstract void move();
@@ -40,5 +36,7 @@ public abstract class Enemy implements EnemyObserver {
         return this.movementSpeed;
     }
 
-    public int getDamage() {return this.damage; }
+    public int getDamage() {
+        return this.damage;
+    }
 }
