@@ -135,15 +135,7 @@ public class Player implements Observable {
             break;
         }
     }
-    public void decreaseHealth() {
-        // Decrease health based on the damageMultiplier
-        this.health -= (int) (10 * damageMultiplier); // You can adjust the damage as needed
 
-        // Ensure health doesn't go below 0
-        if (health < 0) {
-            health = 0;
-        }
-    }
 
     public void decreaseHealth(int damage) {
         this.health -= damage;

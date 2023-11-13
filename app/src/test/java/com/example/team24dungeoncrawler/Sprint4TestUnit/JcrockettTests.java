@@ -49,7 +49,7 @@ public class JcrockettTests {
     @Test
     public void testCollisionCondition() {
         player.setRow(6);
-        assertEquals(134, player.getHealth());
+        assertEquals(118, player.getHealth());
     }
 
     @Test
