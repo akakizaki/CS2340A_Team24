@@ -1,8 +1,5 @@
 package com.example.team24dungeoncrawler.model;
 
-import android.util.Log;
-
-import java.util.Random;
 
 public class Vampire extends Enemy {
 
@@ -36,7 +33,7 @@ public class Vampire extends Enemy {
                 movementSpeed = -movementSpeed;
                 super.setColumn(currentCol + movementSpeed);
             }
-       }
+        }
     }
 
     @Override

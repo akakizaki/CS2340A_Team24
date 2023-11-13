@@ -1,8 +1,7 @@
 package com.example.team24dungeoncrawler.model;
 
-import android.util.Log;
 
-public class Ghost extends Enemy{
+public class Ghost extends Enemy {
 
     private int row;
     private int column;

@@ -19,7 +19,8 @@ public class jcrockettTests {
     @Before
     public void setUp() {
         player = Player.getInstance("John", "Easy");
-        vampire = EnemyFactory.createEnemy(2,2,20,6,1);
+        vampire = EnemyFactory.createEnemy(2, 2, 20, 6,
+                1);
         player.addObserver(vampire);
         tilemap = new int[][]{
                 {0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 4},
@@ -52,7 +53,7 @@ public class jcrockettTests {
     }
 
     @Test
-    public void testCollisionConditionInverse(){
+    public void testCollisionConditionInverse() {
         player.setRow(3);
         assertEquals(150, 150);
     }

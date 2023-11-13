@@ -4,9 +4,7 @@ import com.example.team24dungeoncrawler.model.Player;
 import com.example.team24dungeoncrawler.viewmodels.MainGameActivity;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
-import static org.mockito.Mockito.*;
+
 
 import android.content.Context;
 import android.content.Intent;
