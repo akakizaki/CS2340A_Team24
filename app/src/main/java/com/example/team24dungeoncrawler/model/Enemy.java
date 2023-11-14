@@ -39,4 +39,16 @@ public abstract class Enemy implements EnemyObserver {
     public int getDamage() {
         return this.damage;
     }
+
+    @Override
+    public void update(Player player) {
+        int playerRow = player.getRow();
+        int playerCol = player.getCol();
+        int enemyRow = this.getRow();
+        int enemyCol = this.getColumn();
+
+        if (playerRow == enemyRow && playerCol == enemyCol) {
+            player.decreaseHealth((int) (this.getDamage() * player.getDamageMultiplier()));
+        }
+    }
 }
