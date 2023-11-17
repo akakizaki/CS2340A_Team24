@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.view.View;
 import android.widget.GridLayout;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -26,6 +27,7 @@ import com.example.team24dungeoncrawler.model.MoveUpStrategy;
 import com.example.team24dungeoncrawler.model.MovementStrategy;
 import com.example.team24dungeoncrawler.model.Player;
 import com.example.team24dungeoncrawler.model.PlayerView;
+import com.example.team24dungeoncrawler.model.Skeleton;
 
 public class MainGameActivity extends AppCompatActivity {
     private RelativeLayout mainGameLayout;
@@ -51,7 +53,13 @@ public class MainGameActivity extends AppCompatActivity {
 
     private Handler scoreHandler = new Handler();
 
+    private TextView attack;
+
+    private GridLayout tilemapGrid;
+
     private boolean isGameOver = GameState.isGameOver();
+
+    private static final int ATTACK_TEXT_DURATION = 2000;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,7 +90,7 @@ public class MainGameActivity extends AppCompatActivity {
                 {0, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 4},
                 {0, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5}
         };
-        GridLayout tilemapGrid = findViewById(R.id.tilemapGrid);
+        tilemapGrid = findViewById(R.id.tilemapGrid);
         int row;
         for (row = 0; row < tilemap.length; row++) {
             for (int col = 0; col < tilemap[row].length; col++) {
@@ -106,6 +114,7 @@ public class MainGameActivity extends AppCompatActivity {
             }
         }
 
+        attack = findViewById(R.id.attackView);
 
         // Display player Name.
         name = getIntent().getStringExtra("name");
@@ -142,6 +151,7 @@ public class MainGameActivity extends AppCompatActivity {
 
 
         handler.postDelayed(enemyMovementRunnable, ENEMY_MOVEMENT_INTERVAL);
+
 
         // Display health.
         TextView health = findViewById(R.id.health);
@@ -244,6 +254,11 @@ public class MainGameActivity extends AppCompatActivity {
                         characterNumber, currentScore);
                 movementStrategy.move(player, keyCode, tilemap);
             }
+            if (player.getRow() == skeleton.getRow() && player.getCol() == skeleton.getColumn()) {
+                skeleton.setMovementSpeed(0);
+                showAttackText();
+                tilemapGrid.removeView(skeletonView);
+            }
         }
         return true;
     }
@@ -292,6 +307,12 @@ public class MainGameActivity extends AppCompatActivity {
             MainGameActivity.this.startActivity(gameOverIntent);
             MainGameActivity.this.finish();
         }
+    }
+
+    private void showAttackText() {
+        attack.setVisibility(View.VISIBLE);
+        new Handler().postDelayed(() -> attack.setVisibility(View.GONE),
+                ATTACK_TEXT_DURATION);
     }
 
 }

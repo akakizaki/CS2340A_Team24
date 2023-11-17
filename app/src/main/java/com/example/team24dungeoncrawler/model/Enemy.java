@@ -39,4 +39,8 @@ public abstract class Enemy implements EnemyObserver {
     public int getDamage() {
         return this.damage;
     }
+
+    public void setMovementSpeed(int movementSpeed) {
+        this.movementSpeed = movementSpeed;
+    }
 }
