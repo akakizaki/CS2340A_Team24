@@ -1,5 +1,7 @@
 package com.example.team24dungeoncrawler.model;
 
+import com.example.team24dungeoncrawler.viewmodels.MainActivity;
+
 public class Skeleton extends Enemy {
     private int row;
     private int column;
@@ -7,12 +9,16 @@ public class Skeleton extends Enemy {
     private long lastMoveTime;
     private int movementSpeed;
     private Enemy enemy;
+    private MainActivity mainActivity;
+    private static final int MAX_ROWS = 19;
+    private int movementSpeed;
 
 
     public Skeleton(int movementSpeed, int damage, int row, int column) {
         super(movementSpeed, damage, row, column);
         this.movementSpeed = movementSpeed;
         lastMoveTime = System.currentTimeMillis();
+        this.movementSpeed = movementSpeed;
     }
 
     @Override
@@ -23,7 +29,7 @@ public class Skeleton extends Enemy {
             int currentRow = super.getRow();
             int newRow = currentRow + this.movementSpeed;
 
-            if (newRow > 0 && newRow < 19) {
+            if (newRow > 0 && newRow < MAX_ROWS) {
                 super.setRow(newRow);
             } else {
                 movementSpeed = -movementSpeed;
@@ -32,8 +38,20 @@ public class Skeleton extends Enemy {
         }
     }
 
+    @Override
+    public void update(Player player) {
+        int playerRow = player.getRow();
+        int playerCol = player.getCol();
+        int enemyRow = this.getRow();
+        int enemyCol = this.getColumn();
 
+        if (playerRow == enemyRow && playerCol == enemyCol) {
+            player.decreaseHealth((int) (this.getDamage() * player.getDamageMultiplier()));
+        }
+    }
+
+    private boolean isValidMove(int newRow) {
+        return newRow >= 0 && newRow < MAX_ROWS;
+
+    }
 }
-
-
-

@@ -2,8 +2,8 @@ package com.example.team24dungeoncrawler.model;
 
 
 public class EnemyFactory {
-    public static Enemy createEnemy(int enemyType, int movementSpeed,
-                                    int damage, int row, int column) {
+    public static Enemy createEnemy(int enemyType, int movementSpeed, int damage, int row,
+                                    int column) {
         switch (enemyType) {
         case 1:
             return new Skeleton(movementSpeed, damage, row, column);

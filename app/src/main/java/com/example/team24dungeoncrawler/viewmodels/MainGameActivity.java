@@ -1,5 +1,6 @@
 package com.example.team24dungeoncrawler.viewmodels;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -13,9 +14,11 @@ import androidx.appcompat.app.AppCompatActivity;
 
 
 import com.example.team24dungeoncrawler.R;
+import com.example.team24dungeoncrawler.model.Attempt;
 import com.example.team24dungeoncrawler.model.Enemy;
 import com.example.team24dungeoncrawler.model.EnemyFactory;
 import com.example.team24dungeoncrawler.model.ExitStrategy;
+import com.example.team24dungeoncrawler.model.LeaderBoard;
 import com.example.team24dungeoncrawler.model.MoveDownStrategy;
 import com.example.team24dungeoncrawler.model.MoveLeftStrategy;
 import com.example.team24dungeoncrawler.model.MoveRightStrategy;
@@ -23,7 +26,6 @@ import com.example.team24dungeoncrawler.model.MoveUpStrategy;
 import com.example.team24dungeoncrawler.model.MovementStrategy;
 import com.example.team24dungeoncrawler.model.Player;
 import com.example.team24dungeoncrawler.model.PlayerView;
-
 
 public class MainGameActivity extends AppCompatActivity {
     private RelativeLayout mainGameLayout;
@@ -46,6 +48,10 @@ public class MainGameActivity extends AppCompatActivity {
 
     private EnemyView skeletonView;
     private EnemyView vampireView;
+
+    private Handler scoreHandler = new Handler();
+
+    private boolean isGameOver = GameState.isGameOver();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -118,30 +124,27 @@ public class MainGameActivity extends AppCompatActivity {
             player.setCol(1);
         }
         playerView.updatePosition(player.getRow(), player.getCol()); // Set the initial position
-
-        skeleton = EnemyFactory.createEnemy(1, 1, 1, 1, 1);
+        skeleton = EnemyFactory.createEnemy(1, 1, 10, 1,
+                1); // multiplied damage by 10 to have more noticable affect on health
         skeletonView = new EnemyView(this);
         skeletonView.updatePosition(skeleton.getRow(), skeleton.getColumn());
         skeletonView.setImageResource(R.drawable.skeleton);
-
-
-        vampire = EnemyFactory.createEnemy(2, 2, 2, 6, 1);
+        player.addObserver(skeleton);
+        vampire = EnemyFactory.createEnemy(2, 2, 20, 6,
+                1); // multiplied damage by 10 to have more noticable affect on health
         vampireView = new EnemyView(this);
         vampireView.updatePosition(vampire.getRow(), vampire.getColumn());
         vampireView.setImageResource(R.drawable.vampire);
+        player.addObserver(vampire);
 
 
         handler.postDelayed(enemyMovementRunnable, ENEMY_MOVEMENT_INTERVAL);
 
         // Display health.
         TextView health = findViewById(R.id.health);
-        if (gameDifficulty.equals("Easy")) {
-            health.setText("Health: " + "100");
-        } else if (gameDifficulty.equals("Medium")) {
-            health.setText("Health: " + "75");
-        } else if (gameDifficulty.equals("Hard")) {
-            health.setText("Health: " + "50");
-        }
+        health.setText("Health: " + player.getHealth());
+        // Update Health every quarter second
+        handler.postDelayed(healthRunnable, 250);
 
         // Get characterNumber and display sprite accordingly
         characterNumber = getIntent().getDoubleExtra("characterNumber", 1);
@@ -163,10 +166,16 @@ public class MainGameActivity extends AppCompatActivity {
 
         tilemapGrid.addView(vampireView);
         Log.d("vamptoTILE", "done");
-      
+
         // Start updating the score
         startScoreUpdate();
 
+    }
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        handler.removeCallbacksAndMessages(null);
+        scoreHandler.removeCallbacksAndMessages(null);
     }
 
     private Runnable enemyMovementRunnable = new Runnable() {
@@ -194,14 +203,20 @@ public class MainGameActivity extends AppCompatActivity {
         }
     };
 
-
+    private Runnable healthRunnable = new Runnable() {
+        @Override
+        public void run() {
+            TextView healthTextView = findViewById(R.id.health);
+            healthTextView.setText("Health: " + player.getHealth());
+            handler.postDelayed(this, 250);
+        }
+    };
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         MovementStrategy movementStrategy;
         switch (keyCode) {
         case KeyEvent.KEYCODE_W:
-
             movementStrategy = new MoveUpStrategy();
             break;
         case KeyEvent.KEYCODE_A:
@@ -237,7 +252,14 @@ public class MainGameActivity extends AppCompatActivity {
         Runnable scoreRunnable = new Runnable() {
             @Override
             public void run() {
-                currentScore -= 1; // Decrease by 1 points per second
+                // Check if player health is zero or below
+                if (player.getHealth() <= 0) {
+                    // Player has died, navigate to the game over screen
+                    gameOver();
+                    return; // Stop further updates
+                }
+
+                currentScore -= 1; // Decrease by 1 point per second
                 // Ensure the score doesn't go below 0
                 if (currentScore < 0) {
                     currentScore = 0;
@@ -253,6 +275,20 @@ public class MainGameActivity extends AppCompatActivity {
 
         // Start the score update
         scoreHandler.postDelayed(scoreRunnable, 1000);
+    }
+
+    private void gameOver() {
+        if (!GameState.isGameOver()) {
+            GameState.setGameOver(true);
+            LeaderBoard leaderboard = LeaderBoard.getInstance();
+            leaderboard.addAttempt(new Attempt(name, currentScore));
+            Intent gameOverIntent = new Intent(MainGameActivity.this, EndingScreen.class);
+            gameOverIntent.putExtra("Name", name);
+            gameOverIntent.putExtra("Score", currentScore);
+            player.removeObservers();
+            MainGameActivity.this.startActivity(gameOverIntent);
+            MainGameActivity.this.finish();
+        }
     }
 
 }

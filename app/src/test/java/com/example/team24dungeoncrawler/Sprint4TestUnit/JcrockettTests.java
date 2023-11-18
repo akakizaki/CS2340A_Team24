@@ -1,28 +1,27 @@
-package com.example.team24dungeoncrawler.Sprint3TestUnit;
-
+package com.example.team24dungeoncrawler.Sprint4TestUnit;
 
 import static org.junit.Assert.assertEquals;
 
-import com.example.team24dungeoncrawler.model.MoveDownStrategy;
-import com.example.team24dungeoncrawler.model.MoveLeftStrategy;
-import com.example.team24dungeoncrawler.model.MoveRightStrategy;
-import com.example.team24dungeoncrawler.model.MoveUpStrategy;
-import com.example.team24dungeoncrawler.model.MovementStrategy;
+import com.example.team24dungeoncrawler.model.Enemy;
+import com.example.team24dungeoncrawler.model.EnemyFactory;
 import com.example.team24dungeoncrawler.model.Player;
-import android.view.KeyEvent;
 
 import org.junit.Before;
 import org.junit.Test;
 
-public class jcrockettTest {
+public class JcrockettTests {
     private Player player;
-    private MovementStrategy movementStrategy;
+
+    private Enemy vampire;
 
     private int[][] tilemap;
 
     @Before
     public void setUp() {
         player = Player.getInstance("John", "Easy");
+        vampire = EnemyFactory.createEnemy(2, 2, 20, 6,
+                1);
+        player.addObserver(vampire);
         tilemap = new int[][]{
                 {0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 4},
                 {0, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 4, 2, 2, 2, 2, 2, 2, 4},
@@ -48,31 +47,14 @@ public class jcrockettTest {
     }
 
     @Test
-    public void testLeftMovement() {
-        movementStrategy = new MoveLeftStrategy();
-        player.setCol(4);
-        movementStrategy.move(player, KeyEvent.KEYCODE_A, tilemap);
-        assertEquals(3, player.getCol());
+    public void testCollisionCondition() {
+        player.setRow(6);
+        assertEquals(118, player.getHealth());
     }
 
     @Test
-    public void testRightMovement() {
-        movementStrategy = new MoveRightStrategy();
-        movementStrategy.move(player, KeyEvent.KEYCODE_D, tilemap);
-        assertEquals(2, player.getCol());
-    }
-
-    @Test
-    public void testUpMovement() {
-        movementStrategy = new MoveUpStrategy();
-        movementStrategy.move(player, KeyEvent.KEYCODE_W, tilemap);
-        assertEquals(2, player.getRow());
-    }
-
-    @Test
-    public void testDownMovement() {
-        movementStrategy = new MoveDownStrategy();
-        movementStrategy.move(player, KeyEvent.KEYCODE_S, tilemap);
-        assertEquals(4, player.getRow());
+    public void testCollisionConditionInverse() {
+        player.setRow(3);
+        assertEquals(150, 150);
     }
 }

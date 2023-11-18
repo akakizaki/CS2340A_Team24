@@ -1,5 +1,6 @@
 package com.example.team24dungeoncrawler.model;
 
+
 public class Zombie extends Enemy {
     private int row;
     private int column;
@@ -9,6 +10,8 @@ public class Zombie extends Enemy {
     private int movementSpeed;
 
     private long lastMoveTime;
+    private static final int MAX_ROWS = 18;
+    private boolean movingDown = true;
 
     public Zombie(int movementSpeed, int damage, int row, int column) {
         super(movementSpeed, damage, row, column);
@@ -18,14 +21,33 @@ public class Zombie extends Enemy {
     
     @Override
     public void move() {
-        //super.move();
         long currentTime = System.currentTimeMillis();
         if (currentTime - lastMoveTime >= 1000) { //check if 1 second has passed
             lastMoveTime = currentTime;
             int currentRow = super.getRow();
-            currentRow += 1; //move 1 tile down
-            super.setRow(currentRow);
+            int newRow = currentRow + this.movementSpeed;
+            if (newRow > 0 && newRow < MAX_ROWS) {
+                super.setRow(newRow);
+            } else {
+                movementSpeed = -movementSpeed;
+                super.setRow(currentRow + movementSpeed);
+            }
         }
     }
 
+    @Override
+    public void update(Player player) {
+        int playerRow = player.getRow();
+        int playerCol = player.getCol();
+        int enemyRow = this.getRow();
+        int enemyCol = this.getColumn();
+
+        if (playerRow == enemyRow && playerCol == enemyCol) {
+            player.decreaseHealth((int) (this.getDamage() * player.getDamageMultiplier()));
+        }
+    }
+
+    private boolean isValidMove(int newRow) {
+        return newRow >= 0 && newRow < MAX_ROWS;
+    }
 }

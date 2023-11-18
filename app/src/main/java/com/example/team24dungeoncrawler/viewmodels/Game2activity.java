@@ -1,5 +1,6 @@
 package com.example.team24dungeoncrawler.viewmodels;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -12,9 +13,11 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.team24dungeoncrawler.R;
+import com.example.team24dungeoncrawler.model.Attempt;
 import com.example.team24dungeoncrawler.model.Enemy;
 import com.example.team24dungeoncrawler.model.EnemyFactory;
 import com.example.team24dungeoncrawler.model.ExitStrategy;
+import com.example.team24dungeoncrawler.model.LeaderBoard;
 import com.example.team24dungeoncrawler.model.MoveDownStrategy;
 import com.example.team24dungeoncrawler.model.MoveLeftStrategy;
 import com.example.team24dungeoncrawler.model.MoveRightStrategy;
@@ -42,6 +45,8 @@ public class Game2activity extends AppCompatActivity {
     private EnemyView zombieView;
     private final Handler handler = new Handler();
     private static final int ENEMY_MOVEMENT_INTERVAL = 1000;
+
+    private boolean isGameOver = GameState.isGameOver();
 
 
 
@@ -108,16 +113,6 @@ public class Game2activity extends AppCompatActivity {
         TextView difficulty = findViewById(R.id.difficulty);
         difficulty.setText("Difficulty: " + gameDifficulty);
 
-        // Display health.
-        TextView health = findViewById(R.id.health);
-        if (gameDifficulty.equals("Easy")) {
-            health.setText("Health: " + "100");
-        } else if (gameDifficulty.equals("Medium")) {
-            health.setText("Health: " + "75");
-        } else if (gameDifficulty.equals("Hard")) {
-            health.setText("Health: " + "50");
-        }
-
         player = Player.getInstance(name, String.valueOf(gameDifficulty));
         playerView = new PlayerView(this); // Create a new PlayerView
         if (getIntent().hasExtra("exitPositionRow") && getIntent().hasExtra("exitPositionCol")) {
@@ -133,20 +128,27 @@ public class Game2activity extends AppCompatActivity {
             player.setCol(1);
         }
 
-        //Create Zombie and Ghost Enemies
-        ghost = EnemyFactory.createEnemy(3, 1, 5, 6, 6);
+        // Display health.
+        TextView health = findViewById(R.id.health);
+        health.setText("Health: " + player.getHealth());
+        // Update Health every quarter second
+        handler.postDelayed(healthRunnable, 250);
+
+
+        //Create Zombie Enemy
+        ghost = EnemyFactory.createEnemy(3, 1, 20, 12, 13);
         ghostView = new EnemyView(this);
         ghostView.updatePosition(ghost.getRow(), ghost.getColumn());
         ghostView.setImageResource(R.drawable.ghost);
+        player.addObserver(ghost);
 
-        zombie = EnemyFactory.createEnemy(4, 2, 5, 4, 4);
+        zombie = EnemyFactory.createEnemy(4, 2, 30, 5, 11);
         zombieView = new EnemyView(this);
         zombieView.updatePosition(zombie.getRow(), zombie.getColumn());
         zombieView.setImageResource(R.drawable.zombie);
+        player.addObserver(zombie);
 
         handler.postDelayed(enemyMovementRunnable, ENEMY_MOVEMENT_INTERVAL);
-
-
 
         // Get characterNumber and display sprite accordingly
         characterNumber = getIntent().getDoubleExtra("characterNumber", 1);
@@ -165,7 +167,9 @@ public class Game2activity extends AppCompatActivity {
         //add player and enemies to tileMap
         tilemapGrid.addView(playerView);
         tilemapGrid.addView(ghostView);
+        Log.d("ghost TILE", "done");
         tilemapGrid.addView(zombieView);
+        Log.d("zombie TILE", "done");
 
         //Get score from previous screen
         currentScore = getIntent().getIntExtra("score", 0);
@@ -177,6 +181,9 @@ public class Game2activity extends AppCompatActivity {
         startScoreUpdate();
 
     }
+
+
+
     private Runnable enemyMovementRunnable = new Runnable() {
 
         @Override
@@ -186,14 +193,14 @@ public class Game2activity extends AppCompatActivity {
                     ghost.move();
                     ghostView.updatePosition(ghost.getRow(), ghost.getColumn());
                 } else {
-                    Log.d("movement", "null");
+                    Log.d("ghost movement", "null");
                 }
 
                 if (zombie != null) {
                     zombie.move();
                     zombieView.updatePosition(zombie.getRow(), zombie.getColumn());
                 } else {
-                    Log.d("movement", "null");
+                    Log.d("zombie movement", "null");
                 }
 
             }
@@ -203,6 +210,14 @@ public class Game2activity extends AppCompatActivity {
         }
     };
 
+    private Runnable healthRunnable = new Runnable() {
+        @Override
+        public void run() {
+            TextView healthTextView = findViewById(R.id.health);
+            healthTextView.setText("Health: " + player.getHealth());
+            handler.postDelayed(this, 250);
+        }
+    };
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
@@ -242,7 +257,14 @@ public class Game2activity extends AppCompatActivity {
         Runnable scoreRunnable = new Runnable() {
             @Override
             public void run() {
-                currentScore -= 1; // Decrease by 1 points per second
+                // Check if player health is zero or below
+                if (player.getHealth() <= 0) {
+                    // Player has died, navigate to the game over screen
+                    gameOver();
+                    return; // Stop further updates
+                }
+
+                currentScore -= 1; // Decrease by 1 point per second
                 // Ensure the score doesn't go below 0
                 if (currentScore < 0) {
                     currentScore = 0;
@@ -259,4 +281,23 @@ public class Game2activity extends AppCompatActivity {
         // Start the score update
         scoreHandler.postDelayed(scoreRunnable, 1000);
     }
+
+    private void gameOver() {
+        if (!GameState.isGameOver()) {
+            GameState.setGameOver(true);
+
+            LeaderBoard leaderboard = LeaderBoard.getInstance();
+            leaderboard.addAttempt(new Attempt(name, currentScore));
+
+            Intent gameOverIntent = new Intent(Game2activity.this, EndingScreen.class);
+            gameOverIntent.putExtra("Name", name);
+            gameOverIntent.putExtra("Score", currentScore);
+
+            player.removeObservers();
+            Game2activity.this.startActivity(gameOverIntent);
+            Game2activity.this.finish();
+        }
+    }
+
+
 }

@@ -1,7 +1,7 @@
 package com.example.team24dungeoncrawler.model;
 
 
-public abstract class Enemy {
+public abstract class Enemy implements EnemyObserver {
     private int movementSpeed;
     private int damage;
     private int row;
@@ -31,5 +31,13 @@ public abstract class Enemy {
 
     public void setColumn(int column) {
         this.column = column;
+    }
+
+    public int getMovementSpeed() {
+        return this.movementSpeed;
+    }
+
+    public int getDamage() {
+        return this.damage;
     }
 }

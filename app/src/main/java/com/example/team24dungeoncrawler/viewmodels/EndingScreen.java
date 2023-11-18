@@ -16,13 +16,13 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.team24dungeoncrawler.R;
 import com.example.team24dungeoncrawler.model.Attempt;
 import com.example.team24dungeoncrawler.model.LeaderBoard;
-import java.util.List;
+import com.example.team24dungeoncrawler.model.Player;
 
+import java.util.List;
 
 public class EndingScreen extends AppCompatActivity {
     private String name;
     private int score;
-
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -32,7 +32,6 @@ public class EndingScreen extends AppCompatActivity {
         name = getIntent().getStringExtra("Name");
         score = getIntent().getIntExtra("Score", 0);
 
-
         // Retrieve the leaderboard and display the top attempts
         LeaderBoard leaderboard = LeaderBoard.getInstance();
         Attempt recentAttempt = leaderboard.getRecentAttempt();
@@ -40,12 +39,12 @@ public class EndingScreen extends AppCompatActivity {
         // Adjust the number of attempts you want to display
         List<Attempt> topAttempts = leaderboard.getTopAttempts(5);
 
-
         RecyclerView recyclerView = findViewById(R.id.leaderboardRecyclerView);
         LeaderBoardAdapter adapter = new LeaderBoardAdapter(topAttempts);
 
         recyclerView.setLayoutManager(new LinearLayoutManager((this)));
         recyclerView.setAdapter(adapter);
+
         Button restartButton = findViewById(R.id.restartButton);
 
         TextView textView = findViewById(R.id.textView);
@@ -53,6 +52,16 @@ public class EndingScreen extends AppCompatActivity {
                 + recentAttempt.getScore() + "\n"
                 + recentAttempt.getTimestamp();
         textView.setText(recentAttemptString);
+
+        // Check if the player's health is 0
+        TextView textView2 = findViewById(R.id.textView2);
+        if (Player.getInstance(name, "").getHealth() == 0) {
+            textView2.setText("GAME OVER! OH NO :("); // Set the text to "Game Over"
+            textView2.setTextSize(24);
+        } else {
+            textView2.setText("YOU WON! YAY! ");
+            textView2.setTextSize(24);
+        }
 
         // Set a click listener for the restart button
         restartButton.setOnClickListener(new View.OnClickListener() {
@@ -63,6 +72,8 @@ public class EndingScreen extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+
 
     }
 
