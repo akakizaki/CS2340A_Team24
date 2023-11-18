@@ -6,6 +6,7 @@ import android.os.Handler;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.GridLayout;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -43,6 +44,7 @@ public class Game2activity extends AppCompatActivity {
     private Enemy ghost;
     private Enemy zombie;
     private EnemyView ghostView;
+    private EnemyView skullView;
     private EnemyView zombieView;
     private final Handler handler = new Handler();
     private static final int ENEMY_MOVEMENT_INTERVAL = 1000;
@@ -150,6 +152,8 @@ public class Game2activity extends AppCompatActivity {
         zombieView.updatePosition(zombie.getRow(), zombie.getColumn());
         zombieView.setImageResource(R.drawable.zombie);
         player.addObserver(zombie);
+        skullView = new EnemyView(this);
+        skullView.setImageResource(R.drawable.skull);
 
         handler.postDelayed(enemyMovementRunnable, ENEMY_MOVEMENT_INTERVAL);
 
@@ -170,9 +174,9 @@ public class Game2activity extends AppCompatActivity {
         //add player and enemies to tileMap
         tilemapGrid.addView(playerView);
         tilemapGrid.addView(ghostView);
-        Log.d("ghost TILE", "done");
         tilemapGrid.addView(zombieView);
-        Log.d("zombie TILE", "done");
+        skullView = new EnemyView(this);
+        skullView.setImageResource(R.drawable.skull);
 
         //Get score from previous screen
         currentScore = getIntent().getIntExtra("score", 0);
@@ -253,6 +257,13 @@ public class Game2activity extends AppCompatActivity {
         }
         return true;
     }
+    private void addToTilemapGrid(View view, int row, int column) {
+        tilemapGrid.addView(view);
+        GridLayout.LayoutParams layoutParams = new GridLayout.LayoutParams();
+        layoutParams.rowSpec = GridLayout.spec(row);
+        layoutParams.columnSpec = GridLayout.spec(column);
+        view.setLayoutParams(layoutParams);
+    }
 
     @Override
     public boolean onKeyUp(int keyCode, KeyEvent event) {
@@ -261,13 +272,21 @@ public class Game2activity extends AppCompatActivity {
                 ghost.setMovementSpeed(0);
                 showAttackText();
                 player.removeObserver(ghost);
-                tilemapGrid.removeView(ghostView);
+                skullView.setImageResource(R.drawable.skull);
+                if (ghostView.getParent() != null) {
+                    ((ViewGroup) ghostView.getParent()).removeView(ghostView);
+                }
+                addToTilemapGrid(skullView, player.getRow(), player.getCol());
             }
             if (player.getRow() == zombie.getRow() && player.getCol() == zombie.getColumn()) {
                 zombie.setMovementSpeed(0);
                 showAttackText();
                 player.removeObserver(zombie);
-                tilemapGrid.removeView(zombieView);
+                skullView.setImageResource(R.drawable.skull);
+                if (zombieView.getParent() != null) {
+                    ((ViewGroup) zombieView.getParent()).removeView(zombieView);
+                }
+                addToTilemapGrid(skullView, player.getRow(), player.getCol());
             }
         }
         return true;

@@ -11,7 +11,7 @@ public class Skeleton extends Enemy {
     private Enemy enemy;
     private MainActivity mainActivity;
     private static final int MAX_ROWS = 19;
-    private int movementSpeed;
+
 
 
     public Skeleton(int movementSpeed, int damage, int row, int column) {

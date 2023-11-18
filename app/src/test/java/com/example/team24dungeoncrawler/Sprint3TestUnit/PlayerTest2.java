@@ -6,7 +6,7 @@ import com.example.team24dungeoncrawler.model.Player;
 
 import org.junit.Test;
 
-public class playerTest2_newInstance {
+public class PlayerTest2 {
 
     /**
      * Tests that the default damageMultiplier is 1 if difficulty entered is not correct.

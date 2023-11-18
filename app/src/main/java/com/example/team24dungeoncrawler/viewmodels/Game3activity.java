@@ -7,6 +7,7 @@ import android.os.Handler;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.GridLayout;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -47,6 +48,7 @@ public class Game3activity extends AppCompatActivity {
     private Enemy zombie;
     private EnemyView zombieView;
     private EnemyView skeletonView;
+    private EnemyView skullView;
     private TextView attack;
     private GridLayout tilemapGrid;
     private boolean isGameOver = GameState.isGameOver();
@@ -176,9 +178,9 @@ public class Game3activity extends AppCompatActivity {
 
         tilemapGrid.addView(playerView);
         tilemapGrid.addView(skeletonView);
-        Log.d("skeleton TILE", "done");
         tilemapGrid.addView(zombieView);
-        Log.d("zombie TILE", "done");
+        skullView = new EnemyView(this);
+        skullView.setImageResource(R.drawable.skull);
 
         //Get score from previous screen
         currentScore = getIntent().getIntExtra("score", 0);
@@ -229,6 +231,13 @@ public class Game3activity extends AppCompatActivity {
         }
         return true;
     }
+    private void addToTilemapGrid(View view, int row, int column) {
+        tilemapGrid.addView(view);
+        GridLayout.LayoutParams layoutParams = new GridLayout.LayoutParams();
+        layoutParams.rowSpec = GridLayout.spec(row);
+        layoutParams.columnSpec = GridLayout.spec(column);
+        view.setLayoutParams(layoutParams);
+    }
 
     @Override
     public boolean onKeyUp(int keyCode, KeyEvent event) {
@@ -237,13 +246,21 @@ public class Game3activity extends AppCompatActivity {
                 skeleton.setMovementSpeed(0);
                 showAttackText();
                 player.removeObserver(skeleton);
-                tilemapGrid.removeView(skeletonView);
+                skullView.setImageResource(R.drawable.skull);
+                if (skeletonView.getParent() != null) {
+                    ((ViewGroup) skeletonView.getParent()).removeView(skeletonView);
+                }
+                addToTilemapGrid(skullView, player.getRow(), player.getCol());
             }
             if (player.getRow() == zombie.getRow() && player.getCol() == zombie.getColumn()) {
                 zombie.setMovementSpeed(0);
                 showAttackText();
                 player.removeObserver(zombie);
-                tilemapGrid.removeView(zombieView);
+                skullView.setImageResource(R.drawable.skull);
+                if (zombieView.getParent() != null) {
+                    ((ViewGroup) zombieView.getParent()).removeView(zombieView);
+                }
+                addToTilemapGrid(skullView, player.getRow(), player.getCol());
             }
         }
         return true;
