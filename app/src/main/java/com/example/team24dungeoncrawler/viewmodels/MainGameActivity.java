@@ -132,15 +132,12 @@ public class MainGameActivity extends AppCompatActivity {
             player.setCol(1);
         }
         playerView.updatePosition(player.getRow(), player.getCol()); // Set the initial position
-
         skeleton = EnemyFactory.createEnemy(1, 1, 10, 1,
                 1); // multiplied damage by 10 to have more noticeable affect on health
         skeletonView = new EnemyView(this);
         skeletonView.updatePosition(skeleton.getRow(), skeleton.getColumn());
         skeletonView.setImageResource(R.drawable.skeleton);
         player.addObserver(skeleton);
-
-
         vampire = EnemyFactory.createEnemy(2, 2, 20, 6,
                 1); // multiplied damage by 10 to have more noticeable affect on health
         vampireView = new EnemyView(this);

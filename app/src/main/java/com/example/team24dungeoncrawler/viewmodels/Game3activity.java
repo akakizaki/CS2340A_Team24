@@ -141,7 +141,6 @@ public class Game3activity extends AppCompatActivity {
         skeletonView.updatePosition(skeleton.getRow(), skeleton.getColumn());
         skeletonView.setImageResource(R.drawable.skeleton);
         player.addObserver(skeleton);
-
         zombie = EnemyFactory.createEnemy(4, 2, 50, 4,
                 4);
         zombieView = new EnemyView(this);

@@ -137,7 +137,6 @@ public class Game2activity extends AppCompatActivity {
         // Update Health every quarter second
         handler.postDelayed(healthRunnable, 250);
 
-        //Create Zombie and Ghost Enemies
 
         //Create Zombie Enemy
         ghost = EnemyFactory.createEnemy(3, 1, 20, 12, 13);
