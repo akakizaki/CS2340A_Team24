@@ -13,7 +13,7 @@ public class JoshFordenTests {
     private static final int TIMEOUT = 200;
 
     @Test
-    public void addition_isCorrect() {
+    public void additionIsCorrect() {
         assertEquals(4, 2 + 2);
     }
 

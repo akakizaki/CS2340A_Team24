@@ -13,8 +13,8 @@ import org.junit.Test;
 public class Sprint3TestPD {
 
     private Player player;
-    MainGameActivity mga;
-    KeyEvent keyPressEvent = new KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_D);
+    private MainGameActivity mga;
+    private KeyEvent keyPressEvent = new KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_D);
     @Before
     public void playerConstructor() {
         // Create a new Player instance before each test

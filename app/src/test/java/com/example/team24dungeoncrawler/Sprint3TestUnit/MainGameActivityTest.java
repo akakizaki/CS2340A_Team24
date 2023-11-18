@@ -10,10 +10,10 @@ import android.view.KeyEvent;
 
 public class MainGameActivityTest {
     // Simulate a key press event (e.g., KEYCODE_D for the 'D' key):
-    KeyEvent keyPressEvent = new KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_D);
+    private KeyEvent keyPressEvent = new KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_D);
 
     // Simulate a key release event (e.g., KEYCODE_D for the 'D' key):
-    KeyEvent keyReleaseEvent = new KeyEvent(KeyEvent.ACTION_UP, KeyEvent.KEYCODE_D);
+    private KeyEvent keyReleaseEvent = new KeyEvent(KeyEvent.ACTION_UP, KeyEvent.KEYCODE_D);
 
     @Test
     public void testMoveRight() {
