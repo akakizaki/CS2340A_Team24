@@ -258,6 +258,9 @@ public class Game2activity extends AppCompatActivity {
         return true;
     }
     private void addToTilemapGrid(View view, int row, int column) {
+        if (view.getParent() instanceof ViewGroup) {
+            ((ViewGroup) view.getParent()).removeView(view);
+        }
         tilemapGrid.addView(view);
         GridLayout.LayoutParams layoutParams = new GridLayout.LayoutParams();
         layoutParams.rowSpec = GridLayout.spec(row);
