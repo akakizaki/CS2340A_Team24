@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.view.View;
 import android.widget.GridLayout;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -45,10 +46,12 @@ public class Game2activity extends AppCompatActivity {
     private EnemyView zombieView;
     private final Handler handler = new Handler();
     private static final int ENEMY_MOVEMENT_INTERVAL = 1000;
+    private TextView attack;
+    private GridLayout tilemapGrid;
 
     private boolean isGameOver = GameState.isGameOver();
 
-
+    private static final int ATTACK_TEXT_DURATION = 2000;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,7 +80,7 @@ public class Game2activity extends AppCompatActivity {
                 {0, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 4},
                 {0, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5}
         };
-        GridLayout tilemapGrid = findViewById(R.id.tilemapGrid);
+        tilemapGrid = findViewById(R.id.tilemapGrid);
         for (int row = 0; row < tilemap2.length; row++) {
             for (int col = 0; col < tilemap2[row].length; col++) {
                 int tileType = tilemap2[row][col];
@@ -101,7 +104,7 @@ public class Game2activity extends AppCompatActivity {
 
         }
 
-
+        attack = findViewById(R.id.attackView2);
 
         // Display player Name.
         name = getIntent().getStringExtra("name");
@@ -184,7 +187,6 @@ public class Game2activity extends AppCompatActivity {
     }
 
 
-
     private Runnable enemyMovementRunnable = new Runnable() {
 
         @Override
@@ -253,6 +255,25 @@ public class Game2activity extends AppCompatActivity {
         return true;
     }
 
+    @Override
+    public boolean onKeyUp(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_SPACE) {
+            if (player.getRow() == ghost.getRow() && player.getCol() == ghost.getColumn()) {
+                ghost.setMovementSpeed(0);
+                showAttackText();
+                player.removeObserver(ghost);
+                tilemapGrid.removeView(ghostView);
+            }
+            if (player.getRow() == zombie.getRow() && player.getCol() == zombie.getColumn()) {
+                zombie.setMovementSpeed(0);
+                showAttackText();
+                player.removeObserver(zombie);
+                tilemapGrid.removeView(zombieView);
+            }
+        }
+        return true;
+    }
+
     private void startScoreUpdate() {
         Handler scoreHandler = new Handler();
         Runnable scoreRunnable = new Runnable() {
@@ -298,6 +319,12 @@ public class Game2activity extends AppCompatActivity {
             Game2activity.this.startActivity(gameOverIntent);
             Game2activity.this.finish();
         }
+    }
+
+    private void showAttackText() {
+        attack.setVisibility(View.VISIBLE);
+        new Handler().postDelayed(() -> attack.setVisibility(View.GONE),
+                ATTACK_TEXT_DURATION);
     }
 
 

@@ -27,7 +27,6 @@ import com.example.team24dungeoncrawler.model.MoveUpStrategy;
 import com.example.team24dungeoncrawler.model.MovementStrategy;
 import com.example.team24dungeoncrawler.model.Player;
 import com.example.team24dungeoncrawler.model.PlayerView;
-import com.example.team24dungeoncrawler.model.Skeleton;
 
 public class MainGameActivity extends AppCompatActivity {
     private RelativeLayout mainGameLayout;
@@ -135,7 +134,7 @@ public class MainGameActivity extends AppCompatActivity {
         playerView.updatePosition(player.getRow(), player.getCol()); // Set the initial position
 
         skeleton = EnemyFactory.createEnemy(1, 1, 10, 1,
-                1); // multiplied damage by 10 to have more noticable affect on health
+                1); // multiplied damage by 10 to have more noticeable affect on health
         skeletonView = new EnemyView(this);
         skeletonView.updatePosition(skeleton.getRow(), skeleton.getColumn());
         skeletonView.setImageResource(R.drawable.skeleton);
@@ -143,7 +142,7 @@ public class MainGameActivity extends AppCompatActivity {
 
 
         vampire = EnemyFactory.createEnemy(2, 2, 20, 6,
-                1); // multiplied damage by 10 to have more noticable affect on health
+                1); // multiplied damage by 10 to have more noticeable affect on health
         vampireView = new EnemyView(this);
         vampireView.updatePosition(vampire.getRow(), vampire.getColumn());
         vampireView.setImageResource(R.drawable.vampire);
@@ -254,10 +253,24 @@ public class MainGameActivity extends AppCompatActivity {
                         characterNumber, currentScore);
                 movementStrategy.move(player, keyCode, tilemap);
             }
+        }
+        return true;
+    }
+
+    @Override
+    public boolean onKeyUp(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_SPACE) {
             if (player.getRow() == skeleton.getRow() && player.getCol() == skeleton.getColumn()) {
                 skeleton.setMovementSpeed(0);
                 showAttackText();
+                player.removeObserver(skeleton);
                 tilemapGrid.removeView(skeletonView);
+            }
+            if (player.getRow() == vampire.getRow() && player.getCol() == vampire.getColumn()) {
+                skeleton.setMovementSpeed(0);
+                showAttackText();
+                player.removeObserver(vampire);
+                tilemapGrid.removeView(vampireView);
             }
         }
         return true;
@@ -314,5 +327,4 @@ public class MainGameActivity extends AppCompatActivity {
         new Handler().postDelayed(() -> attack.setVisibility(View.GONE),
                 ATTACK_TEXT_DURATION);
     }
-
 }
