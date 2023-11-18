@@ -1,5 +1,6 @@
 package com.example.team24dungeoncrawler.model;
 
+
 public abstract class Enemy implements EnemyObserver {
     private int movementSpeed;
     private int damage;
