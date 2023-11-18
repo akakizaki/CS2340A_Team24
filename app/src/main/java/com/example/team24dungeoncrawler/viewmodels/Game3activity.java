@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.view.View;
 import android.widget.GridLayout;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -46,8 +47,10 @@ public class Game3activity extends AppCompatActivity {
     private Enemy zombie;
     private EnemyView zombieView;
     private EnemyView skeletonView;
-
+    private TextView attack;
+    private GridLayout tilemapGrid;
     private boolean isGameOver = GameState.isGameOver();
+    private static final int ATTACK_TEXT_DURATION = 2000;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,7 +79,7 @@ public class Game3activity extends AppCompatActivity {
                 {0, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 4},
                 {0, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5}
         };
-        GridLayout tilemapGrid = findViewById(R.id.tilemapGrid);
+        tilemapGrid = findViewById(R.id.tilemapGrid);
         for (int row = 0; row < tilemap3.length; row++) {
             for (int col = 0; col < tilemap3[row].length; col++) {
                 int tileType = tilemap3[row][col];
@@ -99,6 +102,8 @@ public class Game3activity extends AppCompatActivity {
             }
 
         }
+
+        attack = findViewById(R.id.attackView3);
 
         // Display player Name.
         name = getIntent().getStringExtra("name");
@@ -225,6 +230,25 @@ public class Game3activity extends AppCompatActivity {
         return true;
     }
 
+    @Override
+    public boolean onKeyUp(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_SPACE) {
+            if (player.getRow() == skeleton.getRow() && player.getCol() == skeleton.getColumn()) {
+                skeleton.setMovementSpeed(0);
+                showAttackText();
+                player.removeObserver(skeleton);
+                tilemapGrid.removeView(skeletonView);
+            }
+            if (player.getRow() == zombie.getRow() && player.getCol() == zombie.getColumn()) {
+                zombie.setMovementSpeed(0);
+                showAttackText();
+                player.removeObserver(zombie);
+                tilemapGrid.removeView(zombieView);
+            }
+        }
+        return true;
+    }
+
     private Runnable enemyMovementRunnable = new Runnable() {
 
         @Override
@@ -301,6 +325,12 @@ public class Game3activity extends AppCompatActivity {
             Game3activity.this.startActivity(gameOverIntent);
             Game3activity.this.finish();
         }
+    }
+
+    private void showAttackText() {
+        attack.setVisibility(View.VISIBLE);
+        new Handler().postDelayed(() -> attack.setVisibility(View.GONE),
+                ATTACK_TEXT_DURATION);
     }
 
 

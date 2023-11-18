@@ -54,4 +54,8 @@ public class Skeleton extends Enemy {
         return newRow >= 0 && newRow < MAX_ROWS;
 
     }
+
+    public void setMovementSpeed(int movementSpeed) {
+        this.movementSpeed = movementSpeed;
+    }
 }

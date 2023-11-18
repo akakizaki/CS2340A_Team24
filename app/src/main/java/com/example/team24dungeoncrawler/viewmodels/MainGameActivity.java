@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.view.View;
 import android.widget.GridLayout;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -51,7 +52,13 @@ public class MainGameActivity extends AppCompatActivity {
 
     private Handler scoreHandler = new Handler();
 
+    private TextView attack;
+
+    private GridLayout tilemapGrid;
+
     private boolean isGameOver = GameState.isGameOver();
+
+    private static final int ATTACK_TEXT_DURATION = 2000;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,7 +89,7 @@ public class MainGameActivity extends AppCompatActivity {
                 {0, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 4},
                 {0, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5}
         };
-        GridLayout tilemapGrid = findViewById(R.id.tilemapGrid);
+        tilemapGrid = findViewById(R.id.tilemapGrid);
         int row;
         for (row = 0; row < tilemap.length; row++) {
             for (int col = 0; col < tilemap[row].length; col++) {
@@ -106,6 +113,7 @@ public class MainGameActivity extends AppCompatActivity {
             }
         }
 
+        attack = findViewById(R.id.attackView);
 
         // Display player Name.
         name = getIntent().getStringExtra("name");
@@ -125,13 +133,13 @@ public class MainGameActivity extends AppCompatActivity {
         }
         playerView.updatePosition(player.getRow(), player.getCol()); // Set the initial position
         skeleton = EnemyFactory.createEnemy(1, 1, 10, 1,
-                1); // multiplied damage by 10 to have more noticable affect on health
+                1); // multiplied damage by 10 to have more noticeable affect on health
         skeletonView = new EnemyView(this);
         skeletonView.updatePosition(skeleton.getRow(), skeleton.getColumn());
         skeletonView.setImageResource(R.drawable.skeleton);
         player.addObserver(skeleton);
         vampire = EnemyFactory.createEnemy(2, 2, 20, 6,
-                1); // multiplied damage by 10 to have more noticable affect on health
+                1); // multiplied damage by 10 to have more noticeable affect on health
         vampireView = new EnemyView(this);
         vampireView.updatePosition(vampire.getRow(), vampire.getColumn());
         vampireView.setImageResource(R.drawable.vampire);
@@ -139,6 +147,7 @@ public class MainGameActivity extends AppCompatActivity {
 
 
         handler.postDelayed(enemyMovementRunnable, ENEMY_MOVEMENT_INTERVAL);
+
 
         // Display health.
         TextView health = findViewById(R.id.health);
@@ -245,6 +254,25 @@ public class MainGameActivity extends AppCompatActivity {
         return true;
     }
 
+    @Override
+    public boolean onKeyUp(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_SPACE) {
+            if (player.getRow() == skeleton.getRow() && player.getCol() == skeleton.getColumn()) {
+                skeleton.setMovementSpeed(0);
+                showAttackText();
+                player.removeObserver(skeleton);
+                tilemapGrid.removeView(skeletonView);
+            }
+            if (player.getRow() == vampire.getRow() && player.getCol() == vampire.getColumn()) {
+                skeleton.setMovementSpeed(0);
+                showAttackText();
+                player.removeObserver(vampire);
+                tilemapGrid.removeView(vampireView);
+            }
+        }
+        return true;
+    }
+
 
     //other methods
     private void startScoreUpdate() {
@@ -291,4 +319,9 @@ public class MainGameActivity extends AppCompatActivity {
         }
     }
 
+    private void showAttackText() {
+        attack.setVisibility(View.VISIBLE);
+        new Handler().postDelayed(() -> attack.setVisibility(View.GONE),
+                ATTACK_TEXT_DURATION);
+    }
 }
