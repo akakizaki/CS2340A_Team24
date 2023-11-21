@@ -9,6 +9,7 @@ public class Vampire extends Enemy {
     private int direction;
     private Enemy enemy;
 
+
     private int movementSpeed;
 
     private long lastMoveTime;
@@ -19,7 +20,11 @@ public class Vampire extends Enemy {
         super(movementSpeed, damage, row, column);
         this.movementSpeed = movementSpeed;
         lastMoveTime = System.currentTimeMillis();
+
     }
+
+
+
 
     @Override
     public void move() {
@@ -39,6 +44,8 @@ public class Vampire extends Enemy {
             }
         }
     }
+
+
 
     @Override
     public void update(Player player) {
