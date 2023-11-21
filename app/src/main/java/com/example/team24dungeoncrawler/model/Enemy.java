@@ -7,16 +7,24 @@ public abstract class Enemy implements EnemyObserver {
     private int row;
     private int column;
 
-
+    private int del;
     public Enemy(int movementSpeed, int damage, int row, int column) {
         this.movementSpeed = movementSpeed;
         this.damage = damage;
         this.row = row;
         this.column = column;
+        this.del = 0;
     }
 
     public abstract void move();
 
+    public int getDel() {
+        return del;
+    }
+
+    public void setDel(int delC) {
+        del = delC;
+    }
     public int getColumn() {
         return column;
     }

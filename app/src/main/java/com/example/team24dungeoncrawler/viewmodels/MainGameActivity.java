@@ -11,6 +11,7 @@ import android.widget.GridLayout;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -61,6 +62,8 @@ public class MainGameActivity extends AppCompatActivity {
     private boolean isGameOver = GameState.isGameOver();
 
     private static final int ATTACK_TEXT_DURATION = 2000;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -140,12 +143,14 @@ public class MainGameActivity extends AppCompatActivity {
         skeletonView.updatePosition(skeleton.getRow(), skeleton.getColumn());
         skeletonView.setImageResource(R.drawable.skeleton);
         player.addObserver(skeleton);
+
         vampire = EnemyFactory.createEnemy(2, 2, 20, 6,
                 1); // multiplied damage by 10 to have more noticeable affect on health
         vampireView = new EnemyView(this);
         vampireView.updatePosition(vampire.getRow(), vampire.getColumn());
         vampireView.setImageResource(R.drawable.vampire);
         player.addObserver(vampire);
+
 
 
         handler.postDelayed(enemyMovementRunnable, ENEMY_MOVEMENT_INTERVAL);
@@ -275,6 +280,7 @@ public class MainGameActivity extends AppCompatActivity {
                 if (skeletonView.getParent() != null) {
                     ((ViewGroup) skeletonView.getParent()).removeView(skeletonView);
                 }
+                //delSkeleton = true;
                 addToTilemapGrid(skullView, player.getRow(), player.getCol());
                 Log.d("skull", "done");
             }
@@ -285,6 +291,9 @@ public class MainGameActivity extends AppCompatActivity {
                 if (vampireView.getParent() != null) {
                     ((ViewGroup) vampireView.getParent()).removeView(vampireView);
                 }
+                int vam = vampire.getDel();
+                vam++;
+                vampire.setDel(vam);
                 addToTilemapGrid(skullView, player.getRow(), player.getCol());
                 Log.d("skullVampire", "done");
             }
@@ -308,6 +317,11 @@ public class MainGameActivity extends AppCompatActivity {
 
                 currentScore -= 1; // Decrease by 1 point per second
                 // Ensure the score doesn't go below 0
+
+                if(vampire.getDel() == 1) {
+                    currentScore += 10;
+                    vampire.setDel(2);
+                }
                 if (currentScore < 0) {
                     currentScore = 0;
                 }
