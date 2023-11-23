@@ -253,6 +253,9 @@ public class Game3activity extends AppCompatActivity {
                 if (skeletonView.getParent() != null) {
                     ((ViewGroup) skeletonView.getParent()).removeView(skeletonView);
                 }
+                int skel = skeleton.getDel();
+                skel++;
+                skeleton.setDel(skel);
                 addToTilemapGrid(skullView, player.getRow(), player.getCol());
             }
             if (player.getRow() == zombie.getRow() && player.getCol() == zombie.getColumn()) {
@@ -263,6 +266,9 @@ public class Game3activity extends AppCompatActivity {
                 if (zombieView.getParent() != null) {
                     ((ViewGroup) zombieView.getParent()).removeView(zombieView);
                 }
+                int zom = zombie.getDel();
+                zom++;
+                zombie.setDel(zom);
                 addToTilemapGrid(skullView, player.getRow(), player.getCol());
             }
         }
@@ -315,10 +321,18 @@ public class Game3activity extends AppCompatActivity {
                     return; // Stop further updates
                 }
 
-                currentScore -= 1; // Decrease by 1 point per second
+                //currentScore -= 1; // Decrease by 1 point per second
                 // Ensure the score doesn't go below 0
                 if (currentScore < 0) {
                     currentScore = 0;
+                }
+                if(skeleton.getDel() == 1) {
+                    currentScore += 10;
+                    skeleton.setDel(2);
+                }
+                if(zombie.getDel() == 1) {
+                    currentScore += 10;
+                    zombie.setDel(2);
                 }
 
                 // Update the score display
