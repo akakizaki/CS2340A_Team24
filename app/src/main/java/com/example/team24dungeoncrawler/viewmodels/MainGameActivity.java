@@ -274,13 +274,17 @@ public class MainGameActivity extends AppCompatActivity {
             if (player.getRow() == skeleton.getRow() && player.getCol() == skeleton.getColumn()) {
                 skeleton.setMovementSpeed(0);
                 showAttackText();
-                player.removeObserver(skeleton);
+                //player.removeObserver(skeleton);
                 skullView.setImageResource(R.drawable.skull);
-
                 if (skeletonView.getParent() != null) {
                     ((ViewGroup) skeletonView.getParent()).removeView(skeletonView);
                 }
-                //delSkeleton = true;
+                int skel = skeleton.getDel();
+                skel++;
+                skeleton.setDel(skel);
+
+
+
                 addToTilemapGrid(skullView, player.getRow(), player.getCol());
                 Log.d("skull", "done");
             }
@@ -315,12 +319,16 @@ public class MainGameActivity extends AppCompatActivity {
                     return; // Stop further updates
                 }
 
-                currentScore -= 1; // Decrease by 1 point per second
+                //currentScore -= 1; // Decrease by 1 point per second
                 // Ensure the score doesn't go below 0
 
                 if(vampire.getDel() == 1) {
                     currentScore += 10;
                     vampire.setDel(2);
+                }
+                if(skeleton.getDel() == 1) {
+                    currentScore += 10;
+                    skeleton.setDel(2);
                 }
                 if (currentScore < 0) {
                     currentScore = 0;
