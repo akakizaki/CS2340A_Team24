@@ -63,6 +63,8 @@ public class MainGameActivity extends AppCompatActivity {
 
     private static final int ATTACK_TEXT_DURATION = 2000;
 
+    private long visibleStartTime;
+
 
 
     @Override
@@ -71,6 +73,7 @@ public class MainGameActivity extends AppCompatActivity {
         setContentView(R.layout.main_game_activity);
         mainGameLayout = findViewById(R.id.mainGameLayout);
 
+        visibleStartTime = System.currentTimeMillis();
 
         tilemap = new int[][]{
                 {0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 4},
@@ -116,6 +119,7 @@ public class MainGameActivity extends AppCompatActivity {
                 }
                 tilemapGrid.addView(tileView);
             }
+
         }
 
         attack = findViewById(R.id.attackView);
@@ -252,6 +256,17 @@ public class MainGameActivity extends AppCompatActivity {
             playerView.updatePosition(player.getRow(), player.getCol());
             int newTileType = tilemap[player.getRow()][player.getCol()];
             if (newTileType == 3) {
+
+                //Player gets 10 - (seconds to reach the door) points after reaching door
+                long timeToReachDoor = System.currentTimeMillis() - visibleStartTime;
+                System.out.println(timeToReachDoor);
+                int scoreChange = (10 - (int) (timeToReachDoor / 1000)) * 10;
+                if (scoreChange <= 0) {
+                    scoreChange = 1;
+                }
+                currentScore += scoreChange;
+
+
                 movementStrategy = new ExitStrategy(this, gameDifficulty, name,
                         characterNumber, currentScore);
                 movementStrategy.move(player, keyCode, tilemap);
