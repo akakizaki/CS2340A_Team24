@@ -86,6 +86,21 @@ public class JoshFordenTest {
         assertEquals(currentScore, newScore + 10);
     }
 
+    @Test
+    public void wait_1sec_BeforeReachingDoor() throws InterruptedException {
+        visibleStartTime = System.currentTimeMillis();
+        Thread.sleep(1000);
+        player.setCol(19);
+        player.setRow(3);
+
+        playerMoving();
+
+        int newScore = (10 - (int) (1000 / 1000)) * 10;
+        assertEquals(currentScore, newScore + 10);
+    }
+
+
+
 
     private void playerMoving() {
 
