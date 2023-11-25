@@ -2,11 +2,6 @@ package com.example.team24dungeoncrawler.Sprint5TestUnit;
 
 import static org.junit.Assert.assertEquals;
 
-import android.view.KeyEvent;
-import android.widget.GridLayout;
-
-import com.example.team24dungeoncrawler.R;
-import com.example.team24dungeoncrawler.model.ExitStrategy;
 import com.example.team24dungeoncrawler.model.MoveRightStrategy;
 import com.example.team24dungeoncrawler.model.MovementStrategy;
 import com.example.team24dungeoncrawler.model.Player;
@@ -14,7 +9,6 @@ import com.example.team24dungeoncrawler.model.PlayerView;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 
 
 public class JoshFordenTest {
