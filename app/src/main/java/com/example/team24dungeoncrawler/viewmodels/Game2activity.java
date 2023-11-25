@@ -50,16 +50,18 @@ public class Game2activity extends AppCompatActivity {
     private static final int ENEMY_MOVEMENT_INTERVAL = 1000;
     private TextView attack;
     private GridLayout tilemapGrid;
-
     private boolean isGameOver = GameState.isGameOver();
-
     private static final int ATTACK_TEXT_DURATION = 2000;
+    private long visibleStartTime;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.game_screen_2);
         mainGameLayout = findViewById(R.id.mainGameLayout);
+
+        visibleStartTime = System.currentTimeMillis();
+
         tilemap2 = new int[][]{
                 {0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 4},
                 {0, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 4, 2, 2, 2, 2, 2, 2, 4},
@@ -250,6 +252,17 @@ public class Game2activity extends AppCompatActivity {
             playerView.updatePosition(player.getRow(), player.getCol());
             int newTileType = tilemap2[player.getRow()][player.getCol()];
             if (newTileType == 3) {
+
+                //Player gets 10 - (seconds to reach the door) points after reaching door
+                long timeToReachDoor = System.currentTimeMillis() - visibleStartTime;
+                System.out.println(timeToReachDoor);
+                int scoreChange = (10 - (int) (timeToReachDoor / 1000)) * 10;
+                if (scoreChange <= 0) {
+                    scoreChange = 1;
+                }
+                currentScore += scoreChange;
+
+
                 movementStrategy = new ExitStrategy(this, gameDifficulty, name,
                         characterNumber, currentScore);
                 movementStrategy.move(player, keyCode, tilemap2);
