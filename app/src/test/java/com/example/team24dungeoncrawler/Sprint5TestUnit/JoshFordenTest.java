@@ -52,13 +52,15 @@ public class JoshFordenTest {
                 {0, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 4},
                 {0, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5}
         };
+        player.setCol(1);
+        player.setRow(3);
     }
 
     @Test
     public void playerInitPosition() {
         assertEquals(player.getCol(), 1);
         assertEquals(player.getRow(), 3);
-        assertEquals(currentScore, 11);
+        assertEquals(currentScore, 10);
     }
 
     @Test
@@ -70,7 +72,7 @@ public class JoshFordenTest {
 
         playerMoving();
 
-        assertEquals(currentScore, 10);
+        assertEquals(currentScore, 11);
     }
 
     @Test
@@ -83,11 +85,12 @@ public class JoshFordenTest {
         playerMoving();
 
         int newScore = (10 - (int) (50 / 1000)) * 10;
+        assertEquals(newScore, 100);
         assertEquals(currentScore, newScore + 10);
     }
 
     @Test
-    public void wait_1sec_BeforeReachingDoor() throws InterruptedException {
+    public void wait_1Sec_BeforeReachingDoor() throws InterruptedException {
         visibleStartTime = System.currentTimeMillis();
         Thread.sleep(1000);
         player.setCol(19);
@@ -96,6 +99,21 @@ public class JoshFordenTest {
         playerMoving();
 
         int newScore = (10 - (int) (1000 / 1000)) * 10;
+        assertEquals(newScore, 90);
+        assertEquals(currentScore, newScore + 10);
+    }
+
+    @Test
+    public void wait_6andahalfSec_BeforeReachingDoor() throws InterruptedException {
+        visibleStartTime = System.currentTimeMillis();
+        Thread.sleep(6500);
+        player.setCol(19);
+        player.setRow(3);
+
+        playerMoving();
+
+        int newScore = (10 - (int) (6500 / 1000)) * 10;
+        assertEquals(newScore, 40);
         assertEquals(currentScore, newScore + 10);
     }
 
