@@ -7,7 +7,7 @@ import static org.junit.Assert.assertEquals;
 
 import com.example.team24dungeoncrawler.model.Player;
 
-public class playerTest {
+public class PlayerTest {
     private Player player;
 
     @Before

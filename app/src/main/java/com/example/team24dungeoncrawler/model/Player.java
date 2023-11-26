@@ -1,4 +1,6 @@
 package com.example.team24dungeoncrawler.model;
+import com.example.team24dungeoncrawler.viewmodels.GameState;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -115,33 +117,25 @@ public class Player implements Observable {
 
         // Reset health and damageMultiplier based on the selected difficulty
         switch (difficulty) {
-            case "Easy":
-                this.health = 150;
-                this.damageMultiplier = 0.8;
-                break;
-            case "Medium":
-                this.health = 100;
-                this.damageMultiplier = 1.0;
-                break;
-            case "Hard":
-                this.health = 50;
-                this.damageMultiplier = 1.2;
-                break;
-            default:
-                this.health = 100; // Default values for invalid difficulty
-                this.damageMultiplier = 1.0;
-                break;
+        case "Easy":
+            this.health = 150;
+            this.damageMultiplier = 0.8;
+            break;
+        case "Medium":
+            this.health = 100;
+            this.damageMultiplier = 1.0;
+            break;
+        case "Hard":
+            this.health = 50;
+            this.damageMultiplier = 1.2;
+            break;
+        default:
+            this.health = 100; // Default values for invalid difficulty
+            this.damageMultiplier = 1.0;
+            break;
         }
     }
-    public void decreaseHealth() {
-        // Decrease health based on the damageMultiplier
-        this.health -= (int) (10 * damageMultiplier); // You can adjust the damage as needed
 
-        // Ensure health doesn't go below 0
-        if (health < 0) {
-            health = 0;
-        }
-    }
 
     public void decreaseHealth(int damage) {
         this.health -= damage;
@@ -162,7 +156,9 @@ public class Player implements Observable {
         enemyObserverList.remove(observer);
     }
 
-    public void removeObservers() {enemyObserverList = new ArrayList<EnemyObserver>(); }
+    public void removeObservers() {
+        enemyObserverList = new ArrayList<EnemyObserver>();
+    }
 
     @Override
     public void notifyObservers() {

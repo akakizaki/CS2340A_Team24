@@ -67,7 +67,7 @@ public class LeaderboardTest2 {
     }
     @Test
     public void testClearAttempts() {
-       //add attempts
+        //add attempts
         leaderBoard.addAttempt(attempt1);
         leaderBoard.addAttempt(attempt2);
 

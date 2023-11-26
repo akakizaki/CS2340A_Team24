@@ -1,8 +1,6 @@
 package com.example.team24dungeoncrawler.model;
 
-import android.util.Log;
 
-import java.util.Random;
 
 public class Vampire extends Enemy {
 
@@ -10,6 +8,7 @@ public class Vampire extends Enemy {
     private int column;
     private int direction;
     private Enemy enemy;
+
 
     private int movementSpeed;
 
@@ -23,21 +22,30 @@ public class Vampire extends Enemy {
         lastMoveTime = System.currentTimeMillis();
 
     }
+
+
+
+
     @Override
     public void move() {
         long currentTime = System.currentTimeMillis();
+
         if (currentTime - lastMoveTime >= 1000) { //check if 1 second has passed
             lastMoveTime = currentTime;
+
             int currentCol = super.getColumn();
             int newCol = currentCol + movementSpeed;
+
             if (newCol > 0 && newCol < MAX_COL) {
                 super.setColumn(newCol);
             } else {
                 movementSpeed = -movementSpeed;
                 super.setColumn(currentCol + movementSpeed);
             }
-       }
+        }
     }
+
+
 
     @Override
     public void update(Player player) {
@@ -54,4 +62,5 @@ public class Vampire extends Enemy {
     private boolean isValidMove(int newCol) {
         return newCol >= 0 && newCol < MAX_COL;
     }
+
 }

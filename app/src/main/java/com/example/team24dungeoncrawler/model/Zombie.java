@@ -1,6 +1,5 @@
 package com.example.team24dungeoncrawler.model;
 
-import android.util.Log;
 
 public class Zombie extends Enemy {
     private int row;

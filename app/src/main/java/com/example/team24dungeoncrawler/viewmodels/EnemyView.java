@@ -1,7 +1,6 @@
 package com.example.team24dungeoncrawler.viewmodels;
 
 import android.content.Context;
-import android.util.Log;
 import android.widget.GridLayout;
 
 public class EnemyView extends androidx.appcompat.widget.AppCompatImageView {
