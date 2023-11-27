@@ -46,18 +46,6 @@ public class Vampire extends Enemy {
     }
 
 
-    @Override
-    public void update(Player player) {
-        int playerRow = player.getRow();
-        int playerCol = player.getCol();
-        int enemyRow = this.getRow();
-        int enemyCol = this.getColumn();
-
-        if (playerRow == enemyRow && playerCol == enemyCol) {
-            player.decreaseHealth((int) (this.getDamage() * player.getDamageMultiplier()));
-        }
-    }
-
 
     private boolean isValidMove(int newCol) {
         return newCol >= 0 && newCol < MAX_COL;
