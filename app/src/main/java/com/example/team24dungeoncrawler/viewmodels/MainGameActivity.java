@@ -12,7 +12,6 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.media.SoundPool;
-import android.media.SoundPool.Builder;
 import android.media.AudioManager;
 
 
@@ -72,6 +71,7 @@ public class MainGameActivity extends AppCompatActivity {
     private boolean soundsLoaded;
     private int soundIDGameOver;
     private int soundIDSadTrombone;
+    private int soundIDHit;
     private float volume;
 
 
@@ -147,6 +147,7 @@ public class MainGameActivity extends AppCompatActivity {
         });
         soundIDGameOver = soundPool.load(this, R.raw.gameover, 1);
         soundIDSadTrombone = soundPool.load(this, R.raw.sadtrombone, 1);
+
 
         attack = findViewById(R.id.attackView);
 
@@ -415,12 +416,12 @@ public class MainGameActivity extends AppCompatActivity {
 
     public void playGameOverSound() {
         if (soundsLoaded) {
-            soundPool.play(soundIDGameOver, volume, volume, 1, 1, 1f);
+            soundPool.play(soundIDGameOver, volume*2, volume, 1, 1, 1f);
         }
     }
     public void playSadTromboneSound() {
         if (soundsLoaded) {
-            soundPool.play(soundIDSadTrombone, volume, volume, 1, 1, 1f);
+            soundPool.play(soundIDSadTrombone, volume, volume*2, 1, 1, 1f);
         }
     }
 }
