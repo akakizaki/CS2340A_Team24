@@ -136,7 +136,7 @@ public class MainGameActivity extends AppCompatActivity {
         audioManager = (AudioManager) getSystemService(AUDIO_SERVICE);
         float actVolume = audioManager.getStreamVolume(AudioManager.STREAM_MUSIC);
         float maxVolume = audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
-        volume = actVolume/maxVolume * 2;
+        volume = actVolume / maxVolume * 2;
 
         soundPool = new SoundPool(10, AudioManager.STREAM_MUSIC, 0);
         soundPool.setOnLoadCompleteListener(new SoundPool.OnLoadCompleteListener() {
@@ -416,12 +416,12 @@ public class MainGameActivity extends AppCompatActivity {
 
     public void playGameOverSound() {
         if (soundsLoaded) {
-            soundPool.play(soundIDGameOver, volume*2, volume, 1, 1, 1f);
+            soundPool.play(soundIDGameOver, volume * 2, volume, 1, 1, 1f);
         }
     }
     public void playSadTromboneSound() {
         if (soundsLoaded) {
-            soundPool.play(soundIDSadTrombone, volume, volume*2, 1, 1, 1f);
+            soundPool.play(soundIDSadTrombone, volume, volume * 2, 1, 1, 1f);
         }
     }
 }
