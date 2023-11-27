@@ -8,5 +8,5 @@ abstract class PlayerDecorator implements PlayerInterface {
     }
 
     @Override
-    public void update() {}
+    public void update(Player player) {}
 }

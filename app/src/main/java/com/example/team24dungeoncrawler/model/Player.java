@@ -140,7 +140,6 @@ public class Player implements Observable, PlayerInterface {
         }
     }
 
-
     public void decreaseHealth(int damage) {
         this.health -= damage;
 
@@ -172,6 +171,6 @@ public class Player implements Observable, PlayerInterface {
     }
 
     @Override
-    public void update(){}
+    public void update(Player player){}
 }
 
