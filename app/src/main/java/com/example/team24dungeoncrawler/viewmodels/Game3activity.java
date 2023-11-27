@@ -268,7 +268,6 @@ public class Game3activity extends AppCompatActivity {
                 // Check if player health is zero or below
                 if (player.getHealth() <= 0) {
                     // Player has died, navigate to the game over screen
-                    currentScore = 0;
                     gameOver();
                     return; // Stop further updates
                 }
