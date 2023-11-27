@@ -38,7 +38,7 @@ public class MainGameActivity extends AppCompatActivity {
     private Player player;
     private TextView scoreTextView;
     private PlayerView playerView;
-    private int currentScore = 30;
+    private int currentScore = 0;
     private String gameDifficulty;
     private double characterNumber;
     private MovementStrategy movementStrategy;
