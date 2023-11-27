@@ -172,5 +172,6 @@ public class Player implements Observable, PlayerInterface {
 
     @Override
     public void update(Player player){}
+
 }
 
