@@ -4,7 +4,7 @@ import com.example.team24dungeoncrawler.viewmodels.GameState;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Player implements Observable, PlayerInterface {
+public class Player implements Observable {
     private String name;
     private int health;
     private String direction;
@@ -17,6 +17,7 @@ public class Player implements Observable, PlayerInterface {
     private static Player instance;
     private List<Attempt> attemptHistory;
     private List<EnemyObserver> enemyObserverList;
+    private String difficulty;
 
 
     public Player(String name, String difficulty) {
@@ -35,18 +36,22 @@ public class Player implements Observable, PlayerInterface {
         case "Easy":
             this.health = 150;
             this.damageMultiplier = 0.8;
+            this.difficulty = "Easy";
             break;
         case "Medium":
             this.health = 100;
             this.damageMultiplier = 1.0;
+            this.difficulty = "Medium";
             break;
         case "Hard":
             this.health = 50;
             this.damageMultiplier = 1.2;
+            this.difficulty = "Hard";
             break;
         default:
             this.health = 100; // Default values for invalid difficulty
             this.damageMultiplier = 1.0;
+            this.difficulty = "Easy";
             break;
         }
     }
@@ -58,6 +63,9 @@ public class Player implements Observable, PlayerInterface {
         return instance;
     }
 
+    public String getDifficulty() {
+        return difficulty;
+    }
 
     public String getName() {
         return name;
@@ -170,7 +178,5 @@ public class Player implements Observable, PlayerInterface {
         }
     }
 
-    @Override
-    public void update(Player player){}
 }
 

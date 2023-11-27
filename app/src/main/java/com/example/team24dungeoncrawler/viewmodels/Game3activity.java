@@ -2,6 +2,8 @@ package com.example.team24dungeoncrawler.viewmodels;
 
 
 import android.content.Intent;
+import android.media.AudioManager;
+import android.media.SoundPool;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -54,6 +56,10 @@ public class Game3activity extends AppCompatActivity {
     private boolean isGameOver = GameState.isGameOver();
     private static final int ATTACK_TEXT_DURATION = 2000;
     private long visibleStartTime;
+    private SoundPool soundPool;
+    private AudioManager audioManager;
+    private boolean soundsLoaded;
+    private float volume;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -108,6 +114,20 @@ public class Game3activity extends AppCompatActivity {
             }
 
         }
+
+        // Audio Setup
+        audioManager = (AudioManager) getSystemService(AUDIO_SERVICE);
+        float actVolume = audioManager.getStreamVolume(AudioManager.STREAM_MUSIC);
+        float maxVolume = audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
+        volume = actVolume/maxVolume * 2;
+
+        soundPool = new SoundPool(10, AudioManager.STREAM_MUSIC, 0);
+        soundPool.setOnLoadCompleteListener(new SoundPool.OnLoadCompleteListener() {
+            @Override
+            public void onLoadComplete(SoundPool soundPool, int i, int i1) {
+                soundsLoaded = true;
+            }
+        });
 
         attack = findViewById(R.id.attackView3);
 

@@ -11,6 +11,8 @@ import android.widget.GridLayout;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.media.SoundPool;
+import android.media.AudioManager;
 
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -36,7 +38,7 @@ public class MainGameActivity extends AppCompatActivity {
     private Player player;
     private TextView scoreTextView;
     private PlayerView playerView;
-    private int currentScore = 30;
+    private int currentScore = 0;
     private String gameDifficulty;
     private double characterNumber;
     private MovementStrategy movementStrategy;
@@ -64,6 +66,14 @@ public class MainGameActivity extends AppCompatActivity {
     private static final int ATTACK_TEXT_DURATION = 2000;
 
     private long visibleStartTime;
+    private SoundPool soundPool;
+    private AudioManager audioManager;
+    private boolean soundsLoaded;
+    private int soundIDGameOver;
+    private int soundIDSadTrombone;
+    private int soundIDHit;
+    private float volume;
+
 
 
 
@@ -121,6 +131,23 @@ public class MainGameActivity extends AppCompatActivity {
             }
 
         }
+
+        // Audio
+        audioManager = (AudioManager) getSystemService(AUDIO_SERVICE);
+        float actVolume = audioManager.getStreamVolume(AudioManager.STREAM_MUSIC);
+        float maxVolume = audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
+        volume = actVolume/maxVolume * 2;
+
+        soundPool = new SoundPool(10, AudioManager.STREAM_MUSIC, 0);
+        soundPool.setOnLoadCompleteListener(new SoundPool.OnLoadCompleteListener() {
+            @Override
+            public void onLoadComplete(SoundPool soundPool, int i, int i1) {
+                soundsLoaded = true;
+            }
+        });
+        soundIDGameOver = soundPool.load(this, R.raw.gameover, 1);
+        soundIDSadTrombone = soundPool.load(this, R.raw.sadtrombone, 1);
+
 
         attack = findViewById(R.id.attackView);
 
@@ -368,6 +395,8 @@ public class MainGameActivity extends AppCompatActivity {
     private void gameOver() {
         if (!GameState.isGameOver()) {
             GameState.setGameOver(true);
+            playGameOverSound();
+            playSadTromboneSound();
             LeaderBoard leaderboard = LeaderBoard.getInstance();
             leaderboard.addAttempt(new Attempt(name, currentScore));
             Intent gameOverIntent = new Intent(MainGameActivity.this, EndingScreen.class);
@@ -383,5 +412,16 @@ public class MainGameActivity extends AppCompatActivity {
         attack.setVisibility(View.VISIBLE);
         new Handler().postDelayed(() -> attack.setVisibility(View.GONE),
                 ATTACK_TEXT_DURATION);
+    }
+
+    public void playGameOverSound() {
+        if (soundsLoaded) {
+            soundPool.play(soundIDGameOver, volume*2, volume, 1, 1, 1f);
+        }
+    }
+    public void playSadTromboneSound() {
+        if (soundsLoaded) {
+            soundPool.play(soundIDSadTrombone, volume, volume*2, 1, 1, 1f);
+        }
     }
 }
