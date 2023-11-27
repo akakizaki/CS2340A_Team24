@@ -2,11 +2,13 @@ package com.example.team24dungeoncrawler.viewmodels;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.media.MediaPlayer;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -31,6 +33,9 @@ public class EndingScreen extends AppCompatActivity {
 
         name = getIntent().getStringExtra("Name");
         score = getIntent().getIntExtra("Score", 0);
+
+        // Audio Media Player
+        MediaPlayer mediaPlayerWin = MediaPlayer.create(this, R.raw.win);
 
         // Retrieve the leaderboard and display the top attempts
         LeaderBoard leaderboard = LeaderBoard.getInstance();
@@ -59,6 +64,7 @@ public class EndingScreen extends AppCompatActivity {
             textView2.setText("GAME OVER! OH NO :("); // Set the text to "Game Over"
             textView2.setTextSize(24);
         } else {
+            mediaPlayerWin.start();
             textView2.setText("YOU WON! YAY! ");
             textView2.setTextSize(24);
         }
@@ -73,7 +79,17 @@ public class EndingScreen extends AppCompatActivity {
             }
         });
 
+        mediaPlayerWin.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+            @Override
+            public void onCompletion(MediaPlayer mp) {
+                mp.stop();
+                mp.reset();
+                mp.release();
+                mp = null;
+                Log.d("V", "audio released");
 
+            }
+        });
 
     }
 
