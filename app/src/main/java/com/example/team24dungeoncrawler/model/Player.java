@@ -19,7 +19,7 @@ public class Player implements Observable {
     private List<EnemyObserver> enemyObserverList;
 
 
-    private Player(String name, String difficulty) {
+    public Player(String name, String difficulty) {
         this.name = name;
         this.direction = "";
         this.speed = 0;
@@ -81,6 +81,10 @@ public class Player implements Observable {
 
     public int getCol() {
         return col;
+    }
+
+    public void setHealth(int health) {
+        this.health = health;
     }
 
     public void setCol(int col) {
