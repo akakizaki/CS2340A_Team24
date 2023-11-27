@@ -4,7 +4,7 @@ import com.example.team24dungeoncrawler.viewmodels.GameState;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Player implements Observable {
+public class Player implements Observable, PlayerInterface {
     private String name;
     private int health;
     private String direction;
@@ -170,5 +170,8 @@ public class Player implements Observable {
             enemy.update(this);
         }
     }
+
+    @Override
+    public void update(){}
 }
 
