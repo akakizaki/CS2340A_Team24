@@ -67,5 +67,21 @@
         android:textStyle="bold"
         android:padding="8dp" />
 
+    <TextView
+        android:id="@+id/attackView2"
+        android:layout_width="126dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="144dp"
+        android:layout_marginTop="347dp"
+        android:layout_marginEnd="141dp"
+        android:layout_marginBottom="349dp"
+        android:text="Enemy Killed! "
+        android:textColor="#FFFF00"
+        android:visibility="invisible" />
+
 
 </RelativeLayout>

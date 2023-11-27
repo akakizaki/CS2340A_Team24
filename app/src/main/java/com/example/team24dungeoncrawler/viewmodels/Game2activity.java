@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.GridLayout;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -42,19 +44,24 @@ public class Game2activity extends AppCompatActivity {
     private Enemy ghost;
     private Enemy zombie;
     private EnemyView ghostView;
+    private EnemyView skullView;
     private EnemyView zombieView;
     private final Handler handler = new Handler();
     private static final int ENEMY_MOVEMENT_INTERVAL = 1000;
-
+    private TextView attack;
+    private GridLayout tilemapGrid;
     private boolean isGameOver = GameState.isGameOver();
-
-
+    private static final int ATTACK_TEXT_DURATION = 2000;
+    private long visibleStartTime;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.game_screen_2);
         mainGameLayout = findViewById(R.id.mainGameLayout);
+
+        visibleStartTime = System.currentTimeMillis();
+
         tilemap2 = new int[][]{
                 {0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 4},
                 {0, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 4, 2, 2, 2, 2, 2, 2, 4},
@@ -77,7 +84,7 @@ public class Game2activity extends AppCompatActivity {
                 {0, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 4},
                 {0, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5}
         };
-        GridLayout tilemapGrid = findViewById(R.id.tilemapGrid);
+        tilemapGrid = findViewById(R.id.tilemapGrid);
         for (int row = 0; row < tilemap2.length; row++) {
             for (int col = 0; col < tilemap2[row].length; col++) {
                 int tileType = tilemap2[row][col];
@@ -101,7 +108,7 @@ public class Game2activity extends AppCompatActivity {
 
         }
 
-
+        attack = findViewById(R.id.attackView2);
 
         // Display player Name.
         name = getIntent().getStringExtra("name");
@@ -134,7 +141,6 @@ public class Game2activity extends AppCompatActivity {
         // Update Health every quarter second
         handler.postDelayed(healthRunnable, 250);
 
-        //Create Zombie and Ghost Enemies
 
         //Create Zombie Enemy
         ghost = EnemyFactory.createEnemy(3, 1, 20, 12, 13);
@@ -148,6 +154,8 @@ public class Game2activity extends AppCompatActivity {
         zombieView.updatePosition(zombie.getRow(), zombie.getColumn());
         zombieView.setImageResource(R.drawable.zombie);
         player.addObserver(zombie);
+        skullView = new EnemyView(this);
+        skullView.setImageResource(R.drawable.skull);
 
         handler.postDelayed(enemyMovementRunnable, ENEMY_MOVEMENT_INTERVAL);
 
@@ -168,9 +176,9 @@ public class Game2activity extends AppCompatActivity {
         //add player and enemies to tileMap
         tilemapGrid.addView(playerView);
         tilemapGrid.addView(ghostView);
-        Log.d("ghost TILE", "done");
         tilemapGrid.addView(zombieView);
-        Log.d("zombie TILE", "done");
+        skullView = new EnemyView(this);
+        skullView.setImageResource(R.drawable.skull);
 
         //Get score from previous screen
         currentScore = getIntent().getIntExtra("score", 0);
@@ -182,7 +190,6 @@ public class Game2activity extends AppCompatActivity {
         startScoreUpdate();
 
     }
-
 
 
     private Runnable enemyMovementRunnable = new Runnable() {
@@ -245,9 +252,64 @@ public class Game2activity extends AppCompatActivity {
             playerView.updatePosition(player.getRow(), player.getCol());
             int newTileType = tilemap2[player.getRow()][player.getCol()];
             if (newTileType == 3) {
+
+                //Player gets 10 - (seconds to reach the door) points after reaching door
+                long timeToReachDoor = System.currentTimeMillis() - visibleStartTime;
+                System.out.println(timeToReachDoor);
+                int scoreChange = (10 - (int) (timeToReachDoor / 1000)) * 10;
+                if (scoreChange <= 0) {
+                    scoreChange = 1;
+                }
+                currentScore += scoreChange;
+
+
                 movementStrategy = new ExitStrategy(this, gameDifficulty, name,
                         characterNumber, currentScore);
                 movementStrategy.move(player, keyCode, tilemap2);
+            }
+        }
+        return true;
+    }
+    private void addToTilemapGrid(View view, int row, int column) {
+        if (view.getParent() instanceof ViewGroup) {
+            ((ViewGroup) view.getParent()).removeView(view);
+        }
+        tilemapGrid.addView(view);
+        GridLayout.LayoutParams layoutParams = new GridLayout.LayoutParams();
+        layoutParams.rowSpec = GridLayout.spec(row);
+        layoutParams.columnSpec = GridLayout.spec(column);
+        view.setLayoutParams(layoutParams);
+    }
+
+    @Override
+    public boolean onKeyUp(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_SPACE) {
+            if (player.getRow() == ghost.getRow() && player.getCol() == ghost.getColumn()) {
+                ghost.setMovementSpeed(0);
+                showAttackText();
+                player.removeObserver(ghost);
+                skullView.setImageResource(R.drawable.skull);
+                if (ghostView.getParent() != null) {
+                    ((ViewGroup) ghostView.getParent()).removeView(ghostView);
+                }
+                int gho = ghost.getDel();
+                gho++;
+                ghost.setDel(gho);
+
+                addToTilemapGrid(skullView, player.getRow(), player.getCol());
+            }
+            if (player.getRow() == zombie.getRow() && player.getCol() == zombie.getColumn()) {
+                zombie.setMovementSpeed(0);
+                showAttackText();
+                player.removeObserver(zombie);
+                skullView.setImageResource(R.drawable.skull);
+                if (zombieView.getParent() != null) {
+                    ((ViewGroup) zombieView.getParent()).removeView(zombieView);
+                }
+                int zom = zombie.getDel();
+                zom++;
+                zombie.setDel(zom);
+                addToTilemapGrid(skullView, player.getRow(), player.getCol());
             }
         }
         return true;
@@ -265,10 +327,18 @@ public class Game2activity extends AppCompatActivity {
                     return; // Stop further updates
                 }
 
-                currentScore -= 1; // Decrease by 1 point per second
+                //currentScore -= 1; // Decrease by 1 point per second
                 // Ensure the score doesn't go below 0
                 if (currentScore < 0) {
                     currentScore = 0;
+                }
+                if(zombie.getDel() == 1) {
+                    currentScore += 10;
+                    zombie.setDel(2);
+                }
+                if(ghost.getDel() == 1) {
+                    currentScore += 10;
+                    ghost.setDel(2);
                 }
 
                 // Update the score display
@@ -298,6 +368,12 @@ public class Game2activity extends AppCompatActivity {
             Game2activity.this.startActivity(gameOverIntent);
             Game2activity.this.finish();
         }
+    }
+
+    private void showAttackText() {
+        attack.setVisibility(View.VISIBLE);
+        new Handler().postDelayed(() -> attack.setVisibility(View.GONE),
+                ATTACK_TEXT_DURATION);
     }
 
 

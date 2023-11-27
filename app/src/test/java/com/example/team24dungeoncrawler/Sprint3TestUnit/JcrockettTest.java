@@ -14,7 +14,7 @@ import android.view.KeyEvent;
 import org.junit.Before;
 import org.junit.Test;
 
-public class jcrockettTest {
+public class JcrockettTest {
     private Player player;
     private MovementStrategy movementStrategy;
 

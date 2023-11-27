@@ -5,10 +5,13 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.GridLayout;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -48,10 +51,21 @@ public class MainGameActivity extends AppCompatActivity {
 
     private EnemyView skeletonView;
     private EnemyView vampireView;
+    private EnemyView skullView;
 
     private Handler scoreHandler = new Handler();
 
+    private TextView attack;
+
+    private GridLayout tilemapGrid;
+
     private boolean isGameOver = GameState.isGameOver();
+
+    private static final int ATTACK_TEXT_DURATION = 2000;
+
+    private long visibleStartTime;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,6 +73,7 @@ public class MainGameActivity extends AppCompatActivity {
         setContentView(R.layout.main_game_activity);
         mainGameLayout = findViewById(R.id.mainGameLayout);
 
+        visibleStartTime = System.currentTimeMillis();
 
         tilemap = new int[][]{
                 {0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 4},
@@ -82,7 +97,7 @@ public class MainGameActivity extends AppCompatActivity {
                 {0, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 4},
                 {0, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5}
         };
-        GridLayout tilemapGrid = findViewById(R.id.tilemapGrid);
+        tilemapGrid = findViewById(R.id.tilemapGrid);
         int row;
         for (row = 0; row < tilemap.length; row++) {
             for (int col = 0; col < tilemap[row].length; col++) {
@@ -104,8 +119,10 @@ public class MainGameActivity extends AppCompatActivity {
                 }
                 tilemapGrid.addView(tileView);
             }
+
         }
 
+        attack = findViewById(R.id.attackView);
 
         // Display player Name.
         name = getIntent().getStringExtra("name");
@@ -124,24 +141,24 @@ public class MainGameActivity extends AppCompatActivity {
             player.setCol(1);
         }
         playerView.updatePosition(player.getRow(), player.getCol()); // Set the initial position
-
         skeleton = EnemyFactory.createEnemy(1, 1, 10, 1,
-                1); // multiplied damage by 10 to have more noticable affect on health
+                1); // multiplied damage by 10 to have more noticeable affect on health
         skeletonView = new EnemyView(this);
         skeletonView.updatePosition(skeleton.getRow(), skeleton.getColumn());
         skeletonView.setImageResource(R.drawable.skeleton);
         player.addObserver(skeleton);
 
-
         vampire = EnemyFactory.createEnemy(2, 2, 20, 6,
-                1); // multiplied damage by 10 to have more noticable affect on health
+                1); // multiplied damage by 10 to have more noticeable affect on health
         vampireView = new EnemyView(this);
         vampireView.updatePosition(vampire.getRow(), vampire.getColumn());
         vampireView.setImageResource(R.drawable.vampire);
         player.addObserver(vampire);
 
 
+
         handler.postDelayed(enemyMovementRunnable, ENEMY_MOVEMENT_INTERVAL);
+
 
         // Display health.
         TextView health = findViewById(R.id.health);
@@ -163,12 +180,11 @@ public class MainGameActivity extends AppCompatActivity {
         scoreTextView = findViewById(R.id.scoreTextView);
         //add player to tilemap
         tilemapGrid.addView(playerView);
-
         tilemapGrid.addView(skeletonView);
-        Log.d("skeletoTILE", "done");
-
         tilemapGrid.addView(vampireView);
-        Log.d("vamptoTILE", "done");
+        skullView = new EnemyView(this);
+        skullView.setImageResource(R.drawable.skull);
+
 
         // Start updating the score
         startScoreUpdate();
@@ -240,6 +256,17 @@ public class MainGameActivity extends AppCompatActivity {
             playerView.updatePosition(player.getRow(), player.getCol());
             int newTileType = tilemap[player.getRow()][player.getCol()];
             if (newTileType == 3) {
+
+                //Player gets 10 - (seconds to reach the door) points after reaching door
+                long timeToReachDoor = System.currentTimeMillis() - visibleStartTime;
+                System.out.println(timeToReachDoor);
+                int scoreChange = (10 - (int) (timeToReachDoor / 1000)) * 10;
+                if (scoreChange <= 0) {
+                    scoreChange = 1;
+                }
+                currentScore += scoreChange;
+
+
                 movementStrategy = new ExitStrategy(this, gameDifficulty, name,
                         characterNumber, currentScore);
                 movementStrategy.move(player, keyCode, tilemap);
@@ -247,6 +274,55 @@ public class MainGameActivity extends AppCompatActivity {
         }
         return true;
     }
+    private void addToTilemapGrid(View view, int row, int column) {
+        if (view.getParent() instanceof ViewGroup) {
+            ((ViewGroup) view.getParent()).removeView(view);
+        }
+        tilemapGrid.addView(view);
+        GridLayout.LayoutParams layoutParams = new GridLayout.LayoutParams();
+        layoutParams.rowSpec = GridLayout.spec(row);
+        layoutParams.columnSpec = GridLayout.spec(column);
+        view.setLayoutParams(layoutParams);
+    }
+
+
+    @Override
+    public boolean onKeyUp(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_SPACE) {
+            if (player.getRow() == skeleton.getRow() && player.getCol() == skeleton.getColumn()) {
+                skeleton.setMovementSpeed(0);
+                showAttackText();
+                //player.removeObserver(skeleton);
+                skullView.setImageResource(R.drawable.skull);
+                if (skeletonView.getParent() != null) {
+                    ((ViewGroup) skeletonView.getParent()).removeView(skeletonView);
+                }
+                int skel = skeleton.getDel();
+                skel++;
+                skeleton.setDel(skel);
+
+
+
+                addToTilemapGrid(skullView, player.getRow(), player.getCol());
+                Log.d("skull", "done");
+            }
+            if (player.getRow() == vampire.getRow() && player.getCol() == vampire.getColumn()) {
+                vampire.setMovementSpeed(0);
+                showAttackText();
+                vampireView.setImageResource(R.drawable.skull);
+                if (vampireView.getParent() != null) {
+                    ((ViewGroup) vampireView.getParent()).removeView(vampireView);
+                }
+                int vam = vampire.getDel();
+                vam++;
+                vampire.setDel(vam);
+                addToTilemapGrid(skullView, player.getRow(), player.getCol());
+                Log.d("skullVampire", "done");
+            }
+        }
+        return true;
+    }
+
 
 
     //other methods
@@ -262,8 +338,17 @@ public class MainGameActivity extends AppCompatActivity {
                     return; // Stop further updates
                 }
 
-                currentScore -= 1; // Decrease by 1 point per second
+                //currentScore -= 1; // Decrease by 1 point per second
                 // Ensure the score doesn't go below 0
+
+                if (vampire.getDel() == 1) {
+                    currentScore += 10;
+                    vampire.setDel(2);
+                }
+                if (skeleton.getDel() == 1) {
+                    currentScore += 10;
+                    skeleton.setDel(2);
+                }
                 if (currentScore < 0) {
                     currentScore = 0;
                 }
@@ -294,4 +379,9 @@ public class MainGameActivity extends AppCompatActivity {
         }
     }
 
+    private void showAttackText() {
+        attack.setVisibility(View.VISIBLE);
+        new Handler().postDelayed(() -> attack.setVisibility(View.GONE),
+                ATTACK_TEXT_DURATION);
+    }
 }
