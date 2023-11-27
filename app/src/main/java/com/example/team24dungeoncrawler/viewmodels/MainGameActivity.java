@@ -11,7 +11,7 @@ import android.widget.GridLayout;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
+
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -341,11 +341,11 @@ public class MainGameActivity extends AppCompatActivity {
                 //currentScore -= 1; // Decrease by 1 point per second
                 // Ensure the score doesn't go below 0
 
-                if(vampire.getDel() == 1) {
+                if (vampire.getDel() == 1) {
                     currentScore += 10;
                     vampire.setDel(2);
                 }
-                if(skeleton.getDel() == 1) {
+                if (skeleton.getDel() == 1) {
                     currentScore += 10;
                     skeleton.setDel(2);
                 }
