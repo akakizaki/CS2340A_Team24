@@ -8,6 +8,6 @@ public class ScorePowerUp extends PowerUp {
 
     @Override
     public int getScore() {
-        return super.getScore() * 2;
+        return super.getScore() + 10;
     }
 }
