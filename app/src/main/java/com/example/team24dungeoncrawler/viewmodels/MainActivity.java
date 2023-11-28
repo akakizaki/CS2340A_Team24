@@ -28,7 +28,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         mediaPlayer = MediaPlayer.create(this, R.raw.intro);
-        mediaPlayer.setLooping(true); // Set looping for continuous play
+        mediaPlayer.setLooping(true);
         mediaPlayer.start();
 
         EditText textInput = findViewById(R.id.editTextInput);
@@ -86,7 +86,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
         if (mediaPlayer != null) {
-            mediaPlayer.release(); // Release media resources on app closure
+            mediaPlayer.release();
             mediaPlayer = null;
         }
     }
