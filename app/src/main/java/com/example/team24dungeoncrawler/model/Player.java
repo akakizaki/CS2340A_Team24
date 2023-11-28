@@ -120,7 +120,10 @@ public class Player implements Observable {
 
     }
 
-    public void setDamageMultiplier(double damageMultiplier) {this.damageMultiplier = damageMultiplier;}
+    public void setDamageMultiplier(double damageMultiplier) {
+        this.damageMultiplier = damageMultiplier;
+    }
+
     public void reset(String name, String difficulty) {
         this.name = name;
         this.direction = "";
@@ -181,9 +184,14 @@ public class Player implements Observable {
         }
     }
 
-    public void setHasKey(boolean hasKey) {this.hasKey = hasKey;}
 
-    public boolean getHasKey() {return hasKey;}
+    public void setHasKey(boolean hasKey) {
+        this.hasKey = hasKey;
+    }
+
+    public boolean getHasKey() {
+        return hasKey;
+    }
 
 }
 

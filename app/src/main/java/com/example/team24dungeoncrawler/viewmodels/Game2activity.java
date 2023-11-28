@@ -82,13 +82,10 @@ public class Game2activity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.game_screen_2);
         mainGameLayout = findViewById(R.id.mainGameLayout);
-
         mediaPlayer = MediaPlayer.create(this, R.raw.secondfight);
         mediaPlayer.setLooping(true);
         mediaPlayer.start();
-
         visibleStartTime = System.currentTimeMillis();
-
         tilemap2 = new int[][]{
                 {0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 4},
                 {0, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 4, 2, 2, 2, 2, 2, 2, 4},
@@ -116,7 +113,6 @@ public class Game2activity extends AppCompatActivity {
             for (int col = 0; col < tilemap2[row].length; col++) {
                 int tileType = tilemap2[row][col];
                 ImageView tileView = new ImageView(this);
-                // Set the background resource based on tileType
                 if (tileType == 0) {
                     tileView.setBackgroundResource(R.drawable.left_wall_tile);
                 } else if (tileType == 1) {
@@ -132,15 +128,11 @@ public class Game2activity extends AppCompatActivity {
                 }
                 tilemapGrid.addView(tileView);
             }
-
         }
-
-        // Audio
         audioManager = (AudioManager) getSystemService(AUDIO_SERVICE);
         float actVolume = audioManager.getStreamVolume(AudioManager.STREAM_MUSIC);
         float maxVolume = audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
-        volume = actVolume/maxVolume * 2;
-
+        volume = actVolume / maxVolume * 2;
         soundPool = new SoundPool(10, AudioManager.STREAM_MUSIC, 0);
         soundPool.setOnLoadCompleteListener(new SoundPool.OnLoadCompleteListener() {
             @Override
@@ -152,20 +144,14 @@ public class Game2activity extends AppCompatActivity {
         soundIDSadTrombone = soundPool.load(this, R.raw.sadtrombone, 1);
         soundIDKilledEnemy = soundPool.load(this, R.raw.hugnergamesdead, 1);
         soundIDLoseHealth = soundPool.load(this, R.raw.r2d2screaming, 1);
-
-
         attack = findViewById(R.id.attackView2);
-
-        // Display player Name.
         name = getIntent().getStringExtra("name");
         TextView editName = findViewById(R.id.name);
         editName.setText("Name: " + name);
-
         // Get difficulty selected from config screen and display it
         gameDifficulty = getIntent().getStringExtra("difficulty");
         TextView difficulty = findViewById(R.id.difficulty);
         difficulty.setText("Difficulty: " + gameDifficulty);
-
         player = Player.getInstance(name, String.valueOf(gameDifficulty));
         playerView = new PlayerView(this); // Create a new PlayerView
         if (getIntent().hasExtra("exitPositionRow") && getIntent().hasExtra("exitPositionCol")) {
@@ -181,21 +167,17 @@ public class Game2activity extends AppCompatActivity {
             player.setCol(1);
         }
         playerHealthForSound = player.getHealth();
-
         // Display health.
         TextView health = findViewById(R.id.health);
         health.setText("Health: " + player.getHealth());
         // Update Health every quarter second
         handler.postDelayed(healthRunnable, 250);
-
-
         //Create Zombie Enemy
         ghost = EnemyFactory.createEnemy(3, 1, 20, 12, 13);
         ghostView = new EnemyView(this);
         ghostView.updatePosition(ghost.getRow(), ghost.getColumn());
         ghostView.setImageResource(R.drawable.ghost);
         player.addObserver(ghost);
-
         zombie = EnemyFactory.createEnemy(4, 2, 30, 5, 11);
         zombieView = new EnemyView(this);
         zombieView.updatePosition(zombie.getRow(), zombie.getColumn());
@@ -203,7 +185,6 @@ public class Game2activity extends AppCompatActivity {
         player.addObserver(zombie);
         skullView = new EnemyView(this);
         skullView.setImageResource(R.drawable.skull);
-
         healthPU = PowerUpFactory.createPowerUp(1, 2, 11);
         healthPUView = new PowerUpView(this);
         healthPUView.updatePosition(healthPU.getRow(), healthPU.getColumn());
@@ -234,11 +215,7 @@ public class Game2activity extends AppCompatActivity {
         } else if (characterNumber == 3) {
             playerView.setImageResource(R.drawable.sprite3);
         }
-
-        //initialize scoretextview
         scoreTextView = findViewById(R.id.scoreTextView);
-
-        //add player and enemies to tileMap
         tilemapGrid.addView(playerView);
         tilemapGrid.addView(ghostView);
         tilemapGrid.addView(zombieView);
@@ -247,16 +224,9 @@ public class Game2activity extends AppCompatActivity {
         tilemapGrid.addView(keyView);
         skullView = new EnemyView(this);
         skullView.setImageResource(R.drawable.skull);
-
-        //Get score from previous screen
         currentScore = getIntent().getIntExtra("score", 0);
-
-        //initialize scoretextview
         scoreTextView = findViewById(R.id.scoreTextView);
-
-        // Start updating the score
         startScoreUpdate();
-
     }
 
 
@@ -407,11 +377,11 @@ public class Game2activity extends AppCompatActivity {
                 if (currentScore < 0) {
                     currentScore = 0;
                 }
-                if(zombie.getDel() == 1) {
+                if (zombie.getDel() == 1) {
                     currentScore += 10;
                     zombie.setDel(2);
                 }
-                if(ghost.getDel() == 1) {
+                if (ghost.getDel() == 1) {
                     currentScore += 10;
                     ghost.setDel(2);
                 }
@@ -456,28 +426,29 @@ public class Game2activity extends AppCompatActivity {
 
     public void playGameOverSound() {
         if (soundsLoaded) {
-            soundPool.play(soundIDGameOver, volume*2, volume, 1, 1, 1f);
+            soundPool.play(soundIDGameOver, volume * 2, volume, 1, 1, 1f);
         }
     }
     public void playSadTromboneSound() {
         if (soundsLoaded) {
-            soundPool.play(soundIDSadTrombone, volume, volume*2, 1, 1, 1f);
+            soundPool.play(soundIDSadTrombone, volume, volume * 2, 1, 1, 1f);
         }
     }
 
     public void playEnemyDeadSound() {
         if (soundsLoaded) {
-            soundPool.play(soundIDKilledEnemy, volume*10, volume*10, 1, 1, 1f);
+            soundPool.play(soundIDKilledEnemy, volume * 10, volume * 10, 1, 1, 1f);
         }
     }
     public void playLoseHealthSound() {
         if (soundsLoaded) {
-            soundPool.play(soundIDLoseHealth, volume*3, volume*3, 1, 1, 1f);
+            soundPool.play(soundIDLoseHealth, volume * 3, volume * 3, 1, 1, 1f);
         }
     }
 
     public void checkPowerUpCollisions() {
-        if (healthPU.getRow() == player.getRow() &&  healthPU.getColumn() == player.getCol() && !healthPU.getVisibility()) {
+        if (healthPU.getRow() == player.getRow() &&  healthPU.getColumn() == player.getCol()
+                && !healthPU.getVisibility()) {
             if (healthPUView.getParent() != null) {
                 ((ViewGroup) healthPUView.getParent()).removeView(healthPUView);
             }
@@ -485,7 +456,8 @@ public class Game2activity extends AppCompatActivity {
             player.removeObserver(healthPU);
         }
 
-        if (scorePU.getRow() == player.getRow() &&  scorePU.getColumn() == player.getCol() && !scorePU.getVisibility()) {
+        if (scorePU.getRow() == player.getRow() &&  scorePU.getColumn() == player.getCol()
+                && !scorePU.getVisibility()) {
             if (scorePUView.getParent() != null) {
                 ((ViewGroup) scorePUView.getParent()).removeView(scorePUView);
             }
@@ -494,7 +466,8 @@ public class Game2activity extends AppCompatActivity {
             currentScore += 10;
         }
 
-        if (key.getRow() == player.getRow() &&  key.getColumn() == player.getCol() && key.isVisibile()) {
+        if (key.getRow() == player.getRow() &&  key.getColumn() == player.getCol()
+                && key.isVisibile()) {
             if (keyView.getParent() != null) {
                 ((ViewGroup) keyView.getParent()).removeView(keyView);
             }

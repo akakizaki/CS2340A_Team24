@@ -5,8 +5,6 @@ import static org.junit.Assert.assertEquals;
 
 import com.example.team24dungeoncrawler.model.Key;
 import com.example.team24dungeoncrawler.model.PowerUp;
-import com.example.team24dungeoncrawler.model.EnemyFactory;
-import com.example.team24dungeoncrawler.model.Enemy;
 import com.example.team24dungeoncrawler.model.Player;
 import com.example.team24dungeoncrawler.model.PowerUpFactory;
 
@@ -56,7 +54,7 @@ public class JCrockettTests {
         assertEquals(0, player.getScore());
         player.setRow(16);
         player.setCol(8);
-        assertEquals(10,player.getScore());
+        assertEquals(10, player.getScore());
     }
 
     @Test
