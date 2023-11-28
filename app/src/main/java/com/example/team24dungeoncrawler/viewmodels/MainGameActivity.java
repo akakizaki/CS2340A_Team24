@@ -1,6 +1,7 @@
 package com.example.team24dungeoncrawler.viewmodels;
 
 import android.content.Intent;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -73,7 +74,7 @@ public class MainGameActivity extends AppCompatActivity {
     private int soundIDSadTrombone;
     private int soundIDHit;
     private float volume;
-
+    private MediaPlayer mediaPlayer;
 
 
 
@@ -82,6 +83,10 @@ public class MainGameActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_game_activity);
         mainGameLayout = findViewById(R.id.mainGameLayout);
+
+        mediaPlayer = MediaPlayer.create(this, R.raw.firstfight);
+        mediaPlayer.setLooping(true);
+        mediaPlayer.start();
 
         visibleStartTime = System.currentTimeMillis();
 
@@ -222,6 +227,11 @@ public class MainGameActivity extends AppCompatActivity {
         super.onDestroy();
         handler.removeCallbacksAndMessages(null);
         scoreHandler.removeCallbacksAndMessages(null);
+        super.onDestroy();
+        if (mediaPlayer != null) {
+            mediaPlayer.release();
+            mediaPlayer = null;
+        }
     }
 
     private Runnable enemyMovementRunnable = new Runnable() {
