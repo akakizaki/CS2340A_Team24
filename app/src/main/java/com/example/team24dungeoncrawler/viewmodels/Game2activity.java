@@ -27,6 +27,9 @@ import com.example.team24dungeoncrawler.model.MoveUpStrategy;
 import com.example.team24dungeoncrawler.model.MovementStrategy;
 import com.example.team24dungeoncrawler.model.Player;
 import com.example.team24dungeoncrawler.model.PlayerView;
+import com.example.team24dungeoncrawler.model.PowerUp;
+import com.example.team24dungeoncrawler.model.PowerUpFactory;
+import com.example.team24dungeoncrawler.model.PowerUpView;
 
 public class Game2activity extends AppCompatActivity {
     private RelativeLayout mainGameLayout;
@@ -46,6 +49,10 @@ public class Game2activity extends AppCompatActivity {
     private EnemyView ghostView;
     private EnemyView skullView;
     private EnemyView zombieView;
+    private PowerUp healthPU;
+    private PowerUp scorePU;
+    private PowerUpView healthPUView;
+    private PowerUpView scorePUView;
     private final Handler handler = new Handler();
     private static final int ENEMY_MOVEMENT_INTERVAL = 1000;
     private TextView attack;
@@ -157,6 +164,18 @@ public class Game2activity extends AppCompatActivity {
         skullView = new EnemyView(this);
         skullView.setImageResource(R.drawable.skull);
 
+        healthPU = PowerUpFactory.createPowerUp(1, 2, 11);
+        healthPUView = new PowerUpView(this);
+        healthPUView.updatePosition(healthPU.getRow(), healthPU.getColumn());
+        healthPUView.setImageResource(R.drawable.health_pu);
+        player.addObserver(healthPU);
+
+        scorePU = PowerUpFactory.createPowerUp(2, 18, 18);
+        scorePUView = new PowerUpView(this);
+        scorePUView.updatePosition(scorePU.getRow(), scorePU.getColumn());
+        scorePUView.setImageResource(R.drawable.clover_score_mult);
+        player.addObserver(scorePU);
+
         handler.postDelayed(enemyMovementRunnable, ENEMY_MOVEMENT_INTERVAL);
 
         // Get characterNumber and display sprite accordingly
@@ -177,6 +196,8 @@ public class Game2activity extends AppCompatActivity {
         tilemapGrid.addView(playerView);
         tilemapGrid.addView(ghostView);
         tilemapGrid.addView(zombieView);
+        tilemapGrid.addView(healthPUView);
+        tilemapGrid.addView(scorePUView);
         skullView = new EnemyView(this);
         skullView.setImageResource(R.drawable.skull);
 
@@ -250,6 +271,7 @@ public class Game2activity extends AppCompatActivity {
         if (movementStrategy != null) {
             movementStrategy.move(player, keyCode, tilemap2);
             playerView.updatePosition(player.getRow(), player.getCol());
+            checkPowerUpCollisions();
             int newTileType = tilemap2[player.getRow()][player.getCol()];
             if (newTileType == 3) {
 
@@ -376,5 +398,22 @@ public class Game2activity extends AppCompatActivity {
                 ATTACK_TEXT_DURATION);
     }
 
+    public void checkPowerUpCollisions() {
+        if (healthPU.getRow() == player.getRow() &&  healthPU.getColumn() == player.getCol() && healthPU.getVisibility()) {
+            if (healthPUView.getParent() != null) {
+                ((ViewGroup) healthPUView.getParent()).removeView(healthPUView);
+            }
+            healthPU.negateVisibility();
+            player.removeObserver(healthPU);
+        }
+
+        if (scorePU.getRow() == player.getRow() &&  scorePU.getColumn() == player.getCol() && scorePU.getVisibility()) {
+            if (scorePUView.getParent() != null) {
+                ((ViewGroup) scorePUView.getParent()).removeView(scorePUView);
+            }
+            scorePU.negateVisibility();
+            player.removeObserver(scorePU);
+        }
+    }
 
 }

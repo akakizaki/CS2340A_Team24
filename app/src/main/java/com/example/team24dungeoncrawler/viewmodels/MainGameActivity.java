@@ -449,6 +449,7 @@ public class MainGameActivity extends AppCompatActivity {
                 ((ViewGroup) healthPUView.getParent()).removeView(healthPUView);
             }
             healthPU.negateVisibility();
+            player.removeObserver(healthPU);
         }
 
         if (damagePU.getRow() == player.getRow() &&  damagePU.getColumn() == player.getCol() && damagePU.getVisibility()) {
@@ -456,6 +457,7 @@ public class MainGameActivity extends AppCompatActivity {
                 ((ViewGroup) damagePUView.getParent()).removeView(damagePUView);
             }
             damagePU.negateVisibility();
+            player.removeObserver(damagePU);
         }
     }
 }
