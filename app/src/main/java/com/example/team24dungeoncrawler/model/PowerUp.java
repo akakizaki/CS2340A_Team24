@@ -1,23 +1,21 @@
 package com.example.team24dungeoncrawler.model;
 
-public abstract class PowerUp extends Player {
-    protected Player decoratedPlayer;
-
-    public PowerUp(Player decoratedPlayer) {
-        super(decoratedPlayer.getName(),decoratedPlayer.getDifficulty()); // Assuming default difficulty
-        this.decoratedPlayer = decoratedPlayer;
+public abstract class PowerUp {
+    protected int row;
+    protected int column;
+    public PowerUp (int row, int column) {
+        this.row = row;
+        this.column = column;
     }
 
-
-    @Override
-    public int getScore() {
-        return decoratedPlayer.getScore();
+    public int getRow() {
+        return row;
     }
 
-    @Override
-    public int getHealth() {
-        return decoratedPlayer.getHealth();
+    public int getColumn() {
+        return column;
     }
+    abstract void update(Player player);
 
 
 }

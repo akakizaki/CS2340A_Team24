@@ -1,13 +1,9 @@
 package com.example.team24dungeoncrawler.model;
 
 public class HealthPowerUp extends PowerUp {
-
-    public HealthPowerUp(Player player) {
-        super(player);
+    public HealthPowerUp(int row, int column) {
+        super(row, column);
     }
 
-    @Override
-    public int getHealth() {
-        return super.getHealth() + 25;
-    }
+    public void update(Player player){}
 }
