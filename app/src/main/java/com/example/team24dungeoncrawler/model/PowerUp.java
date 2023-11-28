@@ -1,6 +1,6 @@
 package com.example.team24dungeoncrawler.model;
 
-public abstract class PowerUp {
+public abstract class PowerUp implements PlayerObserver{
     protected int row;
     protected int column;
     public PowerUp (int row, int column) {
@@ -15,7 +15,6 @@ public abstract class PowerUp {
     public int getColumn() {
         return column;
     }
-    abstract void update(Player player);
 
 
 }

@@ -116,8 +116,9 @@ public class Player implements Observable {
     public double getDamageMultiplier() {
         return damageMultiplier;
 
-
     }
+
+    public void setDamageMultiplier(double damageMultiplier) {this.damageMultiplier = damageMultiplier;}
     public void reset(String name, String difficulty) {
         this.name = name;
         this.direction = "";
@@ -177,6 +178,7 @@ public class Player implements Observable {
             observer.update(this);
         }
     }
+
 
 }
 

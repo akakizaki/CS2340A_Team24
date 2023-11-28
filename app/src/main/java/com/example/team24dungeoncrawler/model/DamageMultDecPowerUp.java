@@ -14,8 +14,7 @@ public class DamageMultDecPowerUp extends PowerUp {
 
         if (playerRow == powerUpRow && playerCol == powerUpCol) {{
             DamageMultDecPowerUpDecorator powerUp = new DamageMultDecPowerUpDecorator(player);
-            player = powerUp;
+            player.setDamageMultiplier(powerUp.getDamageMultiplier());
         }}
     }
-
 }

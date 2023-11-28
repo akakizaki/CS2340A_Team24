@@ -14,7 +14,7 @@ public class ScorePowerUp extends PowerUp {
 
         if (playerRow == powerUpRow && playerCol == powerUpCol) {{
             ScorePowerUpDecorator powerUp = new ScorePowerUpDecorator(player);
-            player = powerUp;
+            player.setScore(powerUp.getScore());
         }}
     }
 }

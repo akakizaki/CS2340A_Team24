@@ -13,7 +13,7 @@ public class HealthPowerUp extends PowerUp {
 
         if (playerRow == powerUpRow && playerCol == powerUpCol) {{
             HealthPowerUpDecorator powerUp = new HealthPowerUpDecorator(player);
-            player = powerUp;
+            player.setHealth(powerUp.getHealth());
         }}
     }
 }
