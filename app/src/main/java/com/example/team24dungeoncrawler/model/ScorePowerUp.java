@@ -12,7 +12,7 @@ public class ScorePowerUp extends PowerUp {
         int powerUpRow = this.getRow();
         int powerUpCol = this.getColumn();
 
-        if (playerRow == powerUpRow && playerCol == powerUpCol) {{
+        if (playerRow == powerUpRow && playerCol == powerUpCol && this.getVisibility()) {{
             ScorePowerUpDecorator powerUp = new ScorePowerUpDecorator(player);
             player.setScore(powerUp.getScore());
         }}

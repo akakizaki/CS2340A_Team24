@@ -12,7 +12,7 @@ public class DamageMultDecPowerUp extends PowerUp {
         int powerUpRow = this.getRow();
         int powerUpCol = this.getColumn();
 
-        if (playerRow == powerUpRow && playerCol == powerUpCol) {{
+        if (playerRow == powerUpRow && playerCol == powerUpCol && this.getVisibility()) {{
             DamageMultDecPowerUpDecorator powerUp = new DamageMultDecPowerUpDecorator(player);
             player.setDamageMultiplier(powerUp.getDamageMultiplier());
         }}
