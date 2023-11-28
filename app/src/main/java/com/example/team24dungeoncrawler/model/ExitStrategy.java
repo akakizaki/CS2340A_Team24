@@ -35,6 +35,7 @@ public class ExitStrategy implements MovementStrategy {
             game.putExtra("characterNumber", characterNumber);
             game.putExtra("score", currentScore);
             player.removeObservers();
+            player.setHasKey(false);
             activity.startActivity(game);
             activity.finish();
         } else if (activity instanceof Game2activity) {
@@ -44,6 +45,7 @@ public class ExitStrategy implements MovementStrategy {
             game.putExtra("characterNumber", characterNumber);
             game.putExtra("score", currentScore);
             player.removeObservers();
+            player.setHasKey(false);
             activity.startActivity(game);
             activity.finish();
         } else if (activity instanceof Game3activity) {
@@ -53,6 +55,7 @@ public class ExitStrategy implements MovementStrategy {
             endgame.putExtra("Name", name);
             endgame.putExtra("Score", currentScore);
             player.removeObservers();
+            player.setHasKey(false);
             activity.startActivity(endgame);
             activity.finish();
         }

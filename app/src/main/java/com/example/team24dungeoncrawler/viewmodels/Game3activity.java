@@ -22,6 +22,7 @@ import com.example.team24dungeoncrawler.model.Attempt;
 import com.example.team24dungeoncrawler.model.Enemy;
 import com.example.team24dungeoncrawler.model.EnemyFactory;
 import com.example.team24dungeoncrawler.model.ExitStrategy;
+import com.example.team24dungeoncrawler.model.Key;
 import com.example.team24dungeoncrawler.model.LeaderBoard;
 import com.example.team24dungeoncrawler.model.MoveDownStrategy;
 import com.example.team24dungeoncrawler.model.MoveLeftStrategy;
@@ -30,6 +31,9 @@ import com.example.team24dungeoncrawler.model.MoveUpStrategy;
 import com.example.team24dungeoncrawler.model.MovementStrategy;
 import com.example.team24dungeoncrawler.model.Player;
 import com.example.team24dungeoncrawler.model.PlayerView;
+import com.example.team24dungeoncrawler.model.PowerUp;
+import com.example.team24dungeoncrawler.model.PowerUpFactory;
+import com.example.team24dungeoncrawler.model.PowerUpView;
 
 public class Game3activity extends AppCompatActivity {
     private RelativeLayout mainGameLayout;
@@ -51,6 +55,14 @@ public class Game3activity extends AppCompatActivity {
     private EnemyView zombieView;
     private EnemyView skeletonView;
     private EnemyView skullView;
+    private PowerUp healthPU;
+    private PowerUp damagePU;
+    private PowerUp scorePU;
+    private PowerUpView healthPUView;
+    private PowerUpView damagePUView;
+    private PowerUpView scorePUView;
+    private Key key;
+    private PowerUpView keyView;
     private TextView attack;
     private GridLayout tilemapGrid;
     private boolean isGameOver = GameState.isGameOver();
@@ -174,6 +186,30 @@ public class Game3activity extends AppCompatActivity {
         zombieView.setImageResource(R.drawable.zombie);
         player.addObserver(zombie);
 
+        healthPU = PowerUpFactory.createPowerUp(1, 17, 15);
+        healthPUView = new PowerUpView(this);
+        healthPUView.updatePosition(healthPU.getRow(), healthPU.getColumn());
+        healthPUView.setImageResource(R.drawable.health_pu);
+        player.addObserver(healthPU);
+
+        damagePU = PowerUpFactory.createPowerUp(2, 13, 2);
+        damagePUView = new PowerUpView(this);
+        damagePUView.updatePosition(damagePU.getRow(), damagePU.getColumn());
+        damagePUView.setImageResource(R.drawable.damage_pu);
+        player.addObserver(damagePU);
+
+        scorePU = PowerUpFactory.createPowerUp(2, 4, 7);
+        scorePUView = new PowerUpView(this);
+        scorePUView.updatePosition(scorePU.getRow(), scorePU.getColumn());
+        scorePUView.setImageResource(R.drawable.clover_score_mult);
+        player.addObserver(scorePU);
+
+        key = new Key(18, 2);
+        keyView = new PowerUpView(this);
+        keyView.updatePosition(key.getRow(), key.getColumn());
+        keyView.setImageResource(R.drawable.key);
+        player.addObserver(key);
+
         handler.postDelayed(enemyMovementRunnable, ENEMY_MOVEMENT_INTERVAL);
 
         if (getIntent().hasExtra("exitPositionRow") && getIntent().hasExtra("exitPositionCol")) {
@@ -203,6 +239,10 @@ public class Game3activity extends AppCompatActivity {
         tilemapGrid.addView(playerView);
         tilemapGrid.addView(skeletonView);
         tilemapGrid.addView(zombieView);
+        tilemapGrid.addView(healthPUView);
+        tilemapGrid.addView(damagePUView);
+        tilemapGrid.addView(scorePUView);
+        tilemapGrid.addView(keyView);
         skullView = new EnemyView(this);
         skullView.setImageResource(R.drawable.skull);
 
@@ -246,8 +286,9 @@ public class Game3activity extends AppCompatActivity {
         if (movementStrategy != null) {
             movementStrategy.move(player, keyCode, tilemap3);
             playerView.updatePosition(player.getRow(), player.getCol());
+            checkPowerUpCollisions();
             int newTileType = tilemap3[player.getRow()][player.getCol()];
-            if (newTileType == 3) {
+            if (newTileType == 3 && player.getHasKey()) {
 
                 //Player gets 10 - (seconds to reach the door) points after reaching door
                 long timeToReachDoor = System.currentTimeMillis() - visibleStartTime;
@@ -402,6 +443,39 @@ public class Game3activity extends AppCompatActivity {
                 ATTACK_TEXT_DURATION);
     }
 
+    public void checkPowerUpCollisions() {
+        if (healthPU.getRow() == player.getRow() &&  healthPU.getColumn() == player.getCol() && !healthPU.getVisibility()) {
+            if (healthPUView.getParent() != null) {
+                ((ViewGroup) healthPUView.getParent()).removeView(healthPUView);
+            }
+            healthPU.negateVisibility();
+            player.removeObserver(healthPU);
+        }
+
+        if (damagePU.getRow() == player.getRow() &&  damagePU.getColumn() == player.getCol() && !damagePU.getVisibility()) {
+            if (damagePUView.getParent() != null) {
+                ((ViewGroup) damagePUView.getParent()).removeView(damagePUView);
+            }
+            damagePU.negateVisibility();
+            player.removeObserver(damagePU);
+        }
+
+        if (scorePU.getRow() == player.getRow() &&  scorePU.getColumn() == player.getCol() && !scorePU.getVisibility()) {
+            if (scorePUView.getParent() != null) {
+                ((ViewGroup) scorePUView.getParent()).removeView(scorePUView);
+            }
+            scorePU.negateVisibility();
+            player.removeObserver(scorePU);
+        }
+
+        if (key.getRow() == player.getRow() &&  key.getColumn() == player.getCol() && key.isVisibile()) {
+            if (keyView.getParent() != null) {
+                ((ViewGroup) keyView.getParent()).removeView(keyView);
+            }
+            key.negateVisibility();
+            player.removeObserver(key);
+        }
+    }
 
 }
 

@@ -16,8 +16,9 @@ public class Player implements Observable {
     private double damageMultiplier;
     private static Player instance;
     private List<Attempt> attemptHistory;
-    private List<EnemyObserver> enemyObserverList;
+    private List<PlayerObserver> observerList;
     private String difficulty;
+    private boolean hasKey;
 
 
     public Player(String name, String difficulty) {
@@ -29,7 +30,8 @@ public class Player implements Observable {
         this.score = 0;
         this.row = 3;
         this.col = 1;
-        enemyObserverList = new ArrayList<EnemyObserver>();
+        observerList = new ArrayList<PlayerObserver>();
+        this.hasKey = false;
 
         // Set health and damageMultiplier based on the selected difficulty
         switch (difficulty) {
@@ -116,8 +118,9 @@ public class Player implements Observable {
     public double getDamageMultiplier() {
         return damageMultiplier;
 
-
     }
+
+    public void setDamageMultiplier(double damageMultiplier) {this.damageMultiplier = damageMultiplier;}
     public void reset(String name, String difficulty) {
         this.name = name;
         this.direction = "";
@@ -158,25 +161,29 @@ public class Player implements Observable {
     }
 
     @Override
-    public void addObserver(EnemyObserver observer) {
-        enemyObserverList.add(observer);
+    public void addObserver(PlayerObserver observer) {
+        observerList.add(observer);
     }
 
     @Override
-    public void removeObserver(EnemyObserver observer) {
-        enemyObserverList.remove(observer);
+    public void removeObserver(PlayerObserver observer) {
+        observerList.remove(observer);
     }
 
     public void removeObservers() {
-        enemyObserverList = new ArrayList<EnemyObserver>();
+        observerList = new ArrayList<PlayerObserver>();
     }
 
     @Override
     public void notifyObservers() {
-        for (EnemyObserver enemy: enemyObserverList) {
-            enemy.update(this);
+        for (PlayerObserver observer: observerList) {
+            observer.update(this);
         }
     }
+
+    public void setHasKey(boolean hasKey) {this.hasKey = hasKey;}
+
+    public boolean getHasKey() {return hasKey;}
 
 }
 
