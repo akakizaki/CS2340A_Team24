@@ -250,7 +250,6 @@ public class MainGameActivity extends AppCompatActivity {
         super.onDestroy();
         handler.removeCallbacksAndMessages(null);
         scoreHandler.removeCallbacksAndMessages(null);
-        super.onDestroy();
         if (mediaPlayer != null) {
             mediaPlayer.release();
             mediaPlayer = null;
