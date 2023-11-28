@@ -503,11 +503,6 @@ public class Game2activity extends AppCompatActivity {
         }
     }
 
-    public void playLoseHealthSound() {
-        if (soundsLoaded) {
-            soundPool.play(soundIDLoseHealth, volume*3, volume*3, 1, 1, 1f);
-        }
-    }
     @Override
     protected void onDestroy() {
         super.onDestroy();
