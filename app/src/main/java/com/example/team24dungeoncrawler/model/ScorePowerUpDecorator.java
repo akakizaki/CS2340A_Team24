@@ -8,6 +8,6 @@ public class ScorePowerUpDecorator extends PowerUpDecorator {
 
     @Override
     public int getScore() {
-        return super.getScore() * 2;
+        return super.getScore() + 10;
     }
 }

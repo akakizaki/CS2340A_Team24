@@ -2,10 +2,9 @@ package com.example.team24dungeoncrawler.Sprint5TestUnit;
 
 import static org.junit.Assert.assertEquals;
 
-import com.example.team24dungeoncrawler.model.HealthPowerUp;
+import com.example.team24dungeoncrawler.model.HealthPowerUpDecorator;
 import com.example.team24dungeoncrawler.model.Player;
-import com.example.team24dungeoncrawler.model.Player;
-import com.example.team24dungeoncrawler.model.ScorePowerUp;
+import com.example.team24dungeoncrawler.model.ScorePowerUpDecorator;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -23,7 +22,7 @@ public class AnjaliSprint5Test {
         assertEquals(150, player.getHealth());
 
         // Apply HealthPowerUp
-        HealthPowerUp healthPowerUp = new HealthPowerUp((Player) player);
+        HealthPowerUpDecorator healthPowerUp = new HealthPowerUpDecorator((Player) player);
         player = healthPowerUp;
         assertEquals(175, player.getHealth());
     }
@@ -33,7 +32,7 @@ public class AnjaliSprint5Test {
         assertEquals(0, player.getScore());
 
         // Apply HealthPowerUp
-        ScorePowerUp scorePowerUp = new ScorePowerUp(player);
+        ScorePowerUpDecorator scorePowerUp = new ScorePowerUpDecorator(player);
         player = scorePowerUp;
         assertEquals(10, player.getScore());
     }
