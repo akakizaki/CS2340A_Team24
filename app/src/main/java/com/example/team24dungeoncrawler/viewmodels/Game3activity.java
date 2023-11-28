@@ -444,7 +444,7 @@ public class Game3activity extends AppCompatActivity {
     }
 
     public void checkPowerUpCollisions() {
-        if (healthPU.getRow() == player.getRow() &&  healthPU.getColumn() == player.getCol() && healthPU.getVisibility()) {
+        if (healthPU.getRow() == player.getRow() &&  healthPU.getColumn() == player.getCol() && !healthPU.getVisibility()) {
             if (healthPUView.getParent() != null) {
                 ((ViewGroup) healthPUView.getParent()).removeView(healthPUView);
             }
@@ -452,7 +452,7 @@ public class Game3activity extends AppCompatActivity {
             player.removeObserver(healthPU);
         }
 
-        if (damagePU.getRow() == player.getRow() &&  damagePU.getColumn() == player.getCol() && damagePU.getVisibility()) {
+        if (damagePU.getRow() == player.getRow() &&  damagePU.getColumn() == player.getCol() && !damagePU.getVisibility()) {
             if (damagePUView.getParent() != null) {
                 ((ViewGroup) damagePUView.getParent()).removeView(damagePUView);
             }
@@ -460,7 +460,7 @@ public class Game3activity extends AppCompatActivity {
             player.removeObserver(damagePU);
         }
 
-        if (scorePU.getRow() == player.getRow() &&  scorePU.getColumn() == player.getCol() && scorePU.getVisibility()) {
+        if (scorePU.getRow() == player.getRow() &&  scorePU.getColumn() == player.getCol() && !scorePU.getVisibility()) {
             if (scorePUView.getParent() != null) {
                 ((ViewGroup) scorePUView.getParent()).removeView(scorePUView);
             }

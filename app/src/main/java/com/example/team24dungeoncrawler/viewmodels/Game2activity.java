@@ -409,7 +409,7 @@ public class Game2activity extends AppCompatActivity {
     }
 
     public void checkPowerUpCollisions() {
-        if (healthPU.getRow() == player.getRow() &&  healthPU.getColumn() == player.getCol() && healthPU.getVisibility()) {
+        if (healthPU.getRow() == player.getRow() &&  healthPU.getColumn() == player.getCol() && !healthPU.getVisibility()) {
             if (healthPUView.getParent() != null) {
                 ((ViewGroup) healthPUView.getParent()).removeView(healthPUView);
             }
@@ -417,7 +417,7 @@ public class Game2activity extends AppCompatActivity {
             player.removeObserver(healthPU);
         }
 
-        if (scorePU.getRow() == player.getRow() &&  scorePU.getColumn() == player.getCol() && scorePU.getVisibility()) {
+        if (scorePU.getRow() == player.getRow() &&  scorePU.getColumn() == player.getCol() && !scorePU.getVisibility()) {
             if (scorePUView.getParent() != null) {
                 ((ViewGroup) scorePUView.getParent()).removeView(scorePUView);
             }

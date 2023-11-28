@@ -15,6 +15,7 @@ public class ScorePowerUp extends PowerUp {
         if (playerRow == powerUpRow && playerCol == powerUpCol && this.getVisibility()) {{
             ScorePowerUpDecorator powerUp = new ScorePowerUpDecorator(player);
             player.setScore(powerUp.getScore());
+            this.negateVisibility();
         }}
     }
 }

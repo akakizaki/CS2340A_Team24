@@ -14,6 +14,7 @@ public class HealthPowerUp extends PowerUp {
         if (playerRow == powerUpRow && playerCol == powerUpCol && this.getVisibility()) {
             HealthPowerUpDecorator powerUp = new HealthPowerUpDecorator(player);
             player.setHealth(powerUp.getHealth());
+            this.negateVisibility();
         }
     }
 }
