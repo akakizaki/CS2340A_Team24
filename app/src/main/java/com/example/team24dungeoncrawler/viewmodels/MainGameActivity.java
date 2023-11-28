@@ -1,6 +1,7 @@
 package com.example.team24dungeoncrawler.viewmodels;
 
 import android.content.Intent;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -31,6 +32,9 @@ import com.example.team24dungeoncrawler.model.MoveUpStrategy;
 import com.example.team24dungeoncrawler.model.MovementStrategy;
 import com.example.team24dungeoncrawler.model.Player;
 import com.example.team24dungeoncrawler.model.PlayerView;
+import com.example.team24dungeoncrawler.model.PowerUp;
+import com.example.team24dungeoncrawler.model.PowerUpFactory;
+import com.example.team24dungeoncrawler.model.PowerUpView;
 
 public class MainGameActivity extends AppCompatActivity {
     private RelativeLayout mainGameLayout;
@@ -38,7 +42,7 @@ public class MainGameActivity extends AppCompatActivity {
     private Player player;
     private TextView scoreTextView;
     private PlayerView playerView;
-    private int currentScore = 30;
+    private int currentScore = 0;
     private String gameDifficulty;
     private double characterNumber;
     private MovementStrategy movementStrategy;
@@ -55,6 +59,10 @@ public class MainGameActivity extends AppCompatActivity {
     private EnemyView vampireView;
     private EnemyView skullView;
 
+    private PowerUp healthPU;
+    private PowerUp damagePU;
+    private PowerUpView healthPUView;
+    private PowerUpView damagePUView;
     private Handler scoreHandler = new Handler();
 
     private TextView attack;
@@ -75,13 +83,17 @@ public class MainGameActivity extends AppCompatActivity {
     private int playerHealthForSound;
     private int soundIDKilledEnemy;
     private float volume;
-
+    private MediaPlayer mediaPlayer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_game_activity);
         mainGameLayout = findViewById(R.id.mainGameLayout);
+
+        mediaPlayer = MediaPlayer.create(this, R.raw.firstfight);
+        mediaPlayer.setLooping(true);
+        mediaPlayer.start();
 
         visibleStartTime = System.currentTimeMillis();
 
@@ -136,7 +148,7 @@ public class MainGameActivity extends AppCompatActivity {
         audioManager = (AudioManager) getSystemService(AUDIO_SERVICE);
         float actVolume = audioManager.getStreamVolume(AudioManager.STREAM_MUSIC);
         float maxVolume = audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
-        volume = actVolume/maxVolume * 2;
+        volume = actVolume / maxVolume * 2;
 
         soundPool = new SoundPool(10, AudioManager.STREAM_MUSIC, 0);
         soundPool.setOnLoadCompleteListener(new SoundPool.OnLoadCompleteListener() {
@@ -185,7 +197,17 @@ public class MainGameActivity extends AppCompatActivity {
         vampireView.setImageResource(R.drawable.vampire);
         player.addObserver(vampire);
 
+        healthPU = PowerUpFactory.createPowerUp(1, 2, 17);
+        healthPUView = new PowerUpView(this);
+        healthPUView.updatePosition(healthPU.getRow(), healthPU.getColumn());
+        healthPUView.setImageResource(R.drawable.health_pu);
+        player.addObserver(healthPU);
 
+        damagePU = PowerUpFactory.createPowerUp(2, 18, 7);
+        damagePUView = new PowerUpView(this);
+        damagePUView.updatePosition(damagePU.getRow(), damagePU.getColumn());
+        damagePUView.setImageResource(R.drawable.damage_pu);
+        player.addObserver(damagePU);
 
         handler.postDelayed(enemyMovementRunnable, ENEMY_MOVEMENT_INTERVAL);
 
@@ -213,6 +235,8 @@ public class MainGameActivity extends AppCompatActivity {
         tilemapGrid.addView(playerView);
         tilemapGrid.addView(skeletonView);
         tilemapGrid.addView(vampireView);
+        tilemapGrid.addView(healthPUView);
+        tilemapGrid.addView(damagePUView);
         skullView = new EnemyView(this);
         skullView.setImageResource(R.drawable.skull);
 
@@ -226,6 +250,11 @@ public class MainGameActivity extends AppCompatActivity {
         super.onDestroy();
         handler.removeCallbacksAndMessages(null);
         scoreHandler.removeCallbacksAndMessages(null);
+        super.onDestroy();
+        if (mediaPlayer != null) {
+            mediaPlayer.release();
+            mediaPlayer = null;
+        }
     }
 
     private Runnable enemyMovementRunnable = new Runnable() {
@@ -290,6 +319,7 @@ public class MainGameActivity extends AppCompatActivity {
         if (movementStrategy != null) {
             movementStrategy.move(player, keyCode, tilemap);
             playerView.updatePosition(player.getRow(), player.getCol());
+            checkPowerUpCollisions();
             int newTileType = tilemap[player.getRow()][player.getCol()];
             if (newTileType == 3) {
 
@@ -337,8 +367,6 @@ public class MainGameActivity extends AppCompatActivity {
                 int skel = skeleton.getDel();
                 skel++;
                 skeleton.setDel(skel);
-
-
                 addToTilemapGrid(skullView, player.getRow(), player.getCol());
                 Log.d("skull", "done");
             }
@@ -426,12 +454,12 @@ public class MainGameActivity extends AppCompatActivity {
 
     public void playGameOverSound() {
         if (soundsLoaded) {
-            soundPool.play(soundIDGameOver, volume*2, volume, 1, 1, 1f);
+            soundPool.play(soundIDGameOver, volume * 2, volume, 1, 1, 1f);
         }
     }
     public void playSadTromboneSound() {
         if (soundsLoaded) {
-            soundPool.play(soundIDSadTrombone, volume, volume*2, 1, 1, 1f);
+            soundPool.play(soundIDSadTrombone, volume, volume * 2, 1, 1, 1f);
         }
     }
 
@@ -444,6 +472,24 @@ public class MainGameActivity extends AppCompatActivity {
     public void playLoseHealthSound() {
         if (soundsLoaded) {
             soundPool.play(soundIDLoseHealth, volume*3, volume*3, 1, 1, 1f);
+        }
+    }
+  
+    public void checkPowerUpCollisions() {
+        if (healthPU.getRow() == player.getRow() &&  healthPU.getColumn() == player.getCol() && healthPU.getVisibility()) {
+            if (healthPUView.getParent() != null) {
+                ((ViewGroup) healthPUView.getParent()).removeView(healthPUView);
+            }
+            healthPU.negateVisibility();
+            player.removeObserver(healthPU);
+        }
+
+        if (damagePU.getRow() == player.getRow() &&  damagePU.getColumn() == player.getCol() && damagePU.getVisibility()) {
+            if (damagePUView.getParent() != null) {
+                ((ViewGroup) damagePUView.getParent()).removeView(damagePUView);
+            }
+            damagePU.negateVisibility();
+            player.removeObserver(damagePU);
         }
     }
 }
