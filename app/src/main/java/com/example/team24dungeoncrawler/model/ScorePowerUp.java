@@ -2,12 +2,9 @@ package com.example.team24dungeoncrawler.model;
 
 public class ScorePowerUp extends PowerUp {
 
-    public ScorePowerUp(Player player) {
-        super(player);
+    public ScorePowerUp(int row, int column) {
+        super(row, column);
     }
 
-    @Override
-    public int getScore() {
-        return super.getScore() + 10;
-    }
+    public void update(Player player){}
 }

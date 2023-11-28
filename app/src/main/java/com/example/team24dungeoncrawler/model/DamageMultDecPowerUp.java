@@ -2,13 +2,10 @@ package com.example.team24dungeoncrawler.model;
 
 public class DamageMultDecPowerUp extends PowerUp {
 
-    public DamageMultDecPowerUp(Player player) {
-        super(player);
+    public DamageMultDecPowerUp(int row, int column) {
+        super(row, column);
     }
 
-    @Override
-    public double getDamageMultiplier() {
-        return super.getDamageMultiplier() - 0.2;
-    }
+    public void update(Player player){}
 
 }
