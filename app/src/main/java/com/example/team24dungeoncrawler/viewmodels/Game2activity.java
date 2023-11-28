@@ -481,6 +481,7 @@ public class Game2activity extends AppCompatActivity {
             }
             scorePU.negateVisibility();
             player.removeObserver(scorePU);
+            currentScore += 10;
         }
 
         if (key.getRow() == player.getRow() &&  key.getColumn() == player.getCol() && key.isVisibile()) {
