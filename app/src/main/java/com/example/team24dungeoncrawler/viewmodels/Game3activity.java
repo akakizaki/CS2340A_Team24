@@ -3,6 +3,7 @@ package com.example.team24dungeoncrawler.viewmodels;
 
 import android.content.Intent;
 import android.media.AudioManager;
+import android.media.MediaPlayer;
 import android.media.SoundPool;
 import android.os.Bundle;
 import android.os.Handler;
@@ -72,12 +73,17 @@ public class Game3activity extends AppCompatActivity {
     private AudioManager audioManager;
     private boolean soundsLoaded;
     private float volume;
+    private MediaPlayer mediaPlayer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.game_screen_3);
         mainGameLayout = findViewById(R.id.mainGameLayout);
+
+        mediaPlayer = MediaPlayer.create(this, R.raw.thirdfight);
+        mediaPlayer.setLooping(true);
+        mediaPlayer.start();
 
         visibleStartTime = System.currentTimeMillis();
 
@@ -261,6 +267,10 @@ public class Game3activity extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
         handler.removeCallbacksAndMessages(null);
+        if (mediaPlayer != null) {
+            mediaPlayer.release();
+            mediaPlayer = null;
+        }
     }
 
     @Override
@@ -476,6 +486,7 @@ public class Game3activity extends AppCompatActivity {
             player.removeObserver(key);
         }
     }
+
 
 }
 

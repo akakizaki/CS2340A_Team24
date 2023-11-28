@@ -2,6 +2,7 @@ package com.example.team24dungeoncrawler.viewmodels;
 
 import android.content.Intent;
 import android.media.AudioManager;
+import android.media.MediaPlayer;
 import android.media.SoundPool;
 import android.os.Bundle;
 import android.os.Handler;
@@ -74,12 +75,17 @@ public class Game2activity extends AppCompatActivity {
     private int playerHealthForSound;
     private int soundIDKilledEnemy;
     private float volume;
+    private MediaPlayer mediaPlayer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.game_screen_2);
         mainGameLayout = findViewById(R.id.mainGameLayout);
+
+        mediaPlayer = MediaPlayer.create(this, R.raw.secondfight);
+        mediaPlayer.setLooping(true);
+        mediaPlayer.start();
 
         visibleStartTime = System.currentTimeMillis();
 
@@ -495,6 +501,14 @@ public class Game2activity extends AppCompatActivity {
     public void playLoseHealthSound() {
         if (soundsLoaded) {
             soundPool.play(soundIDLoseHealth, volume*3, volume*3, 1, 1, 1f);
+        }
+    }
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (mediaPlayer != null) {
+            mediaPlayer.release();
+            mediaPlayer = null;
         }
     }
 }
