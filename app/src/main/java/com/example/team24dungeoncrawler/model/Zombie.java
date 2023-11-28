@@ -2,16 +2,9 @@ package com.example.team24dungeoncrawler.model;
 
 
 public class Zombie extends Enemy {
-    private int row;
-    private int column;
-    private int direction;
-    private Enemy enemy;
-
     private int movementSpeed;
-
     private long lastMoveTime;
     private static final int MAX_ROWS = 18;
-    private boolean movingDown = true;
 
     public Zombie(int movementSpeed, int damage, int row, int column) {
         super(movementSpeed, damage, row, column);
