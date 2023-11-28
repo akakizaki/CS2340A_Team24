@@ -18,6 +18,7 @@ public class Player implements Observable {
     private List<Attempt> attemptHistory;
     private List<PlayerObserver> observerList;
     private String difficulty;
+    private boolean hasKey;
 
 
     public Player(String name, String difficulty) {
@@ -30,6 +31,7 @@ public class Player implements Observable {
         this.row = 3;
         this.col = 1;
         observerList = new ArrayList<PlayerObserver>();
+        this.hasKey = false;
 
         // Set health and damageMultiplier based on the selected difficulty
         switch (difficulty) {
@@ -179,6 +181,9 @@ public class Player implements Observable {
         }
     }
 
+    public void setHasKey(boolean hasKey) {this.hasKey = hasKey;}
+
+    public boolean getHasKey() {return hasKey;}
 
 }
 
