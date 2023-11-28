@@ -1,6 +1,8 @@
 package com.example.team24dungeoncrawler.viewmodels;
 
 import android.content.Intent;
+import android.media.AudioManager;
+import android.media.SoundPool;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -63,6 +65,15 @@ public class Game2activity extends AppCompatActivity {
     private boolean isGameOver = GameState.isGameOver();
     private static final int ATTACK_TEXT_DURATION = 2000;
     private long visibleStartTime;
+    private SoundPool soundPool;
+    private AudioManager audioManager;
+    private boolean soundsLoaded;
+    private int soundIDGameOver;
+    private int soundIDSadTrombone;
+    private int soundIDLoseHealth;
+    private int playerHealthForSound;
+    private int soundIDKilledEnemy;
+    private float volume;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -118,6 +129,25 @@ public class Game2activity extends AppCompatActivity {
 
         }
 
+        // Audio
+        audioManager = (AudioManager) getSystemService(AUDIO_SERVICE);
+        float actVolume = audioManager.getStreamVolume(AudioManager.STREAM_MUSIC);
+        float maxVolume = audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
+        volume = actVolume/maxVolume * 2;
+
+        soundPool = new SoundPool(10, AudioManager.STREAM_MUSIC, 0);
+        soundPool.setOnLoadCompleteListener(new SoundPool.OnLoadCompleteListener() {
+            @Override
+            public void onLoadComplete(SoundPool soundPool, int i, int i1) {
+                soundsLoaded = true;
+            }
+        });
+        soundIDGameOver = soundPool.load(this, R.raw.gameover, 1);
+        soundIDSadTrombone = soundPool.load(this, R.raw.sadtrombone, 1);
+        soundIDKilledEnemy = soundPool.load(this, R.raw.hugnergamesdead, 1);
+        soundIDLoseHealth = soundPool.load(this, R.raw.r2d2screaming, 1);
+
+
         attack = findViewById(R.id.attackView2);
 
         // Display player Name.
@@ -144,6 +174,7 @@ public class Game2activity extends AppCompatActivity {
             player.setRow(3);
             player.setCol(1);
         }
+        playerHealthForSound = player.getHealth();
 
         // Display health.
         TextView health = findViewById(R.id.health);
@@ -252,8 +283,13 @@ public class Game2activity extends AppCompatActivity {
     private Runnable healthRunnable = new Runnable() {
         @Override
         public void run() {
+            if (player.getHealth() < playerHealthForSound) {
+                playLoseHealthSound();
+                Log.d("H", "sound should have played");
+            }
             TextView healthTextView = findViewById(R.id.health);
             healthTextView.setText("Health: " + player.getHealth());
+            playerHealthForSound = player.getHealth();
             handler.postDelayed(this, 250);
         }
     };
@@ -317,6 +353,7 @@ public class Game2activity extends AppCompatActivity {
     public boolean onKeyUp(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_SPACE) {
             if (player.getRow() == ghost.getRow() && player.getCol() == ghost.getColumn()) {
+                playEnemyDeadSound();
                 ghost.setMovementSpeed(0);
                 showAttackText();
                 player.removeObserver(ghost);
@@ -331,6 +368,7 @@ public class Game2activity extends AppCompatActivity {
                 addToTilemapGrid(skullView, player.getRow(), player.getCol());
             }
             if (player.getRow() == zombie.getRow() && player.getCol() == zombie.getColumn()) {
+                playEnemyDeadSound();
                 zombie.setMovementSpeed(0);
                 showAttackText();
                 player.removeObserver(zombie);
@@ -389,6 +427,9 @@ public class Game2activity extends AppCompatActivity {
         if (!GameState.isGameOver()) {
             GameState.setGameOver(true);
 
+            playGameOverSound();
+            playSadTromboneSound();
+
             LeaderBoard leaderboard = LeaderBoard.getInstance();
             leaderboard.addAttempt(new Attempt(name, currentScore));
 
@@ -406,6 +447,23 @@ public class Game2activity extends AppCompatActivity {
         attack.setVisibility(View.VISIBLE);
         new Handler().postDelayed(() -> attack.setVisibility(View.GONE),
                 ATTACK_TEXT_DURATION);
+    }
+
+    public void playGameOverSound() {
+        if (soundsLoaded) {
+            soundPool.play(soundIDGameOver, volume*2, volume, 1, 1, 1f);
+        }
+    }
+    public void playSadTromboneSound() {
+        if (soundsLoaded) {
+            soundPool.play(soundIDSadTrombone, volume, volume*2, 1, 1, 1f);
+        }
+    }
+
+    public void playEnemyDeadSound() {
+        if (soundsLoaded) {
+            soundPool.play(soundIDKilledEnemy, volume*10, volume*10, 1, 1, 1f);
+        }
     }
 
     public void checkPowerUpCollisions() {
@@ -434,4 +492,9 @@ public class Game2activity extends AppCompatActivity {
         }
     }
 
+    public void playLoseHealthSound() {
+        if (soundsLoaded) {
+            soundPool.play(soundIDLoseHealth, volume*3, volume*3, 1, 1, 1f);
+        }
+    }
 }

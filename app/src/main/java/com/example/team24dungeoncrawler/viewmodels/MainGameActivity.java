@@ -88,7 +88,6 @@ public class MainGameActivity extends AppCompatActivity {
     private float volume;
     private MediaPlayer mediaPlayer;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -165,6 +164,7 @@ public class MainGameActivity extends AppCompatActivity {
         soundIDSadTrombone = soundPool.load(this, R.raw.sadtrombone, 1);
         soundIDKilledEnemy = soundPool.load(this, R.raw.hugnergamesdead, 1);
         soundIDLoseHealth = soundPool.load(this, R.raw.r2d2screaming, 1);
+
 
         attack = findViewById(R.id.attackView);
 
@@ -295,7 +295,6 @@ public class MainGameActivity extends AppCompatActivity {
         @Override
         public void run() {
             if (player.getHealth() < playerHealthForSound) {
-
                 playLoseHealthSound();
                 Log.d("H", "sound should have played");
             }
