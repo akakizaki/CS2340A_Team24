@@ -336,7 +336,6 @@ public class Game2activity extends AppCompatActivity {
                 }
                 currentScore += scoreChange;
 
-
                 movementStrategy = new ExitStrategy(this, gameDifficulty, name,
                         characterNumber, currentScore);
                 movementStrategy.move(player, keyCode, tilemap2);
@@ -471,6 +470,11 @@ public class Game2activity extends AppCompatActivity {
             soundPool.play(soundIDKilledEnemy, volume*10, volume*10, 1, 1, 1f);
         }
     }
+    public void playLoseHealthSound() {
+        if (soundsLoaded) {
+            soundPool.play(soundIDLoseHealth, volume*3, volume*3, 1, 1, 1f);
+        }
+    }
 
     public void checkPowerUpCollisions() {
         if (healthPU.getRow() == player.getRow() &&  healthPU.getColumn() == player.getCol() && !healthPU.getVisibility()) {
@@ -487,6 +491,7 @@ public class Game2activity extends AppCompatActivity {
             }
             scorePU.negateVisibility();
             player.removeObserver(scorePU);
+            currentScore += 10;
         }
 
         if (key.getRow() == player.getRow() &&  key.getColumn() == player.getCol() && key.isVisibile()) {
@@ -511,4 +516,5 @@ public class Game2activity extends AppCompatActivity {
             mediaPlayer = null;
         }
     }
+
 }

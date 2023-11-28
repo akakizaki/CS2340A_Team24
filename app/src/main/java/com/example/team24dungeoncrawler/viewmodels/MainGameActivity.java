@@ -442,6 +442,7 @@ public class MainGameActivity extends AppCompatActivity {
     private void gameOver() {
         if (!GameState.isGameOver()) {
             GameState.setGameOver(true);
+            Log.d("S", "Game Over Sound should play");
             playGameOverSound();
             playSadTromboneSound();
             LeaderBoard leaderboard = LeaderBoard.getInstance();

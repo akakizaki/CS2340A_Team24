@@ -72,6 +72,11 @@ public class Game3activity extends AppCompatActivity {
     private SoundPool soundPool;
     private AudioManager audioManager;
     private boolean soundsLoaded;
+    private int soundIDGameOver;
+    private int soundIDSadTrombone;
+    private int soundIDLoseHealth;
+    private int playerHealthForSound;
+    private int soundIDKilledEnemy;
     private float volume;
     private MediaPlayer mediaPlayer;
 
@@ -133,7 +138,7 @@ public class Game3activity extends AppCompatActivity {
 
         }
 
-        // Audio Setup
+        // Audio
         audioManager = (AudioManager) getSystemService(AUDIO_SERVICE);
         float actVolume = audioManager.getStreamVolume(AudioManager.STREAM_MUSIC);
         float maxVolume = audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
@@ -146,6 +151,11 @@ public class Game3activity extends AppCompatActivity {
                 soundsLoaded = true;
             }
         });
+        soundIDGameOver = soundPool.load(this, R.raw.gameover, 1);
+        soundIDSadTrombone = soundPool.load(this, R.raw.sadtrombone, 1);
+        soundIDKilledEnemy = soundPool.load(this, R.raw.hugnergamesdead, 1);
+        soundIDLoseHealth = soundPool.load(this, R.raw.r2d2screaming, 1);
+
 
         attack = findViewById(R.id.attackView3);
 
@@ -332,6 +342,7 @@ public class Game3activity extends AppCompatActivity {
     public boolean onKeyUp(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_SPACE) {
             if (player.getRow() == skeleton.getRow() && player.getCol() == skeleton.getColumn()) {
+                playEnemyDeadSound();
                 skeleton.setMovementSpeed(0);
                 showAttackText();
                 player.removeObserver(skeleton);
@@ -345,6 +356,7 @@ public class Game3activity extends AppCompatActivity {
                 addToTilemapGrid(skullView, player.getRow(), player.getCol());
             }
             if (player.getRow() == zombie.getRow() && player.getCol() == zombie.getColumn()) {
+                playEnemyDeadSound();
                 zombie.setMovementSpeed(0);
                 showAttackText();
                 player.removeObserver(zombie);
@@ -389,8 +401,13 @@ public class Game3activity extends AppCompatActivity {
     private Runnable healthRunnable = new Runnable() {
         @Override
         public void run() {
+            if (player.getHealth() < playerHealthForSound) {
+                playLoseHealthSound();
+                Log.d("H", "sound should have played");
+            }
             TextView healthTextView = findViewById(R.id.health);
             healthTextView.setText("Health: " + player.getHealth());
+            playerHealthForSound = player.getHealth();
             handler.postDelayed(this, 250);
         }
     };
@@ -436,6 +453,8 @@ public class Game3activity extends AppCompatActivity {
     private void gameOver() {
         if (!GameState.isGameOver()) {
             GameState.setGameOver(true);
+            playGameOverSound();
+            playSadTromboneSound();
             LeaderBoard leaderboard = LeaderBoard.getInstance();
             leaderboard.addAttempt(new Attempt(name, currentScore));
             Intent gameOverIntent = new Intent(Game3activity.this, EndingScreen.class);
@@ -451,6 +470,28 @@ public class Game3activity extends AppCompatActivity {
         attack.setVisibility(View.VISIBLE);
         new Handler().postDelayed(() -> attack.setVisibility(View.GONE),
                 ATTACK_TEXT_DURATION);
+    }
+
+    public void playGameOverSound() {
+        if (soundsLoaded) {
+            soundPool.play(soundIDGameOver, volume*2, volume, 1, 1, 1f);
+        }
+    }
+    public void playSadTromboneSound() {
+        if (soundsLoaded) {
+            soundPool.play(soundIDSadTrombone, volume, volume*2, 1, 1, 1f);
+        }
+    }
+
+    public void playEnemyDeadSound() {
+        if (soundsLoaded) {
+            soundPool.play(soundIDKilledEnemy, volume*10, volume*10, 1, 1, 1f);
+        }
+    }
+    public void playLoseHealthSound() {
+        if (soundsLoaded) {
+            soundPool.play(soundIDLoseHealth, volume*3, volume*3, 1, 1, 1f);
+        }
     }
 
     public void checkPowerUpCollisions() {
@@ -476,6 +517,7 @@ public class Game3activity extends AppCompatActivity {
             }
             scorePU.negateVisibility();
             player.removeObserver(scorePU);
+            currentScore += 10;
         }
 
         if (key.getRow() == player.getRow() &&  key.getColumn() == player.getCol() && key.isVisibile()) {
