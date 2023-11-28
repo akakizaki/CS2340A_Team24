@@ -1,8 +1,8 @@
 package com.example.team24dungeoncrawler.model;
 
-public class HealthPowerUp extends PowerUp {
+public class HealthPowerUpDecorator extends PowerUpDecorator {
 
-    public HealthPowerUp(Player player) {
+    public HealthPowerUpDecorator(Player player) {
         super(player);
     }
 

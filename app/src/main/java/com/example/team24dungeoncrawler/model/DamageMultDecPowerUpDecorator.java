@@ -1,8 +1,8 @@
 package com.example.team24dungeoncrawler.model;
 
-public class DamageMultDecPowerUp extends PowerUp {
+public class DamageMultDecPowerUpDecorator extends PowerUpDecorator {
 
-    public DamageMultDecPowerUp(Player player) {
+    public DamageMultDecPowerUpDecorator(Player player) {
         super(player);
     }
 
