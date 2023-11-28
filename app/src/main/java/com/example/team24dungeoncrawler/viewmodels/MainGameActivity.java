@@ -71,9 +71,10 @@ public class MainGameActivity extends AppCompatActivity {
     private boolean soundsLoaded;
     private int soundIDGameOver;
     private int soundIDSadTrombone;
-    private int soundIDHit;
+    private int soundIDLoseHealth;
+    private int playerHealthForSound;
+    private int soundIDKilledEnemy;
     private float volume;
-
 
 
 
@@ -147,7 +148,8 @@ public class MainGameActivity extends AppCompatActivity {
         });
         soundIDGameOver = soundPool.load(this, R.raw.gameover, 1);
         soundIDSadTrombone = soundPool.load(this, R.raw.sadtrombone, 1);
-
+        soundIDKilledEnemy = soundPool.load(this, R.raw.hugnergamesdead, 1);
+        soundIDLoseHealth = soundPool.load(this, R.raw.r2d2screaming, 1);
 
         attack = findViewById(R.id.attackView);
 
@@ -167,6 +169,7 @@ public class MainGameActivity extends AppCompatActivity {
             player.setRow(3);
             player.setCol(1);
         }
+        playerHealthForSound = player.getHealth();
         playerView.updatePosition(player.getRow(), player.getCol()); // Set the initial position
         skeleton = EnemyFactory.createEnemy(1, 1, 10, 1,
                 1); // multiplied damage by 10 to have more noticeable affect on health
@@ -192,6 +195,7 @@ public class MainGameActivity extends AppCompatActivity {
         health.setText("Health: " + player.getHealth());
         // Update Health every quarter second
         handler.postDelayed(healthRunnable, 250);
+
 
         // Get characterNumber and display sprite accordingly
         characterNumber = getIntent().getDoubleExtra("characterNumber", 1);
@@ -252,8 +256,14 @@ public class MainGameActivity extends AppCompatActivity {
     private Runnable healthRunnable = new Runnable() {
         @Override
         public void run() {
+            if (player.getHealth() < playerHealthForSound) {
+
+                playLoseHealthSound();
+                Log.d("H", "sound should have played");
+            }
             TextView healthTextView = findViewById(R.id.health);
             healthTextView.setText("Health: " + player.getHealth());
+            playerHealthForSound = player.getHealth();
             handler.postDelayed(this, 250);
         }
     };
@@ -317,6 +327,7 @@ public class MainGameActivity extends AppCompatActivity {
     public boolean onKeyUp(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_SPACE) {
             if (player.getRow() == skeleton.getRow() && player.getCol() == skeleton.getColumn()) {
+                playEnemyDeadSound();
                 skeleton.setMovementSpeed(0);
                 showAttackText();
                 //player.removeObserver(skeleton);
@@ -329,11 +340,11 @@ public class MainGameActivity extends AppCompatActivity {
                 skeleton.setDel(skel);
 
 
-
                 addToTilemapGrid(skullView, player.getRow(), player.getCol());
                 Log.d("skull", "done");
             }
             if (player.getRow() == vampire.getRow() && player.getCol() == vampire.getColumn()) {
+                playEnemyDeadSound();
                 vampire.setMovementSpeed(0);
                 showAttackText();
                 vampireView.setImageResource(R.drawable.skull);
@@ -422,6 +433,18 @@ public class MainGameActivity extends AppCompatActivity {
     public void playSadTromboneSound() {
         if (soundsLoaded) {
             soundPool.play(soundIDSadTrombone, volume, volume * 2, 1, 1, 1f);
+        }
+    }
+
+    public void playEnemyDeadSound() {
+        if (soundsLoaded) {
+            soundPool.play(soundIDKilledEnemy, volume*10, volume*10, 1, 1, 1f);
+        }
+    }
+
+    public void playLoseHealthSound() {
+        if (soundsLoaded) {
+            soundPool.play(soundIDLoseHealth, volume*3, volume*3, 1, 1, 1f);
         }
     }
 }
