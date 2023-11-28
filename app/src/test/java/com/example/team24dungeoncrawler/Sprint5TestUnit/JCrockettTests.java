@@ -3,6 +3,7 @@ package com.example.team24dungeoncrawler.Sprint5TestUnit;
 
 import static org.junit.Assert.assertEquals;
 
+import com.example.team24dungeoncrawler.model.Key;
 import com.example.team24dungeoncrawler.model.PowerUp;
 import com.example.team24dungeoncrawler.model.EnemyFactory;
 import com.example.team24dungeoncrawler.model.Enemy;
@@ -19,8 +20,7 @@ public class JCrockettTests {
     private PowerUp healthPU;
     private PowerUp scorePU;
     private PowerUp damagePU;
-    private Enemy vampire;
-    private int[][] tilemap;
+    private Key key;
 
     @Before
     public void setUp() {
@@ -28,31 +28,11 @@ public class JCrockettTests {
         healthPU = PowerUpFactory.createPowerUp(1, 2, 17);
         damagePU = PowerUpFactory.createPowerUp(2, 18, 7);
         scorePU = PowerUpFactory.createPowerUp(3, 16, 8);
+        key = new Key(4, 5);
         player.addObserver(healthPU);
         player.addObserver(damagePU);
         player.addObserver(scorePU);
-        tilemap = new int[][]{
-                {0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 4},
-                {0, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 4, 2, 2, 2, 2, 2, 2, 4},
-                {0, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 4, 2, 2, 2, 2, 2, 2, 4},
-                {0, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 3},
-                {0, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 3},
-                {0, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 4},
-                {0, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 4},
-                {0, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 4},
-                {0, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 4},
-                {0, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 4},
-                {0, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 4},
-                {0, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 4},
-                {0, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 4},
-                {0, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 4},
-                {0, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 4},
-                {0, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 4},
-                {0, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 4},
-                {0, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 4},
-                {0, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 4},
-                {0, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5}
-        };
+        player.addObserver(key);
     }
 
     @Test
@@ -77,5 +57,13 @@ public class JCrockettTests {
         player.setRow(16);
         player.setCol(8);
         assertEquals(10,player.getScore());
+    }
+
+    @Test
+    public void testKey() {
+        assertEquals(false, player.getHasKey());
+        player.setRow(4);
+        player.setCol(5);
+        assertEquals(true, player.getHasKey());
     }
 }

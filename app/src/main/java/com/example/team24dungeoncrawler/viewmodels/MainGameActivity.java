@@ -24,6 +24,7 @@ import com.example.team24dungeoncrawler.model.Attempt;
 import com.example.team24dungeoncrawler.model.Enemy;
 import com.example.team24dungeoncrawler.model.EnemyFactory;
 import com.example.team24dungeoncrawler.model.ExitStrategy;
+import com.example.team24dungeoncrawler.model.Key;
 import com.example.team24dungeoncrawler.model.LeaderBoard;
 import com.example.team24dungeoncrawler.model.MoveDownStrategy;
 import com.example.team24dungeoncrawler.model.MoveLeftStrategy;
@@ -63,6 +64,8 @@ public class MainGameActivity extends AppCompatActivity {
     private PowerUp damagePU;
     private PowerUpView healthPUView;
     private PowerUpView damagePUView;
+    private Key key;
+    private PowerUpView keyView;
     private Handler scoreHandler = new Handler();
 
     private TextView attack;
@@ -209,6 +212,12 @@ public class MainGameActivity extends AppCompatActivity {
         damagePUView.setImageResource(R.drawable.damage_pu);
         player.addObserver(damagePU);
 
+        key = new Key(1, 11);
+        keyView = new PowerUpView(this);
+        keyView.updatePosition(key.getRow(), key.getColumn());
+        keyView.setImageResource(R.drawable.key);
+        player.addObserver(key);
+
         handler.postDelayed(enemyMovementRunnable, ENEMY_MOVEMENT_INTERVAL);
 
 
@@ -237,6 +246,7 @@ public class MainGameActivity extends AppCompatActivity {
         tilemapGrid.addView(vampireView);
         tilemapGrid.addView(healthPUView);
         tilemapGrid.addView(damagePUView);
+        tilemapGrid.addView(keyView);
         skullView = new EnemyView(this);
         skullView.setImageResource(R.drawable.skull);
 
@@ -322,7 +332,7 @@ public class MainGameActivity extends AppCompatActivity {
             playerView.updatePosition(player.getRow(), player.getCol());
             checkPowerUpCollisions();
             int newTileType = tilemap[player.getRow()][player.getCol()];
-            if (newTileType == 3) {
+            if (newTileType == 3 && player.getHasKey()) {
 
                 //Player gets 10 - (seconds to reach the door) points after reaching door
                 long timeToReachDoor = System.currentTimeMillis() - visibleStartTime;
@@ -491,6 +501,14 @@ public class MainGameActivity extends AppCompatActivity {
             }
             damagePU.negateVisibility();
             player.removeObserver(damagePU);
+        }
+
+        if (key.getRow() == player.getRow() &&  key.getColumn() == player.getCol() && key.isVisibile()) {
+            if (keyView.getParent() != null) {
+                ((ViewGroup) keyView.getParent()).removeView(keyView);
+            }
+            key.negateVisibility();
+            player.removeObserver(key);
         }
     }
 }
