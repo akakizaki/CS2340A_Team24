@@ -1,5 +1,5 @@
 package com.example.team24dungeoncrawler.model;
 
-public interface EnemyObserver {
+public interface PlayerObserver {
     public void update(Player player);
 }

@@ -1,9 +1,9 @@
 package com.example.team24dungeoncrawler.model;
 
-public abstract class PowerUp extends Player {
+public abstract class PowerUpDecorator extends Player {
     protected Player decoratedPlayer;
 
-    public PowerUp(Player decoratedPlayer) {
+    public PowerUpDecorator(Player decoratedPlayer) {
         super(decoratedPlayer.getName(),decoratedPlayer.getDifficulty()); // Assuming default difficulty
         this.decoratedPlayer = decoratedPlayer;
     }
