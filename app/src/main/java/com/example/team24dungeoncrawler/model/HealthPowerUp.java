@@ -5,7 +5,7 @@ public class HealthPowerUp extends PowerUp {
         super(row, column);
     }
 
-    public void update(Player player){
+    public void update(Player player) {
         int playerRow = player.getRow();
         int playerCol = player.getCol();
         int powerUpRow = this.getRow();

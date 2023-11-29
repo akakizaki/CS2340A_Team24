@@ -58,7 +58,7 @@ public class JoshFordenTest {
     }
 
     @Test
-    public void wait_TooLong_BeforeReachingDoor() throws InterruptedException {
+    public void waitTooLongBeforeReachingDoor() throws InterruptedException {
         visibleStartTime = System.currentTimeMillis();
         Thread.sleep(10000);
         player.setCol(19);
@@ -70,7 +70,7 @@ public class JoshFordenTest {
     }
 
     @Test
-    public void wait_50milli_BeforeReachingDoor() throws InterruptedException {
+    public void wait50milliBeforeReachingDoor() throws InterruptedException {
         visibleStartTime = System.currentTimeMillis();
         Thread.sleep(50);
         player.setCol(19);
@@ -84,7 +84,7 @@ public class JoshFordenTest {
     }
 
     @Test
-    public void wait_1Sec_BeforeReachingDoor() throws InterruptedException {
+    public void wait1SecBeforeReachingDoor() throws InterruptedException {
         visibleStartTime = System.currentTimeMillis();
         Thread.sleep(1000);
         player.setCol(19);
@@ -98,7 +98,7 @@ public class JoshFordenTest {
     }
 
     @Test
-    public void wait_6andahalfSec_BeforeReachingDoor() throws InterruptedException {
+    public void wait6andahalfSecBeforeReachingDoor() throws InterruptedException {
         visibleStartTime = System.currentTimeMillis();
         Thread.sleep(6500);
         player.setCol(19);
@@ -110,9 +110,6 @@ public class JoshFordenTest {
         assertEquals(newScore, 40);
         assertEquals(currentScore, newScore + 10);
     }
-
-
-
 
     private void playerMoving() {
 

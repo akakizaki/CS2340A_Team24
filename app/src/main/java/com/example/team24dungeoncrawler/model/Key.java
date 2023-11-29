@@ -10,8 +10,14 @@ public class Key implements PlayerObserver {
         this.column = column;
         this.visible = true;
     }
-    public int getRow() {return row;}
-    public int getColumn() {return column;}
+    public int getRow() {
+        return row;
+    }
+
+    public int getColumn() {
+        return column;
+    }
+
     public void update(Player player) {
         int playerRow = player.getRow();
         int playerCol = player.getCol();
@@ -23,7 +29,12 @@ public class Key implements PlayerObserver {
         }
     }
 
-    public boolean isVisibile() {return visible;}
+    public boolean isVisibile() {
+        return visible;
+    }
 
-    public void negateVisibility() {this.visible = false;}
+
+    public void negateVisibility() {
+        this.visible = false;
+    }
 }

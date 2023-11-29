@@ -4,7 +4,7 @@ public abstract class PowerUpDecorator extends Player {
     protected Player decoratedPlayer;
 
     public PowerUpDecorator(Player decoratedPlayer) {
-        super(decoratedPlayer.getName(),decoratedPlayer.getDifficulty()); // Assuming default difficulty
+        super(decoratedPlayer.getName(), decoratedPlayer.getDifficulty()); //default difficulty
         this.decoratedPlayer = decoratedPlayer;
     }
 

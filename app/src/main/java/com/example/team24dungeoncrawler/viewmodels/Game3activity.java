@@ -85,13 +85,10 @@ public class Game3activity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.game_screen_3);
         mainGameLayout = findViewById(R.id.mainGameLayout);
-
         mediaPlayer = MediaPlayer.create(this, R.raw.thirdfight);
         mediaPlayer.setLooping(true);
         mediaPlayer.start();
-
         visibleStartTime = System.currentTimeMillis();
-
         tilemap3 = new int[][]{
                 {0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 4},
                 {0, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 4, 2, 2, 2, 2, 2, 2, 4},
@@ -119,7 +116,6 @@ public class Game3activity extends AppCompatActivity {
             for (int col = 0; col < tilemap3[row].length; col++) {
                 int tileType = tilemap3[row][col];
                 ImageView tileView = new ImageView(this);
-                // Set the background resource based on tileType
                 if (tileType == 0) {
                     tileView.setBackgroundResource(R.drawable.left_wall_tile);
                 } else if (tileType == 1) {
@@ -135,40 +131,24 @@ public class Game3activity extends AppCompatActivity {
                 }
                 tilemapGrid.addView(tileView);
             }
-
         }
-
-        // Audio
         audioManager = (AudioManager) getSystemService(AUDIO_SERVICE);
         float actVolume = audioManager.getStreamVolume(AudioManager.STREAM_MUSIC);
         float maxVolume = audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
-        volume = actVolume/maxVolume * 2;
-
+        volume = actVolume / maxVolume * 2;
         soundPool = new SoundPool(10, AudioManager.STREAM_MUSIC, 0);
-        soundPool.setOnLoadCompleteListener(new SoundPool.OnLoadCompleteListener() {
-            @Override
-            public void onLoadComplete(SoundPool soundPool, int i, int i1) {
-                soundsLoaded = true;
-            }
-        });
+        soundPool.setOnLoadCompleteListener((soundPool, i, i1) -> soundsLoaded = true);
         soundIDGameOver = soundPool.load(this, R.raw.gameover, 1);
         soundIDSadTrombone = soundPool.load(this, R.raw.sadtrombone, 1);
         soundIDKilledEnemy = soundPool.load(this, R.raw.hugnergamesdead, 1);
         soundIDLoseHealth = soundPool.load(this, R.raw.r2d2screaming, 1);
-
-
         attack = findViewById(R.id.attackView3);
-
-        // Display player Name.
         name = getIntent().getStringExtra("name");
         TextView editName = findViewById(R.id.name);
         editName.setText("Name: " + name);
-
-        // Get difficulty selected from config screen and display it
         gameDifficulty = getIntent().getStringExtra("difficulty");
         TextView difficulty = findViewById(R.id.difficulty);
         difficulty.setText("Difficulty: " + gameDifficulty);
-
         player = Player.getInstance(name, String.valueOf(gameDifficulty));
         playerView = new PlayerView(this); // Create a new PlayerView
         if (getIntent().hasExtra("exitPositionRow") && getIntent().hasExtra("exitPositionCol")) {
@@ -178,17 +158,13 @@ public class Game3activity extends AppCompatActivity {
             player.setRow(exitPositionRow);
             player.setCol(exitPositionCol);
         } else {
-            // Provide a default starting position if not coming from the first map.
             playerView.updatePosition(3, 1);
             player.setRow(3);
             player.setCol(1);
         }
-
         TextView health = findViewById(R.id.health);
         health.setText("Health: " + player.getHealth());
-        // Update Health every quarter second
         handler.postDelayed(healthRunnable, 250);
-
         skeleton = EnemyFactory.createEnemy(1, 1, 10, 1,
                 1);
         skeletonView = new EnemyView(this);
@@ -201,33 +177,27 @@ public class Game3activity extends AppCompatActivity {
         zombieView.updatePosition(zombie.getRow(), zombie.getColumn());
         zombieView.setImageResource(R.drawable.zombie);
         player.addObserver(zombie);
-
         healthPU = PowerUpFactory.createPowerUp(1, 17, 15);
         healthPUView = new PowerUpView(this);
         healthPUView.updatePosition(healthPU.getRow(), healthPU.getColumn());
         healthPUView.setImageResource(R.drawable.health_pu);
         player.addObserver(healthPU);
-
         damagePU = PowerUpFactory.createPowerUp(2, 13, 2);
         damagePUView = new PowerUpView(this);
         damagePUView.updatePosition(damagePU.getRow(), damagePU.getColumn());
         damagePUView.setImageResource(R.drawable.damage_pu);
         player.addObserver(damagePU);
-
         scorePU = PowerUpFactory.createPowerUp(2, 4, 7);
         scorePUView = new PowerUpView(this);
         scorePUView.updatePosition(scorePU.getRow(), scorePU.getColumn());
         scorePUView.setImageResource(R.drawable.clover_score_mult);
         player.addObserver(scorePU);
-
         key = new Key(18, 2);
         keyView = new PowerUpView(this);
         keyView.updatePosition(key.getRow(), key.getColumn());
         keyView.setImageResource(R.drawable.key);
         player.addObserver(key);
-
         handler.postDelayed(enemyMovementRunnable, ENEMY_MOVEMENT_INTERVAL);
-
         if (getIntent().hasExtra("exitPositionRow") && getIntent().hasExtra("exitPositionCol")) {
             int exitPositionRow = getIntent().getIntExtra("exitPositionRow", 0);
             int exitPositionCol = getIntent().getIntExtra("exitPositionCol", 0);
@@ -235,15 +205,11 @@ public class Game3activity extends AppCompatActivity {
             player.setRow(exitPositionRow);
             player.setCol(exitPositionCol);
         } else {
-            // Provide a default starting position if not coming from the first map.
             playerView.updatePosition(3, 1);
             player.setRow(3);
             player.setCol(1);
         }
-
-        // Get characterNumber and display sprite accordingly
         characterNumber = getIntent().getDoubleExtra("characterNumber", 1);
-        //ImageView characterImage = findViewById(R.id.characterImage);
         if (characterNumber == 1) {
             playerView.setImageResource(R.drawable.sprite1);
         } else if (characterNumber == 2) {
@@ -251,7 +217,6 @@ public class Game3activity extends AppCompatActivity {
         } else if (characterNumber == 3) {
             playerView.setImageResource(R.drawable.sprite3);
         }
-
         tilemapGrid.addView(playerView);
         tilemapGrid.addView(skeletonView);
         tilemapGrid.addView(zombieView);
@@ -261,16 +226,9 @@ public class Game3activity extends AppCompatActivity {
         tilemapGrid.addView(keyView);
         skullView = new EnemyView(this);
         skullView.setImageResource(R.drawable.skull);
-
-        //Get score from previous screen
         currentScore = getIntent().getIntExtra("score", 0);
-
-        //initialize scoretextview
         scoreTextView = findViewById(R.id.scoreTextView);
-
-        // Start updating the score
         startScoreUpdate();
-
     }
 
     @Override
@@ -318,8 +276,6 @@ public class Game3activity extends AppCompatActivity {
                     scoreChange = 1;
                 }
                 currentScore += scoreChange;
-
-
                 movementStrategy = new ExitStrategy(this, gameDifficulty, name,
                         characterNumber, currentScore);
                 movementStrategy.move(player, keyCode, tilemap3);
@@ -429,11 +385,11 @@ public class Game3activity extends AppCompatActivity {
                 if (currentScore < 0) {
                     currentScore = 0;
                 }
-                if(skeleton.getDel() == 1) {
+                if (skeleton.getDel() == 1) {
                     currentScore += 10;
                     skeleton.setDel(2);
                 }
-                if(zombie.getDel() == 1) {
+                if (zombie.getDel() == 1) {
                     currentScore += 10;
                     zombie.setDel(2);
                 }
@@ -474,28 +430,29 @@ public class Game3activity extends AppCompatActivity {
 
     public void playGameOverSound() {
         if (soundsLoaded) {
-            soundPool.play(soundIDGameOver, volume*2, volume, 1, 1, 1f);
+            soundPool.play(soundIDGameOver, volume * 2, volume, 1, 1, 1f);
         }
     }
     public void playSadTromboneSound() {
         if (soundsLoaded) {
-            soundPool.play(soundIDSadTrombone, volume, volume*2, 1, 1, 1f);
+            soundPool.play(soundIDSadTrombone, volume, volume * 2, 1, 1, 1f);
         }
     }
 
     public void playEnemyDeadSound() {
         if (soundsLoaded) {
-            soundPool.play(soundIDKilledEnemy, volume*10, volume*10, 1, 1, 1f);
+            soundPool.play(soundIDKilledEnemy, volume * 10, volume * 10, 1, 1, 1f);
         }
     }
     public void playLoseHealthSound() {
         if (soundsLoaded) {
-            soundPool.play(soundIDLoseHealth, volume*3, volume*3, 1, 1, 1f);
+            soundPool.play(soundIDLoseHealth, volume * 3, volume * 3, 1, 1, 1f);
         }
     }
 
     public void checkPowerUpCollisions() {
-        if (healthPU.getRow() == player.getRow() &&  healthPU.getColumn() == player.getCol() && !healthPU.getVisibility()) {
+        if (healthPU.getRow() == player.getRow() &&  healthPU.getColumn() == player.getCol()
+                && !healthPU.getVisibility()) {
             if (healthPUView.getParent() != null) {
                 ((ViewGroup) healthPUView.getParent()).removeView(healthPUView);
             }
@@ -503,7 +460,8 @@ public class Game3activity extends AppCompatActivity {
             player.removeObserver(healthPU);
         }
 
-        if (damagePU.getRow() == player.getRow() &&  damagePU.getColumn() == player.getCol() && !damagePU.getVisibility()) {
+        if (damagePU.getRow() == player.getRow() &&  damagePU.getColumn() == player.getCol()
+                && !damagePU.getVisibility()) {
             if (damagePUView.getParent() != null) {
                 ((ViewGroup) damagePUView.getParent()).removeView(damagePUView);
             }
@@ -511,7 +469,8 @@ public class Game3activity extends AppCompatActivity {
             player.removeObserver(damagePU);
         }
 
-        if (scorePU.getRow() == player.getRow() &&  scorePU.getColumn() == player.getCol() && !scorePU.getVisibility()) {
+        if (scorePU.getRow() == player.getRow() &&  scorePU.getColumn() == player.getCol()
+                && !scorePU.getVisibility()) {
             if (scorePUView.getParent() != null) {
                 ((ViewGroup) scorePUView.getParent()).removeView(scorePUView);
             }
@@ -520,7 +479,8 @@ public class Game3activity extends AppCompatActivity {
             currentScore += 10;
         }
 
-        if (key.getRow() == player.getRow() &&  key.getColumn() == player.getCol() && key.isVisibile()) {
+        if (key.getRow() == player.getRow() &&  key.getColumn() == player.getCol()
+                && key.isVisibile()) {
             if (keyView.getParent() != null) {
                 ((ViewGroup) keyView.getParent()).removeView(keyView);
             }

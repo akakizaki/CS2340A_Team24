@@ -14,7 +14,7 @@ public class AnjaliSprint5Test {
 
     @Before
     public void setUp() {
-        player = new Player("ava","Easy"); // Assuming BasicPlayer implements PlayerInterface
+        player = new Player("ava", "Easy"); // Assuming BasicPlayer implements PlayerInterface
     }
 
     @Test

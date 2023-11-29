@@ -93,13 +93,10 @@ public class MainGameActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_game_activity);
         mainGameLayout = findViewById(R.id.mainGameLayout);
-
         mediaPlayer = MediaPlayer.create(this, R.raw.firstfight);
         mediaPlayer.setLooping(true);
         mediaPlayer.start();
-
         visibleStartTime = System.currentTimeMillis();
-
         tilemap = new int[][]{
                 {0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 4},
                 {0, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 4, 2, 2, 2, 2, 2, 2, 4},
@@ -128,7 +125,6 @@ public class MainGameActivity extends AppCompatActivity {
             for (int col = 0; col < tilemap[row].length; col++) {
                 int tileType = tilemap[row][col];
                 ImageView tileView = new ImageView(this);
-                // Set the background resource based on tileType
                 if (tileType == 0) {
                     tileView.setBackgroundResource(R.drawable.left_wall_tile);
                 } else if (tileType == 1) {
@@ -144,15 +140,11 @@ public class MainGameActivity extends AppCompatActivity {
                 }
                 tilemapGrid.addView(tileView);
             }
-
         }
-
-        // Audio
         audioManager = (AudioManager) getSystemService(AUDIO_SERVICE);
         float actVolume = audioManager.getStreamVolume(AudioManager.STREAM_MUSIC);
         float maxVolume = audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
         volume = actVolume / maxVolume * 2;
-
         soundPool = new SoundPool(10, AudioManager.STREAM_MUSIC, 0);
         soundPool.setOnLoadCompleteListener(new SoundPool.OnLoadCompleteListener() {
             @Override
@@ -164,20 +156,15 @@ public class MainGameActivity extends AppCompatActivity {
         soundIDSadTrombone = soundPool.load(this, R.raw.sadtrombone, 1);
         soundIDKilledEnemy = soundPool.load(this, R.raw.hugnergamesdead, 1);
         soundIDLoseHealth = soundPool.load(this, R.raw.r2d2screaming, 1);
-
-
         attack = findViewById(R.id.attackView);
-
         // Display player Name.
         name = getIntent().getStringExtra("name");
         TextView editName = findViewById(R.id.name);
         editName.setText("Name: " + name);
-
         // Get difficulty selected from config screen and display it
         gameDifficulty = getIntent().getStringExtra("difficulty");
         TextView difficulty = findViewById(R.id.difficulty);
         difficulty.setText("Difficulty: " + gameDifficulty);
-
         player = Player.getInstance(name, String.valueOf(difficulty));
         playerView = new PlayerView(this); // Create a new PlayerView
         if (player.getCol() != 1 && player.getRow() != 3) {
@@ -192,42 +179,33 @@ public class MainGameActivity extends AppCompatActivity {
         skeletonView.updatePosition(skeleton.getRow(), skeleton.getColumn());
         skeletonView.setImageResource(R.drawable.skeleton);
         player.addObserver(skeleton);
-
         vampire = EnemyFactory.createEnemy(2, 2, 20, 6,
                 1); // multiplied damage by 10 to have more noticeable affect on health
         vampireView = new EnemyView(this);
         vampireView.updatePosition(vampire.getRow(), vampire.getColumn());
         vampireView.setImageResource(R.drawable.vampire);
         player.addObserver(vampire);
-
         healthPU = PowerUpFactory.createPowerUp(1, 2, 17);
         healthPUView = new PowerUpView(this);
         healthPUView.updatePosition(healthPU.getRow(), healthPU.getColumn());
         healthPUView.setImageResource(R.drawable.health_pu);
         player.addObserver(healthPU);
-
         damagePU = PowerUpFactory.createPowerUp(2, 18, 7);
         damagePUView = new PowerUpView(this);
         damagePUView.updatePosition(damagePU.getRow(), damagePU.getColumn());
         damagePUView.setImageResource(R.drawable.damage_pu);
         player.addObserver(damagePU);
-
         key = new Key(1, 11);
         keyView = new PowerUpView(this);
         keyView.updatePosition(key.getRow(), key.getColumn());
         keyView.setImageResource(R.drawable.key);
         player.addObserver(key);
-
         handler.postDelayed(enemyMovementRunnable, ENEMY_MOVEMENT_INTERVAL);
-
-
         // Display health.
         TextView health = findViewById(R.id.health);
         health.setText("Health: " + player.getHealth());
         // Update Health every quarter second
         handler.postDelayed(healthRunnable, 250);
-
-
         // Get characterNumber and display sprite accordingly
         characterNumber = getIntent().getDoubleExtra("characterNumber", 1);
         //ImageView characterImage = findViewById(R.id.characterImage);
@@ -249,11 +227,8 @@ public class MainGameActivity extends AppCompatActivity {
         tilemapGrid.addView(keyView);
         skullView = new EnemyView(this);
         skullView.setImageResource(R.drawable.skull);
-
-
         // Start updating the score
         startScoreUpdate();
-
     }
     @Override
     protected void onDestroy() {
@@ -475,18 +450,19 @@ public class MainGameActivity extends AppCompatActivity {
 
     public void playEnemyDeadSound() {
         if (soundsLoaded) {
-            soundPool.play(soundIDKilledEnemy, volume*10, volume*10, 1, 1, 1f);
+            soundPool.play(soundIDKilledEnemy, volume * 10, volume * 10, 1, 1, 1f);
         }
     }
 
     public void playLoseHealthSound() {
         if (soundsLoaded) {
-            soundPool.play(soundIDLoseHealth, volume*3, volume*3, 1, 1, 1f);
+            soundPool.play(soundIDLoseHealth, volume * 3, volume * 3, 1, 1, 1f);
         }
     }
   
     public void checkPowerUpCollisions() {
-        if (healthPU.getRow() == player.getRow() &&  healthPU.getColumn() == player.getCol() && !healthPU.getVisibility()) {
+        if (healthPU.getRow() == player.getRow() &&  healthPU.getColumn() == player.getCol()
+                && !healthPU.getVisibility()) {
             if (healthPUView.getParent() != null) {
                 ((ViewGroup) healthPUView.getParent()).removeView(healthPUView);
             }
@@ -494,7 +470,8 @@ public class MainGameActivity extends AppCompatActivity {
             player.removeObserver(healthPU);
         }
 
-        if (damagePU.getRow() == player.getRow() &&  damagePU.getColumn() == player.getCol() && !damagePU.getVisibility()) {
+        if (damagePU.getRow() == player.getRow() &&  damagePU.getColumn() == player.getCol()
+                && !damagePU.getVisibility()) {
             if (damagePUView.getParent() != null) {
                 ((ViewGroup) damagePUView.getParent()).removeView(damagePUView);
             }
@@ -502,7 +479,8 @@ public class MainGameActivity extends AppCompatActivity {
             player.removeObserver(damagePU);
         }
 
-        if (key.getRow() == player.getRow() &&  key.getColumn() == player.getCol() && key.isVisibile()) {
+        if (key.getRow() == player.getRow() &&  key.getColumn() == player.getCol()
+                && key.isVisibile()) {
             if (keyView.getParent() != null) {
                 ((ViewGroup) keyView.getParent()).removeView(keyView);
             }
