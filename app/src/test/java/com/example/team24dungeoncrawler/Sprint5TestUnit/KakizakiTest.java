@@ -7,7 +7,7 @@ import com.example.team24dungeoncrawler.model.Player;
 import com.example.team24dungeoncrawler.model.Skeleton;
 
 
-import org.junit.Before;
+
 import org.junit.Test;
 
 public class KakizakiTest {

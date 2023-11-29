@@ -4,7 +4,7 @@ import com.example.team24dungeoncrawler.viewmodels.GameState;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Player implements Observable, PlayerInterface {
+public class Player implements Observable {
     private String name;
     private int health;
     private String direction;
@@ -16,7 +16,9 @@ public class Player implements Observable, PlayerInterface {
     private double damageMultiplier;
     private static Player instance;
     private List<Attempt> attemptHistory;
-    private List<EnemyObserver> enemyObserverList;
+    private List<PlayerObserver> observerList;
+    private String difficulty;
+    private boolean hasKey;
 
 
     public Player(String name, String difficulty) {
@@ -28,25 +30,30 @@ public class Player implements Observable, PlayerInterface {
         this.score = 0;
         this.row = 3;
         this.col = 1;
-        enemyObserverList = new ArrayList<EnemyObserver>();
+        observerList = new ArrayList<PlayerObserver>();
+        this.hasKey = false;
 
         // Set health and damageMultiplier based on the selected difficulty
         switch (difficulty) {
         case "Easy":
             this.health = 150;
             this.damageMultiplier = 0.8;
+            this.difficulty = "Easy";
             break;
         case "Medium":
             this.health = 100;
             this.damageMultiplier = 1.0;
+            this.difficulty = "Medium";
             break;
         case "Hard":
             this.health = 50;
             this.damageMultiplier = 1.2;
+            this.difficulty = "Hard";
             break;
         default:
             this.health = 100; // Default values for invalid difficulty
             this.damageMultiplier = 1.0;
+            this.difficulty = "Easy";
             break;
         }
     }
@@ -58,6 +65,9 @@ public class Player implements Observable, PlayerInterface {
         return instance;
     }
 
+    public String getDifficulty() {
+        return difficulty;
+    }
 
     public String getName() {
         return name;
@@ -108,8 +118,12 @@ public class Player implements Observable, PlayerInterface {
     public double getDamageMultiplier() {
         return damageMultiplier;
 
-
     }
+
+    public void setDamageMultiplier(double damageMultiplier) {
+        this.damageMultiplier = damageMultiplier;
+    }
+
     public void reset(String name, String difficulty) {
         this.name = name;
         this.direction = "";
@@ -150,26 +164,34 @@ public class Player implements Observable, PlayerInterface {
     }
 
     @Override
-    public void addObserver(EnemyObserver observer) {
-        enemyObserverList.add(observer);
+    public void addObserver(PlayerObserver observer) {
+        observerList.add(observer);
     }
 
     @Override
-    public void removeObserver(EnemyObserver observer) {
-        enemyObserverList.remove(observer);
+    public void removeObserver(PlayerObserver observer) {
+        observerList.remove(observer);
     }
 
     public void removeObservers() {
-        enemyObserverList = new ArrayList<EnemyObserver>();
+        observerList = new ArrayList<PlayerObserver>();
     }
 
     @Override
     public void notifyObservers() {
-        for (EnemyObserver enemy: enemyObserverList) {
-            enemy.update(this);
+        for (PlayerObserver observer: observerList) {
+            observer.update(this);
         }
     }
 
-   
+
+    public void setHasKey(boolean hasKey) {
+        this.hasKey = hasKey;
+    }
+
+    public boolean getHasKey() {
+        return hasKey;
+    }
+
 }
 
