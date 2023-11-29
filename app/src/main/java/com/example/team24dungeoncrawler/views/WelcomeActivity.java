@@ -6,7 +6,7 @@ import android.view.View;
 import android.app.Activity;
 
 import com.example.team24dungeoncrawler.R;
-import com.example.team24dungeoncrawler.viewmodels.MainActivity;
+import com.example.team24dungeoncrawler.viewmodels.InstructionsActivity;
 
 public class WelcomeActivity extends Activity {
     @Override
@@ -16,7 +16,7 @@ public class WelcomeActivity extends Activity {
     }
 
     public void startGame(View view) {
-        Intent intent = new Intent(this, MainActivity.class);
+        Intent intent = new Intent(this, InstructionsActivity.class);
         startActivity(intent);
     }
 
