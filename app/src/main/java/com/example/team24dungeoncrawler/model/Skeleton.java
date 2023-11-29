@@ -1,6 +1,5 @@
 package com.example.team24dungeoncrawler.model;
 
-import com.example.team24dungeoncrawler.viewmodels.MainActivity;
 
 public class Skeleton extends Enemy {
     private long lastMoveTime;
