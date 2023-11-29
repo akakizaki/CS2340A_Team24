@@ -35,12 +35,16 @@ public class BFS {
                 int nexX = x + xV[i];
                 int nexY = y + yV[i];
 
-                if (isValid(map, visited, nexX, nexY)) {
+                if (isValid(map, visited, nexX, nexY) && !isBlocked(map, begx, begy)) {
                     visited[nexX][nexY] = true;
                     q.add(new Point(nexX, nexY));
                 }
             }
         }
+    }
+    private static boolean isBlocked(final int[][] map, final int x, final int y) {
+        final int i = map[y][x];
+        return i < 0 || i == 1 || i == 4;
     }
     static class Point {
         private int x;
