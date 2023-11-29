@@ -1,16 +1,23 @@
 package com.example.team24dungeoncrawler.model;
 
 
+import java.util.LinkedList;
+
 public class Ghost extends Enemy {
 
     private long lastMoveTime;
     private int movementSpeed;
     private  static final int MAX_COL = 18;
+    private LinkedList<BFS.Point> points;
 
-    public Ghost(int movementSpeed, int damage, int row, int column) {
+
+    public Ghost(int movementSpeed, int damage, int row, int column,int[][] map) {
         super(movementSpeed, damage, row, column);
         lastMoveTime = System.currentTimeMillis();
         this.movementSpeed = movementSpeed;
+        LinkedList<BFS.Point> p = new LinkedList<>();
+        BFS.algo(map,column,row,p);
+        points = p;
         // super(3, 5, 12, 5);
 
     }

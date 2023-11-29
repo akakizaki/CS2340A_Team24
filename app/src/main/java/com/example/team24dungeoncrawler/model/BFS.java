@@ -13,7 +13,7 @@ public class BFS {
         return res;
     }
 
-    static void algo(int[][] map, int begx, int begy) {
+    static void algo(int[][] map, int begx, int begy, LinkedList<Point> list) {
         int[] xV = {-1, 0, 0, 1 };
         int[] yV = {0, -1, 1, 0 };
 
@@ -23,7 +23,9 @@ public class BFS {
 
         Queue<Point> q = new LinkedList<>();
         visited[begx][begy] = true;
-        q.add(new Point(begx, begy));
+        Point p = new Point(begx, begy);
+        list.add(p);
+        q.add(p);
 
         while (!q.isEmpty()) {
             Point curr =  q.poll();
