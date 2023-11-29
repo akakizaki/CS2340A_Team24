@@ -3,17 +3,8 @@ package com.example.team24dungeoncrawler.model;
 
 
 public class Vampire extends Enemy {
-
-    private int row;
-    private int column;
-    private int direction;
-    private Enemy enemy;
-
-
     private int movementSpeed;
-
     private long lastMoveTime;
-    private boolean movingRight = true;
     private  static final int MAX_COL = 19;
 
     public Vampire(int movementSpeed, int damage, int row, int column) {
