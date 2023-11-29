@@ -3,6 +3,7 @@ package com.example.team24dungeoncrawler.viewmodels;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -19,11 +20,16 @@ public class MainActivity extends AppCompatActivity {
     private Player player;
     private String selectedDifficulty;
     private double characterNumber;
+    private MediaPlayer mediaPlayer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        mediaPlayer = MediaPlayer.create(this, R.raw.intro);
+        mediaPlayer.setLooping(true);
+        mediaPlayer.start();
 
         EditText textInput = findViewById(R.id.editTextInput);
         Spinner difficultySpinner = findViewById(R.id.difficultySpinner);
@@ -75,5 +81,13 @@ public class MainActivity extends AppCompatActivity {
         game.putExtra("characterNumber", characterNumber);
         startActivity(game);
         finish();
+    }
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (mediaPlayer != null) {
+            mediaPlayer.release();
+            mediaPlayer = null;
+        }
     }
 }

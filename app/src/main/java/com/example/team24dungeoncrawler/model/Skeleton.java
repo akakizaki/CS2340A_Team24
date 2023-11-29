@@ -1,15 +1,9 @@
 package com.example.team24dungeoncrawler.model;
 
-import com.example.team24dungeoncrawler.viewmodels.MainActivity;
 
 public class Skeleton extends Enemy {
-    private int row;
-    private int column;
-    private int direction;
     private long lastMoveTime;
     private int movementSpeed;
-    private Enemy enemy;
-    private MainActivity mainActivity;
     private static final int MAX_ROWS = 19;
 
 

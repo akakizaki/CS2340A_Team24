@@ -5,14 +5,8 @@ import java.util.LinkedList;
 
 public class Ghost extends Enemy {
 
-    private int row;
-    private int column;
-    private int direction;
     private long lastMoveTime;
-    private Enemy enemy;
-
     private int movementSpeed;
-    private boolean movingRight = true;
     private  static final int MAX_COL = 18;
     private LinkedList<BFS.Point> points;
 
