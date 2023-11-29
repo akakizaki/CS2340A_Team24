@@ -3,16 +3,9 @@ package com.example.team24dungeoncrawler.model;
 
 public class Ghost extends Enemy {
 
-    private int row;
-    private int column;
-    private int direction;
     private long lastMoveTime;
-    private Enemy enemy;
-
     private int movementSpeed;
-    private boolean movingRight = true;
     private  static final int MAX_COL = 18;
-
 
     public Ghost(int movementSpeed, int damage, int row, int column) {
         super(movementSpeed, damage, row, column);

@@ -502,6 +502,7 @@ public class Game2activity extends AppCompatActivity {
             player.removeObserver(key);
         }
     }
+
     @Override
     protected void onDestroy() {
         super.onDestroy();
